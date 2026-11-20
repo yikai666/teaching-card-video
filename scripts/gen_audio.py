@@ -209,6 +209,49 @@ def _map_words(words, text):
     return out
 
 
+def _hybrid_words(raw, text, dur):
+    """符号密集旁白的时间戳方案：
+    服务端粒度里，凡是文字能在旁白里找到的（取 ≥2 字的，避开单字母乱配），
+    都当真实时间锚点；锚点之间按字符距离线性插值；首尾不足就用 0 / dur 补。
+    比纯字数插值准——符号段念得慢，字数模型估不出来，锚点能兜住。"""
+    anchors, pos = [], 0
+    for w in raw:
+        t = (w.get("text") or "").strip()
+        if len(t) < 2:
+            continue
+        k = text.find(t, pos)
+        if k < 0:
+            continue
+        b = (w.get("begin_time") or 0) / 1000.0
+        anchors.append((k + len(t), b))
+        pos = k + len(t)
+    if len(anchors) < 2:
+        return []
+    mono = [anchors[0]]
+    for a in anchors[1:]:
+        if a[1] >= mono[-1][1] - 0.05:
+            mono.append(a)
+    if mono[0][0] > 0.08 * len(text):
+        mono.insert(0, (0, 0.0))
+    if mono[-1][0] < len(text) - 2:
+        mono.append((len(text), dur))
+    out = []
+    for i, ch in enumerate(text):
+        j = 0
+        while j + 1 < len(mono) and mono[j + 1][0] <= i:
+            j += 1
+        ca, ta = mono[j]
+        cb, tb = mono[j + 1] if j + 1 < len(mono) else mono[j]
+        if cb <= ca:
+            tt = ta
+        else:
+            tt = ta + (tb - ta) * (i - ca) / (cb - ca)
+        out.append({"t": round(tt, 3), "d": 0.0, "w": ch, "i": i, "j": i + 1})
+    for k in range(len(out) - 1):
+        out[k]["d"] = round(max(0.0, out[k + 1]["t"] - out[k]["t"]), 3)
+    return out
+
+
 def _interp_words(text, dur):
     """拿不到字级时间戳时的兜底：按字重比例铺满整段时长（标点多留一点）。"""
     idx = [(i, ch) for i, ch in enumerate(text)]
@@ -309,19 +352,10 @@ def run(root, force, voice, rate, api_key, model, ws_url, dry_run=False):
         raw, usage = synth(card["tts"], cfg, p["path"])
         tokens += int(usage.get("total_tokens") or 0)
         dur = duration_of(p["path"])
-        words = _map_words(raw, card["tts"]) if raw else []
-        # 质量闸：符号密集的旁白（X(t)、cos ω₀t 这类）会让服务端粒度大面积对不上，
-        # 少量幸存粒度还会“短粒度乱配”，时间戳非单调。命中太少或时间倒退，
-        # 就整卡退回按字重插值——节拍位置是近似值，但单调、 sane。
-        frac = len(words) / max(1, len(raw)) if raw else 0.0
-        mono = all(words[k + 1]["t"] >= words[k]["t"] - 0.05 for k in range(len(words) - 1))
-        if words and (frac < 0.6 or not mono):
-            print(f"  [!] {cid} 字级时间戳对不上（命中 {len(words)}/{len(raw)}，"
-                  f"{'非单调' if not mono else '覆盖不足'}），改按字数插值", flush=True)
+        words = _hybrid_words(raw, card["tts"], dur) if raw else []
+        if not words:
+            print(f"  [!] {cid} 字级粒度对不上，按字数插值", flush=True)
             words = _interp_words(card["tts"], dur)
-        if not words:  # 服务端没回时间戳：按字数铺开，仍能渲
-            words = _interp_words(card["tts"], dur)
-            print(f"  [!] {cid} 没拿到字级时间戳，已按字数插值", flush=True)
         if not dur:
             dur = (words[-1]["t"] + words[-1]["d"]) if words else 0.0
         chars_one = len(re.sub(r"\s", "", card["tts"]))
