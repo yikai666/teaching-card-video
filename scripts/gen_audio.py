@@ -184,14 +184,24 @@ def _one_task(text, cfg):
 
 
 def _map_words(words, text):
-    """把服务端的字级时间戳对回原文字符区间，产出 timings 里的 words。"""
+    """把服务端的字级时间戳对回原文字符区间，产出 timings 里的 words。
+
+    服务端是对“它念出来的文本”做对齐的：遇到 X(t) 这类符号，它会念成
+    “X 左括号 t 右括号”，这些口语化的字在旁白文本里并不存在。
+    旧逻辑找不到时原地占一格，导致后面的字符区间整体漂移、节拍全部提前。
+    现在改成：找不到的粒度直接丢弃（时间由下一个命中的粒度兜住），只保留
+    真正能在旁白里定位到的粒度。
+    """
     out, pos = [], 0
     for w in words:
-        t = w.get("text") or ""
-        j = text.find(t, pos)
-        if j < 0:
-            j = pos
-        i, pos = j, min(len(text), j + len(t))
+        t = (w.get("text") or "").strip()
+        if not t:
+            continue
+        k = text.find(t, pos)
+        if k < 0:
+            continue
+        i, j = k, k + len(t)
+        pos = j
         b = (w.get("begin_time") or 0) / 1000.0
         e = (w.get("end_time") or b * 1000) / 1000.0
         out.append({"t": round(b, 3), "d": round(max(0.0, e - b), 3),
@@ -300,6 +310,15 @@ def run(root, force, voice, rate, api_key, model, ws_url, dry_run=False):
         tokens += int(usage.get("total_tokens") or 0)
         dur = duration_of(p["path"])
         words = _map_words(raw, card["tts"]) if raw else []
+        # 质量闸：符号密集的旁白（X(t)、cos ω₀t 这类）会让服务端粒度大面积对不上，
+        # 少量幸存粒度还会“短粒度乱配”，时间戳非单调。命中太少或时间倒退，
+        # 就整卡退回按字重插值——节拍位置是近似值，但单调、 sane。
+        frac = len(words) / max(1, len(raw)) if raw else 0.0
+        mono = all(words[k + 1]["t"] >= words[k]["t"] - 0.05 for k in range(len(words) - 1))
+        if words and (frac < 0.6 or not mono):
+            print(f"  [!] {cid} 字级时间戳对不上（命中 {len(words)}/{len(raw)}，"
+                  f"{'非单调' if not mono else '覆盖不足'}），改按字数插值", flush=True)
+            words = _interp_words(card["tts"], dur)
         if not words:  # 服务端没回时间戳：按字数铺开，仍能渲
             words = _interp_words(card["tts"], dur)
             print(f"  [!] {cid} 没拿到字级时间戳，已按字数插值", flush=True)
