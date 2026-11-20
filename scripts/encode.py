@@ -15,7 +15,7 @@ from nv_common import load_json, project_root, ffmpeg_exe, probe_duration
 
 FONT = "Noto Serif CJK SC"
 INK = "&H0020262B"      # #2B2620 墨色（ASS 是 &HAABBGGRR）
-PAPER = "&H00E0EDF3"    # #F3EDE0 纸色
+PAPER = "&H00DDEDF3"    # #F3EDDD 纸色
 
 
 def pick_font():
