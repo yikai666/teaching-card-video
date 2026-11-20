@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html data-page-node-id="Wn4QaHkb6sOl0H9wPcwTFh" lang="zh-CN">
+<head data-page-node-id="pdMPeNG8JAAyFyt3rleBBa">
+<script data-page-node-id="W3HzbXwCTJDRiLdVYBQI7a" src="/page/page_comm/inject.js"></script>
+<meta data-page-node-id="BgwYgW9xjak61wRnq2O8og" charset="utf-8">
+<title data-page-node-id="ZNzDLctWZHkFnmXN2en8cz" data-pnid-children="IZctTdOhQtPY9ZC5mxgTE7">notebook-video stage</title>
+<style data-page-node-id="qQMJimmEpN3bnu1YELJdX8" data-pnid-children="rcOHTdvUQpjuTnbM9OzgE8">
+:root{--paper:#F7F3E8;--ink:#24221C;--muted:#6E685B;--line:#D9D2C0;--accent:#2F5D8A;--tint:#E8EFF6}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1280px;height:720px;overflow:hidden}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif;
+  background-image:linear-gradient(to right,rgba(90,80,60,.055) 1px,transparent 1px),
+                   linear-gradient(to bottom,rgba(90,80,60,.045) 1px,transparent 1px);
+  background-size:40px 40px}
+#stage{position:relative;width:1280px;height:720px;overflow:hidden}
+#stage:before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--accent)}
+.topbar{position:absolute;left:64px;right:64px;top:28px;display:flex;justify-content:space-between;align-items:center}
+.chapter{font-size:12.5px;letter-spacing:.16em;color:var(--muted)}
+.chapter b{color:var(--ink);font-weight:600;letter-spacing:.06em}
+.pill{font-size:12px;letter-spacing:.05em;color:var(--accent);border:1px solid var(--accent);
+  background:var(--tint);padding:6px 13px;border-radius:999px}
+.rule{position:absolute;left:64px;right:64px;top:56px;height:1px;background:var(--line)}
+#title{position:absolute;left:64px;top:82px;width:1150px;font-family:"Noto Serif CJK SC","Noto Serif SC",serif;
+  font-size:39px;line-height:1.3;font-weight:700}
+#titleText{display:block;white-space:nowrap;overflow:hidden}
+#title .ul{position:absolute;left:0;bottom:-9px;height:4px;width:54px;background:var(--accent);border-radius:2px}
+#flow{position:absolute;left:64px;top:190px;width:716px}
+body.wide #flow{width:1148px}
+.beat{margin:0 0 22px 0}
+.beat .wipe{display:inline-block;max-width:100%;position:relative}
+.beat.note{font-size:25px;line-height:1.62;color:#3B372D;padding-left:26px}
+.beat.note:before{content:"";position:absolute;left:0;top:12px;width:9px;height:9px;border-radius:2px;background:var(--accent);opacity:.85}
+.beat.main{font-size:46px;line-height:1.35;font-family:"Noto Serif CJK SC","Noto Serif SC",serif}
+.beat.main.small{font-size:37px}
+.beat.step{font-size:25px;line-height:1.55;padding-left:46px;color:#332F27;margin-bottom:16px}
+.beat.step .num{position:absolute;left:0;top:1px;width:29px;height:29px;border-radius:50%;
+  border:1.5px solid var(--accent);color:var(--accent);font-family:"Noto Serif CJK SC",serif;
+  font-size:14px;display:flex;align-items:center;justify-content:center;background:var(--tint)}
+.beat.problem{font-size:25px;line-height:1.58;color:#2B2620;background:var(--tint);
+  border-left:4px solid var(--accent);padding:9px 22px;margin:0}
+.beat.problem.pfirst{padding-top:15px;border-radius:0 10px 0 0;margin-top:2px}
+.beat.problem .wipe{display:block;max-width:100%}
+.beat.problem.plast{padding-bottom:16px;border-radius:0 0 10px 0;margin-bottom:20px}
+.beat.banner{font-size:29px;line-height:1.45;font-family:"Noto Serif CJK SC",serif;
+  border-left:5px solid var(--accent);background:var(--tint);padding:13px 20px;border-radius:0 10px 10px 0}
+.beat.formula{font-size:32px;line-height:1.45;padding:10px 0}
+.beat.chip{display:inline-block;font-size:19px;padding:9px 16px;border:1.5px solid var(--line);
+  border-radius:9px;color:var(--muted);margin:0 10px 0 0}
+.beat.chip.on{border-color:var(--accent);color:var(--accent);background:var(--tint)}
+.chips{display:flex;gap:0;flex-wrap:wrap;margin-bottom:22px}
+#diagram{position:absolute;right:56px;top:172px;width:410px;height:392px}
+#diagram svg{width:100%;height:100%;display:block}
+#footer{position:absolute;left:64px;right:64px;bottom:20px;display:flex;justify-content:space-between;
+  font-size:11.5px;letter-spacing:.10em;color:#9A9384;border-top:1px solid var(--line);padding-top:9px}
+#footer .id{font-family:ui-monospace,Menlo,monospace}
+.mjx-container{color:inherit!important}
+.ch{opacity:0}
+.ch.on{opacity:1}
+/* pause card: keep the previous page on screen, fade it slightly, put a hint bar at the bottom */
+.pause #stage:before{opacity:.45}
+#pauseMask{position:absolute;inset:0;display:none;z-index:20;background:rgba(247,243,232,.40)}
+.pause #pauseMask{display:block}
+#pauseText{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);
+  display:none;z-index:21;flex-direction:column;align-items:center;gap:6px;white-space:nowrap;
+  background:#FBF8EF;border:1.5px solid var(--accent);border-radius:14px;
+  padding:14px 34px 15px;box-shadow:0 8px 26px rgba(40,34,24,.16);
+  color:var(--ink);font-family:"Noto Serif CJK SC",serif;font-size:31px;letter-spacing:.05em}
+#pauseText small{font-family:"Noto Sans CJK SC",sans-serif;font-size:13px;font-weight:400;
+  letter-spacing:.14em;color:var(--muted)}
+.pause #pauseText{display:flex}
+</style>
+<script data-page-node-id="e9hkK57fMBHVVgD9s3FDuB" data-pnid-children="tHbBqIPyo6Vy6gzrxoxaKJ">
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']]},svg:{fontCache:'local'},startup:{typeset:true}};
+</script>
+<script data-page-node-id="d1lIZ3way55nTs5UfEEX3d" src="assets/tex-svg.js"></script>
+</head>
+<body data-page-node-id="ok0MSX7v4j80wzMYnkL6oQ">
+<div data-page-node-id="HmpK2v893Lg8kCIKhejpdg" id="stage">
+  <div data-page-node-id="18STHyxWZMabi8q3Y7nC3D" class="topbar"><div data-page-node-id="dT4ke9ZWwDEcYV7cWlf6bL" class="chapter" id="chapter"></div><div data-page-node-id="MG1bqtehendbeBnxnni9PZ" class="pill" id="modpill"></div></div>
+  <div data-page-node-id="Mwsay0EgIMWHv1MpCPqVop" class="rule"></div>
+  <div data-page-node-id="E0U0CU0UhjvzNgBLssfOig" id="title"><span data-page-node-id="zoOmlCkTfUqrQxkBn0c4R2" id="titleText"></span><span data-page-node-id="Q0yyEYE6xSu1luRPHPVGcD" class="ul"></span></div>
+  <div data-page-node-id="EfsckMe1MnkwRbZGfmGLsZ" id="flow"></div>
+  <div data-page-node-id="jig1XmwjJi0t933OmxmSV2" id="diagram"></div>
+  <div data-page-node-id="49wNFwt7NT8xeYDSfShU0y" id="footer"><span data-page-node-id="0lcsIqSUtMzEgbrqvfH6Nb" id="ref"></span><span data-page-node-id="qpNpTrYKU8TG6x2toORWUr" class="id" id="pageid"></span></div>
+  <div data-page-node-id="IWSnpdiIoftfBmhyDHuweW" id="pauseMask"></div>
+  <div data-page-node-id="GCyb0srty7LCkCSclKsBJo" id="pauseText"><span data-page-node-id="gL4RIwrOp5tDbdL0RlnKT2" id="pauseMain"><!--pnid:XbaUXk6wxTWSjNt3oMPTyZ-->请暂停，自己先算一遍</span><small data-page-node-id="d8tjmQSQV4oNVl7zc1tSiN" id="pauseSub"><!--pnid:PzLfkj58Rv4ffySc91YIE4-->按暂停自己算 · 3 秒后继续</small></div>
+</div>
+<script data-page-node-id="g8VgOyBmTpM5FK7EbZgiIn" data-pnid-children="AcaahQraqz9imgc950x18x">
+let SCENE=null,BEATS=[],AC='#2F5D8A',TINT='#E8EFF6',META={};
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const isMath=s=>String(s||'').indexOf('\\(')>=0||String(s||'').indexOf('$$')>=0;
+
+window.setMeta=function(m){
+  META=m||{};
+  document.title=META.name||'notebook-video';
+  document.getElementById('chapter').innerHTML=esc(META.course||'')+' · <b>'+esc(META.chapter||'')+'</b>';
+  document.getElementById('pauseMain').textContent=META.pause_text||'请暂停，自己先算一遍';
+  document.getElementById('ref').textContent=(META.course||'')+' · '+(META.chapter||'');
+};
+
+/* ---------- diagram library: every renderer takes a params object ---------- */
+const DIAG={
+map:(p={})=>{let d=`<circle cx="86" cy="94" r="52" fill="none" stroke="${AC}" stroke-width="1.5" opacity=".5"/>
+<text x="86" y="36" text-anchor="middle" font-size="13" fill="#6E685B">${esc(p.space||'样本空间')}</text>`;
+ const pts=[[64,74],[104,112],[58,122]];
+ pts.forEach(q=>d+=`<circle cx="${q[0]}" cy="${q[1]}" r="4" fill="${AC}"/>`);
+ d+=`<line x1="22" y1="264" x2="340" y2="264" stroke="#9C9483" stroke-width="1.5"/>`;
+ [70,140,210,280].forEach(x=>d+=`<line x1="${x}" y1="258" x2="${x}" y2="270" stroke="#9C9483" stroke-width="1.1"/>`);
+ const tgt=[[70,264],[210,264],[210,264]];
+ pts.forEach((q,i)=>{const t=tgt[i];d+=`<path d="M${q[0]+6} ${q[1]} C ${q[0]+86} ${q[1]},${t[0]-44} ${t[1]-42},${t[0]} ${t[1]-4}" fill="none" stroke="${AC}" stroke-width="1.4" opacity=".8" marker-end="url(#ar)"/>`});
+ d+=`<text x="210" y="292" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.axis||'实数轴')}</text>`;return d;},
+cdf:(p={})=>{let d=`<path d="M40 252 H112 V212 H172 V148 H242 V88 H312" fill="none" stroke="${AC}" stroke-width="2.4"/>
+<line x1="40" y1="252" x2="330" y2="252" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="40" y1="252" x2="40" y2="30" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<line x1="172" y1="148" x2="172" y2="212" stroke="${AC}" stroke-width="1.1" stroke-dasharray="4 4" opacity=".65"/>`;
+ d+=`<circle cx="172" cy="148" r="4.2" fill="${AC}"/><circle cx="172" cy="212" r="4.2" fill="${AC}" opacity=".4"/>`;
+ d+=`<text x="182" y="136" font-size="12" fill="#6E685B">${esc(p.mark||'右连续')}</text>`;
+ d+=`<text x="300" y="272" font-size="12" fill="#6E685B">x</text>`;return d;},
+density:(p={})=>{let d=`<line x1="34" y1="256" x2="336" y2="256" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="34" y1="256" x2="34" y2="28" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<rect x="148" y="46" width="48" height="210" fill="${AC}" opacity=".15" stroke="${AC}" stroke-width="1.7"/>`;
+ d+=`<rect x="246" y="46" width="7" height="210" fill="${AC}" opacity=".6"/>`;
+ d+=`<text x="172" y="32" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.area||'面积 = 1')}</text>`;
+ d+=`<text x="260" y="34" font-size="11" fill="#6E685B">${esc(p.slice||'窄条')}</text>`;return d;},
+moments:(p={})=>{let d=`<line x1="34" y1="252" x2="336" y2="252" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="34" y1="252" x2="34" y2="28" stroke="#9C9483" stroke-width="1.4"/>`;
+ const pts=[[112,150],[136,118],[162,170],[186,104],[206,158],[232,132],[256,176],[152,190],[220,94]];
+ pts.forEach(q=>d+=`<circle cx="${q[0]}" cy="${q[1]}" r="3.4" fill="${AC}" opacity=".55"/>`);
+ d+=`<line x1="186" y1="58" x2="186" y2="240" stroke="${AC}" stroke-width="2"/>`;
+ d+=`<text x="192" y="70" font-size="12" fill="#6E685B">${esc(p.mean||'均值')}</text>`;
+ d+=`<path d="M112 224 H256" stroke="#9C9483" stroke-width="1.1" stroke-dasharray="3 4"/>`;
+ d+=`<path d="M112 218 v12 M256 218 v12" stroke="#9C9483" stroke-width="1.1"/>`;
+ d+=`<text x="184" y="244" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.spread||'胖瘦')}</text>`;return d;},
+corr:(p={})=>{const labels=p.labels||['正相关','负相关','U 形'];
+ const box=(x,y,k)=>{let s=`<rect x="${x}" y="${y}" width="94" height="94" fill="none" stroke="#D9D2C0"/>`;
+  if(k===1)s+=`<line x1="${x+8}" y1="${y+86}" x2="${x+86}" y2="${y+8}" stroke="${AC}" stroke-width="1.5"/>`;
+  if(k===2)s+=`<line x1="${x+8}" y1="${y+8}" x2="${x+86}" y2="${y+86}" stroke="${AC}" stroke-width="1.5"/>`;
+  if(k===3)s+=`<path d="M${x+12} ${y+22} Q ${x+47} ${y+98} ${x+82} ${y+22}" fill="none" stroke="${AC}" stroke-width="1.6"/>`;
+  s+=`<circle cx="${x+22}" cy="${y+68}" r="2.4" fill="${AC}" opacity=".5"/><circle cx="${x+68}" cy="${y+28}" r="2.4" fill="${AC}" opacity=".5"/>`;
+  return s+`<text x="${x+47}" y="${y+114}" text-anchor="middle" font-size="12" fill="#6E685B">${esc(labels[k-1])}</text>`;};
+ return box(16,48,1)+box(126,48,2)+box(236,48,3);},
+indep:(p={})=>{let d=`<line x1="34" y1="252" x2="336" y2="252" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="34" y1="252" x2="34" y2="28" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<path d="M58 252 Q 180 34 302 252" fill="none" stroke="${AC}" stroke-width="2"/>`;
+ d+=`<circle cx="120" cy="164" r="4.2" fill="${AC}"/><circle cx="240" cy="164" r="4.2" fill="${AC}"/>`;
+ d+=`<line x1="120" y1="164" x2="120" y2="252" stroke="#9C9483" stroke-dasharray="3 4"/>`;
+ d+=`<line x1="240" y1="164" x2="240" y2="252" stroke="#9C9483" stroke-dasharray="3 4"/>`;
+ d+=`<text x="180" y="286" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.note||'两端落到同一个 Y')}</text>`;return d;},
+parabola:(p={})=>{let d=`<line x1="34" y1="252" x2="336" y2="252" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="34" y1="252" x2="34" y2="28" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<path d="M66 252 Q 180 18 294 252" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ [[118,168],[242,168]].forEach(q=>d+=`<circle cx="${q[0]}" cy="${q[1]}" r="4.4" fill="${AC}"/>`);
+ d+=`<line x1="118" y1="168" x2="118" y2="252" stroke="#9C9483" stroke-dasharray="3 4"/>`;
+ d+=`<line x1="242" y1="168" x2="242" y2="252" stroke="#9C9483" stroke-dasharray="3 4"/>`;
+ d+=`<text x="116" y="272" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.left||'−0.5')}</text>`;
+ d+=`<text x="244" y="272" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.right||'0.5')}</text>`;
+ d+=`<text x="180" y="146" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.mid||'平方')}</text>`;return d;},
+joint:(p={})=>{let d='';const x0=100,y0=78,cw=86,ch=60;
+ const rows=p.rows||['−0.5','0','0.5'], cols=p.cols||['0','0.25'];
+ const vals=p.values||[[0,1],[1,0],[0,1]];
+ for(let i=0;i<=rows.length;i++)d+=`<line x1="${x0}" y1="${y0+i*ch}" x2="${x0+cols.length*cw}" y2="${y0+i*ch}" stroke="#B8AF9A" stroke-width="1.1"/>`;
+ for(let j=0;j<=cols.length;j++)d+=`<line x1="${x0+j*cw}" y1="${y0}" x2="${x0+j*cw}" y2="${y0+rows.length*ch}" stroke="#B8AF9A" stroke-width="1.1"/>`;
+ d+=`<text x="${x0+cols.length*cw/2}" y="${y0-40}" text-anchor="middle" font-size="13" fill="#6E685B">${esc(p.colLabel||'Y')}</text>`;
+ cols.forEach((c,j)=>d+=`<text x="${x0+j*cw+cw/2}" y="${y0-16}" text-anchor="middle" font-size="13" fill="#6E685B">${esc(c)}</text>`);
+ d+=`<text x="${x0-58}" y="${y0+rows.length*ch/2+4}" text-anchor="end" font-size="13" fill="#6E685B">${esc(p.rowLabel||'X')}</text>`;
+ d+=`<text x="${x0-10}" y="${y0-42}" font-size="12" fill="#9A9384">${esc(p.title||'联合分布')}</text>`;
+ rows.forEach((t,i)=>d+=`<text x="${x0-14}" y="${y0+ch*i+ch/2+4}" text-anchor="end" font-size="12" fill="#6E685B">${esc(t)}</text>`);
+ d+=`<g class="jval" opacity="0">`;
+ for(let i=0;i<rows.length;i++)for(let j=0;j<cols.length;j++){
+   const v=vals[i]&&vals[i][j];
+   if(v){d+=`<rect x="${x0+j*cw+1}" y="${y0+i*ch+1}" width="${cw-2}" height="${ch-2}" fill="${AC}" opacity=".13"/>`;
+     d+=`<text x="${x0+j*cw+cw/2}" y="${y0+i*ch+ch/2+5}" text-anchor="middle" font-size="14" fill="${AC}">${esc(v)}</text>`;}
+   else{d+=`<text x="${x0+j*cw+cw/2}" y="${y0+i*ch+ch/2+5}" text-anchor="middle" font-size="12" fill="#B5AD9C">0</text>`;}
+ }
+ if(p.highlightRow!=null&&p.highlightRow>=0){
+   d+=`<rect x="${x0+1}" y="${y0+p.highlightRow*ch+1}" width="${cols.length*cw-2}" height="${ch-2}" fill="none" stroke="${AC}" stroke-width="1.4" stroke-dasharray="5 4"/>`;
+ }
+ if(p.caption)d+=`<text x="${x0+cols.length*cw/2}" y="${y0+rows.length*ch+26}" text-anchor="middle" font-size="11.5" fill="#6E685B">${esc(p.caption)}</text>`;
+ return d+`</g>`;},
+branch:(p={})=>{let d=`<line x1="34" y1="252" x2="336" y2="252" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="34" y1="252" x2="34" y2="28" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<path d="M66 252 Q 180 18 294 252" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<circle cx="180" cy="134" r="4.2" fill="${AC}"/>`;
+ d+=`<path d="M128 174 Q 158 150 175 139" fill="none" stroke="${AC}" stroke-width="1.3" marker-end="url(#ar)"/>`;
+ d+=`<path d="M232 174 Q 202 150 185 139" fill="none" stroke="${AC}" stroke-width="1.3" marker-end="url(#ar)"/>`;
+ d+=`<line x1="70" y1="134" x2="292" y2="134" stroke="#9C9483" stroke-dasharray="4 4"/>`;
+ d+=`<text x="298" y="138" font-size="12" fill="#6E685B">y</text>`;
+ d+=`<text x="180" y="110" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.note||'同一 y，两支')}</text>`;return d;},
+deadzone:(p={})=>{let d=`<line x1="34" y1="252" x2="336" y2="252" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="34" y1="252" x2="34" y2="28" stroke="#9C9483" stroke-width="1.4"/>
+<path d="M40 96 L126 198 H234 L320 96" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<line x1="180" y1="198" x2="180" y2="76" stroke="${AC}" stroke-width="5" opacity=".24"/>`;
+ d+=`<path d="M180 190 v-104" stroke="${AC}" stroke-width="3.4" marker-end="url(#ar)"/>`;
+ d+=`<text x="199" y="86" font-size="12" fill="#6E685B">${esc(p.delta||'δ 冲激')}</text>`;
+ d+=`<text x="180" y="282" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.note||'平台段概率全压到一点')}</text>`;return d;},
+char:(p={})=>{let d=`<line x1="30" y1="96" x2="330" y2="96" stroke="${AC}" stroke-width="2" marker-end="url(#ar)"/>
+<text x="30" y="74" font-size="13" fill="${AC}">${esc(p.top||'这一步：正号')}</text>
+<line x1="330" y1="198" x2="30" y2="198" stroke="#9C9483" stroke-width="2" marker-end="url(#ar2)"/>
+<text x="330" y="220" text-anchor="end" font-size="13" fill="#6E685B">${esc(p.bottom||'另一路：负号')}</text>
+<text x="180" y="150" text-anchor="middle" font-size="12" fill="#8A8374">${esc(p.note||'符号相反')}</text>`;
+ return d;},
+gauss2d:(p={})=>{let d='';for(let i=0;i<4;i++){const rx=124-i*26,ry=72-i*14;
+  d+=`<ellipse cx="180" cy="160" rx="${rx}" ry="${ry}" transform="rotate(-28 180 160)" fill="none" stroke="${AC}" stroke-width="1.4" opacity="${.75-i*.12}"/>`}
+ d+=`<ellipse cx="180" cy="160" rx="74" ry="46" fill="none" stroke="${AC}" stroke-width="1.2" stroke-dasharray="5 5" opacity=".55"/>`;
+ d+=`<circle cx="180" cy="160" r="4" fill="${AC}"/>`;
+ d+=`<line x1="180" y1="160" x2="258" y2="104" stroke="${AC}" stroke-width="1.3" stroke-dasharray="4 4"/>`;
+ d+=`<text x="264" y="98" font-size="12" fill="#6E685B">r</text>`;
+ d+=`<text x="180" y="292" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.note||'r → 0，椭圆转正')}</text>`;return d;},
+block:(p={})=>{let d=`<path d="M18 212 C 40 212 40 82 76 82 C 112 82 112 212 132 212" fill="none" stroke="${AC}" stroke-width="2"/>
+<text x="75" y="238" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.input||'输入分布')}</text>
+<rect x="142" y="106" width="84" height="66" rx="8" fill="${TINT}" stroke="${AC}" stroke-width="1.5"/>
+<text x="184" y="146" text-anchor="middle" font-size="15" fill="${AC}">${esc(p.box||'变换')}</text>
+<path d="M226 139 H270" stroke="${AC}" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="304" y="148" text-anchor="middle" font-size="28" fill="${AC}">?</text>
+<text x="304" y="176" text-anchor="middle" font-size="12" fill="#6E685B">${esc(p.output||'输出密度')}</text>`;return d;},
+expo:(p={})=>{let d=`<line x1="34" y1="252" x2="340" y2="252" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="34" y1="252" x2="34" y2="26" stroke="#9C9483" stroke-width="1.4"/>`;
+ let pts=[];
+ for(let i=0;i<=60;i++){const x=i/60*15;const y=Math.exp(-x/5);pts.push([34+x/15*300,252-y*196]);}
+ d+=`<path d="M${pts.map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' L')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<path d="M34 252 L${pts.map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' L')} L334 252 Z" fill="${AC}" opacity=".10"/>`;
+ const xm=34+5/15*300;
+ d+=`<line x1="${xm}" y1="252" x2="${xm}" y2="${252-Math.exp(-1)*196}" stroke="${AC}" stroke-width="1.3" stroke-dasharray="5 4"/>`;
+ d+=`<text x="${xm+6}" y="${252-Math.exp(-1)*196-8}" font-size="12" fill="#6E685B">${esc(p.mean||'均值 5')}</text>`;
+ d+=`<text x="300" y="272" font-size="12" fill="#6E685B">x</text>`;
+ d+=`<text x="40" y="40" font-size="12" fill="#6E685B">${esc(p.top||'f(x)')}</text>`;
+ return d;},
+slice:(p={})=>{let d=`<rect x="60" y="48" width="210" height="210" fill="${AC}" fill-opacity=".07"/>`;
+ d+=`<line x1="60" y1="48" x2="270" y2="48" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<line x1="60" y1="258" x2="270" y2="258" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<line x1="60" y1="48" x2="60" y2="258" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<line x1="270" y1="48" x2="270" y2="258" stroke="#9C9483" stroke-width="1.3"/>`;
+ const yv=48+210*(1-0.25);
+ d+=`<line x1="60" y1="${yv}" x2="270" y2="${yv}" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<text x="276" y="${yv+4}" font-size="11" fill="#6E685B">y=1/4</text>`;
+ d+=`<path d="M82 ${yv-22} H244" stroke="${AC}" stroke-width="1.1" stroke-dasharray="4 4" marker-end="url(#ar)"/>`;
+ d+=`<text x="82" y="${yv-34}" font-size="10.5" fill="#6E685B">沿这条线对 x 积分</text>`;
+ d+=`<text x="54" y="272" font-size="11" fill="#6E685B">0</text>`;
+ d+=`<text x="262" y="272" font-size="11" fill="#6E685B">1</text>`;
+ d+=`<text x="284" y="272" font-size="11" fill="#6E685B">x</text>`;
+ d+=`<text x="44" y="44" font-size="11" fill="#6E685B">y</text>`;
+ d+=`<text x="96" y="112" font-size="12" fill="#6E685B">${esc(p.tag||'联合密度')}</text>`;
+ return d;},
+recip:(p={})=>{let d=`<line x1="70" y1="46" x2="70" y2="264" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<line x1="286" y1="46" x2="286" y2="264" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<text x="52" y="36" font-size="12" fill="#6E685B">r</text>`;
+ d+=`<text x="280" y="36" font-size="12" fill="#6E685B">g</text>`;
+ const rs=[900,1100], gs=[1/1100,1/900];
+ const ry=[86,214], gy=[86,214];
+ d+=`<path d="M70 86 C 160 86 196 214 286 214" fill="none" stroke="${AC}" stroke-width="2"/>
+<path d="M70 214 C 160 214 196 86 286 86" fill="none" stroke="${AC}" stroke-width="2" opacity=".55"/>`;
+ d+=`<circle cx="70" cy="86" r="3.6" fill="${AC}"/><circle cx="70" cy="214" r="3.6" fill="${AC}"/>
+<circle cx="286" cy="86" r="3.6" fill="${AC}"/><circle cx="286" cy="214" r="3.6" fill="${AC}"/>`;
+ d+=`<text x="64" y="80" text-anchor="end" font-size="11" fill="#6E685B">1100</text>`;
+ d+=`<text x="64" y="226" text-anchor="end" font-size="11" fill="#6E685B">900</text>`;
+ d+=`<text x="292" y="80" font-size="11" fill="#6E685B">1/900</text>`;
+ d+=`<text x="292" y="228" font-size="11" fill="#6E685B">1/1100</text>`;
+ d+=`<text x="176" y="282" text-anchor="middle" font-size="11" fill="#6E685B">${esc(p.note||'两端互换，区间反向')}</text>`;
+ return d;},
+gap:(p={})=>{let d=`<rect x="43" y="133" width="270" height="62" fill="#9C9483" opacity=".10"/>`;
+ d+=`<line x1="24" y1="164" x2="338" y2="164" stroke="#9C9483" stroke-width="1.4" marker-end="url(#ar2)"/>`;
+ d+=`<line x1="178" y1="292" x2="178" y2="26" stroke="#9C9483" stroke-width="1.4" marker-end="url(#ar2)"/>`;
+ d+=`<line x1="43" y1="288" x2="178" y2="195" stroke="${AC}" stroke-width="2.6"/>`;
+ d+=`<line x1="178" y1="133" x2="313" y2="40" stroke="${AC}" stroke-width="2.6"/>`;
+ d+=`<circle cx="178" cy="195" r="3.6" fill="${AC}"/><circle cx="178" cy="133" r="3.6" fill="${AC}"/>`;
+ d+=`<text x="52" y="152" font-size="10.5" fill="#6E685B">${esc(p.band||'这段取不到')}</text>`;
+ d+=`<text x="170" y="128" text-anchor="end" font-size="11" fill="#6E685B">c</text>`;
+ d+=`<text x="168" y="220" text-anchor="end" font-size="11" fill="#6E685B">−c</text>`;
+ d+=`<text x="120" y="264" font-size="11" fill="#6E685B">x−c</text>`;
+ d+=`<text x="246" y="122" font-size="11" fill="#6E685B">x+c</text>`;
+ d+=`<text x="320" y="184" font-size="11" fill="#6E685B">x</text>`;
+ d+=`<text x="186" y="36" font-size="11" fill="#6E685B">y</text>`;
+ return d;},
+custom:(p={})=>p.svg||''
+};
+function svgWrap(inner){return `<svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg"><defs>
+<marker id="ar" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="${AC}"/></marker>
+<marker id="ar2" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#9C9483"/></marker>
+</defs>${inner}</svg>`}
+
+function splitChars(el){
+  const s=el.textContent;el.textContent='';
+  for(const ch of s){const sp=document.createElement('span');sp.className='ch';
+    sp.textContent=ch===' '?'\u00a0':ch;el.appendChild(sp)}
+}
+function applyP(el,p){
+  if(p<=0){el.style.visibility='hidden';return}
+  el.style.visibility='visible';
+  const wipe=el.querySelector('.wipe')||el;
+  if(el.dataset.math==='1'){
+    if(p>=1){wipe.style.webkitMaskImage='none';wipe.style.maskImage='none';wipe.style.clipPath='none'}
+    else{const e=Math.min(100,p*100), f=Math.max(0,e-10);
+      const g=`linear-gradient(to right,#000 ${f}%,rgba(0,0,0,0) ${e}%)`;
+      wipe.style.webkitMaskImage=g;wipe.style.maskImage=g;wipe.style.clipPath='none'}
+    wipe.style.opacity=1;
+  }else{
+    const cs=el.querySelectorAll('.ch'),n=Math.round(p*cs.length);
+    cs.forEach((c,i)=>c.classList.toggle('on',i<n));
+  }
+  el.style.transform=`translateY(${(1-p)*5}px)`;
+  el.style.opacity=1;
+}
+function doLayout(){
+  const flow=document.getElementById('flow');
+  let total=0;const items=[...flow.children];
+  items.forEach(it=>total+=it.offsetHeight+parseFloat(getComputedStyle(it).marginBottom||0));
+  if(total>440){const k=Math.max(.82,440/total);
+    items.forEach(it=>{it.style.fontSize=(parseFloat(getComputedStyle(it).fontSize)*k)+'px';
+      it.style.marginBottom=(parseFloat(getComputedStyle(it).marginBottom)*k)+'px'});
+    total=0;items.forEach(it=>total+=it.offsetHeight+parseFloat(getComputedStyle(it).marginBottom||0));
+  }
+  const avail=448;
+  const probTail=flow.querySelector('.beat.problem.plast');
+  if(probTail){
+    const extra=Math.min(30,Math.max(0,avail-total));
+    probTail.style.marginBottom=(parseFloat(getComputedStyle(probTail).marginBottom||0)+extra)+'px';
+  }else if(total<avail&&items.length>1){
+    const extra=Math.min(14,(avail-total)/(items.length-1));
+    items.forEach(it=>it.style.marginBottom=(parseFloat(getComputedStyle(it).marginBottom||0)+extra)+'px');
+  }
+  const maxW=flow.clientWidth;
+  flow.querySelectorAll('.main .wipe,.formula .wipe').forEach(w=>{
+    let fs=parseFloat(getComputedStyle(w.parentElement).fontSize),g=0;
+    while(w.scrollWidth>maxW&&fs>22&&g<24){fs-=2;w.parentElement.style.fontSize=fs+'px';g++;}
+  });
+}
+
+window.setScene=async function(scene){
+  SCENE=scene;BEATS=scene.beats||[];AC=scene.accent||'#2F5D8A';TINT=scene.tint||'#E8EFF6';
+  document.documentElement.style.setProperty('--accent',AC);
+  document.documentElement.style.setProperty('--tint',TINT);
+  document.body.className=scene.layout==='pause'?'pause':'';
+  document.getElementById('modpill').textContent=scene.moduleLabel||'';
+  document.getElementById('pageid').textContent=scene.page||'';
+  document.getElementById('ref').textContent='材料 '+ (scene.ref||'') +' · '+((META.course)||'');
+  const flow=document.getElementById('flow');flow.innerHTML='';
+  const dg=document.getElementById('diagram');dg.innerHTML='';
+  const tt=document.getElementById('titleText');tt.innerHTML='';tt.style.clipPath='inset(0 100% 0 0)';
+  const ul0=document.querySelector('#title .ul');if(ul0)ul0.style.opacity=0;
+  const isPause=scene.layout==='pause';
+  if(isPause){
+    document.getElementById('pauseMain').textContent=
+      scene.pauseText||META.pause_text||'请暂停，自己先算一遍';
+    document.getElementById('pauseSub').textContent=
+      '按暂停自己算 · '+Math.round(scene.duration||3)+' 秒后继续';
+  }
+  tt.innerHTML=esc(scene.title||'');
+  const hasDg=!!(scene.diagram&&DIAG[scene.diagram]);
+  document.body.classList.toggle('wide',!hasDg);
+  dg.style.display=hasDg?'block':'none';
+  if(hasDg){dg.innerHTML=svgWrap(DIAG[scene.diagram](scene.diagramParams||{}))}
+  BEATS.forEach((b,i)=>{
+    if(b.kind==='diagram'||b.kind==='title')return;
+    const el=document.createElement('div');
+    el.className='beat '+b.kind;el.dataset.i=i;
+    if(b.kind==='chip'){
+      el.dataset.math='1';
+      el.innerHTML=`<span class="wipe">${esc(b.html)}</span>`;
+    }else{
+      el.dataset.math=isMath(b.html)?'1':'0';
+      if(b.kind==='step'){const n=document.createElement('span');n.className='num';n.textContent=b.n||'';el.appendChild(n)}
+      const wrap=document.createElement('div');wrap.className='wipe';
+      const inner=document.createElement('span');inner.className='txt';inner.innerHTML=esc(b.html);
+      wrap.appendChild(inner);el.appendChild(wrap);
+      if(b.kind==='main'&&!isMath(b.html)&&b.html.length>10)el.classList.add('small');
+    }
+    flow.appendChild(el);
+  });
+  const chips=[...flow.querySelectorAll('.beat.chip')];
+  if(chips.length){const row=document.createElement('div');row.className='chips';
+    flow.insertBefore(row,chips[0]);chips.forEach(c=>row.appendChild(c))}
+  await MathJax.typesetPromise([tt,flow]);
+  flow.querySelectorAll('.beat').forEach(el=>{
+    if(el.dataset.math==='0'){const t=el.querySelector('.txt');if(t)splitChars(t)}
+  });
+  const pbs=[...flow.querySelectorAll('.beat.problem')];
+  if(pbs.length){pbs[0].classList.add('pfirst');pbs[pbs.length-1].classList.add('plast')}
+  doLayout();
+  flow.querySelectorAll('.beat').forEach(el=>applyP(el,0));
+  dg.style.visibility='hidden';
+  if(isPause){
+    tt.style.clipPath='none';tt.style.opacity=1;
+    const ulp=document.querySelector('#title .ul');if(ulp)ulp.style.opacity=1;
+    flow.querySelectorAll('.beat').forEach(el=>applyP(el,1));
+    flow.querySelectorAll('.beat.chip').forEach(el=>el.classList.add('on'));
+    document.querySelectorAll('#diagram .jval').forEach(g=>g.setAttribute('opacity',1));
+    if(hasDg){dg.style.visibility='visible';dg.style.clipPath='none';dg.style.opacity=1}
+    document.getElementById('pauseMask').style.opacity=0;
+    document.getElementById('pauseText').style.opacity=0;
+  }
+  window.SCENE_READY=true;
+};
+
+window.seek=function(t){
+  if(!SCENE)return'';
+  if(SCENE.layout==='pause'){
+    const p=Math.min(1,Math.max(0,(t-.15)/.5));
+    document.getElementById('pauseMask').style.opacity=p;
+    const pt=document.getElementById('pauseText');
+    pt.style.opacity=p;pt.style.transform=`translate(-50%,${(1-p)*10}px)`;
+    return 'p'+Math.round(p*24);
+  }
+  const first=BEATS.find(b=>b.kind==='title')||BEATS[0];
+  const tp=first?Math.min(1,Math.max(0,(t-first.start)/first.rise)):1;
+  const tt=document.getElementById('titleText');
+  tt.style.clipPath=tp>=1?'none':`inset(0 ${(1-tp)*100}% 0 0)`;
+  tt.style.opacity=tp>=1?1:.4+.6*tp;
+  const ul=document.querySelector('#title .ul');if(ul)ul.style.opacity=Math.min(1,tp*2.2);
+  const sig=[Math.round(tp*30)];let active=0;
+  BEATS.forEach((b,i)=>{
+    if(b.kind==='diagram'){
+      const el=document.getElementById('diagram');
+      const p=Math.min(1,Math.max(0,(t-b.start)/b.rise));
+      el.style.visibility=p>0?'visible':'hidden';
+      el.style.clipPath=p>=1?'none':`inset(-6% ${(1-p)*100}% -6% 0)`;
+      el.style.opacity=p>=1?1:.15+.85*p;
+      sig.push(Math.round(p*36));if(p>0&&p<1)active++;
+      return;
+    }
+    const el=document.getElementById('flow').querySelector(`.beat[data-i="${i}"]`);
+    if(!el)return;
+    const p=Math.min(1,Math.max(0,(t-b.start)/b.rise));
+    if(b.kind==='chip')el.classList.toggle('on',p>=1);
+    applyP(el,p);sig.push(Math.round(p*36));if(p>0&&p<1)active++;
+  });
+  if(SCENE.diagram2){
+    const p2=Math.min(1,Math.max(0,(t-SCENE.diagram2)/0.7));
+    document.querySelectorAll('#diagram .jval').forEach(g=>{g.setAttribute('opacity',p2);g.style.transition='none'});
+    sig.push(Math.round(p2*24)); if(p2>0&&p2<1) active++;
+  }
+  sig.push(active);
+  return sig.join(',');
+};
+MathJax.startup.promise.then(()=>{window.READY=true});
+</script>
+</body>
+</html>

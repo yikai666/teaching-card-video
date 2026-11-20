@@ -1,0 +1,19 @@
+# 渲染产物（体积大、可重生成）
+frames/
+master.wav
+_sub*.srt
+*.mp4
+
+# 静帧接触表与代表帧
+out/contact_sheet.png
+out/stills/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 系统
+.DS_Store
+Thumbs.db

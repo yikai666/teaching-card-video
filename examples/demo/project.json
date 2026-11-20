@@ -1,0 +1,32 @@
+{
+ "name": "示例_三卡",
+ "course": "随机信号分析",
+ "chapter": "示例：从卡片到视频",
+ "fps": 24,
+ "width": 1280,
+ "height": 720,
+ "voice": "zh-CN-XiaoxiaoNeural",
+ "rate": "+12%",
+ "lead": 0.4,
+ "tail": 0.9,
+ "gap": 0.55,
+ "pause_duration": 3.0,
+ "pause_text": "请暂停，自己先算一遍",
+ "modules": {
+  "A": {
+   "label": "模块 A · 概念",
+   "accent": "#2F5D8A",
+   "tint": "#E8EFF6"
+  },
+  "B": {
+   "label": "模块 B · 方法",
+   "accent": "#8A4B2F",
+   "tint": "#F6EBE4"
+  },
+  "C": {
+   "label": "模块 C · 应用",
+   "accent": "#2F6B4F",
+   "tint": "#E6F2EC"
+  }
+ }
+}
