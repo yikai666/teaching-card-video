@@ -402,6 +402,29 @@ uscat:(p={})=>{let d=`<line x1="30" y1="252" x2="330" y2="252" stroke="#9C9483" 
  d+=`<text x="326" y="224" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.label||'协方差 = 0')}</text>`;
  d+=`<text x="196" y="270" font-size="11" fill="#6E685B">${esc(p.note||'但明显不独立')}</text>`;
  return d;},
+gcurves:(p={})=>{let d='';
+ const box=(x0,kind,lab)=>{let s=`<line x1="${x0}" y1="238" x2="${x0+104}" y2="238" stroke="#9C9483" stroke-width="1.2"/><line x1="${x0}" y1="238" x2="${x0}" y2="118" stroke="#9C9483" stroke-width="1.2"/>`;
+  let pts=[];
+  if(kind==='sq'){for(let i=0;i<=32;i++){const x=-1+2*i/32;const y=x*x;pts.push((x0+52+x*46).toFixed(1)+','+(178-y*56).toFixed(1));}}
+  if(kind==='fw'){for(let i=0;i<=32;i++){const x=-1+2*i/32;const y=Math.abs(x);pts.push((x0+52+x*46).toFixed(1)+','+(178-y*56).toFixed(1));}}
+  if(kind==='hw'){for(let i=0;i<=32;i++){const x=-1+2*i/32;const y=Math.max(x,0);pts.push((x0+52+x*46).toFixed(1)+','+(178-y*56).toFixed(1));}}
+  s+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
+  s+=`<text x="${x0+52}" y="262" text-anchor="middle" font-size="12" fill="#6E685B">${esc(lab)}</text>`;
+  return s;};
+ d+=box(18,'平方律','sq')+box(130,'全波','fw')+box(242,'半波','hw');
+ return d;},
+halfwave:(p={})=>{let d=`<line x1="24" y1="262" x2="336" y2="262" stroke="#9C9483" stroke-width="1.4"/><line x1="24" y1="262" x2="24" y2="26" stroke="#9C9483" stroke-width="1.4"/>`;
+ if(p.mode==='chi2'){let pts=[];
+  for(let i=1;i<=40;i++){const x=2+i*(310/40);const y=256-176*Math.exp(-x/70)/(1+x/16);pts.push(x.toFixed(1)+','+y.toFixed(1));}
+  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+  d+=`<text x="220" y="120" font-size="12" fill="#6E685B">${esc(p.label||'y=0 处发散')}</text>`;}
+ else{d+=`<rect x="58" y="96" width="9" height="166" fill="${AC}"/>`;
+  d+=`<text x="72" y="120" font-size="12" fill="#6E685B">½ 概率</text>`;
+  let pts=[];
+  for(let i=0;i<=36;i++){const x=64+i*(268/36);const y=262-118*Math.exp(-Math.pow((x-190)/78,2));pts.push(x.toFixed(1)+','+y.toFixed(1));}
+  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
+  d+=`<text x="290" y="150" text-anchor="end" font-size="12" fill="#6E685B">${esc(p.label||'右半边正态')}</text>`;}
+ d+=`<text x="330" y="284" text-anchor="end" font-size="11" fill="#9A9384">${esc(p.axis||'w')}</text>`;return d;},
 custom:(p={})=>p.svg||''
 };
 function svgWrap(inner){return `<svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg"><defs>
