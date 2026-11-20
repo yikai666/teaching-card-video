@@ -7,8 +7,12 @@
 python3 -c "import playwright, PIL, numpy; print('ok')"
 python3 -m playwright install chromium     # 只装一次
 fc-list :lang=zh | head                    # 需要 Noto Sans/Serif CJK SC
-pip install edge-tts imageio-ffmpeg
+pip install websocket-client imageio-ffmpeg
 ffmpeg -encoders 2>/dev/null | grep libx264
+
+# 配音用千问，需要一个 API Key（不要写进仓库）
+export DASHSCOPE_API_KEY=sk-xxx
+# 或：echo 'DASHSCOPE_API_KEY=sk-xxx' >> ~/.dashscope/config
 ```
 
 `ffmpeg` 没编 `libx264` 时，`encode.py` 会通过 `imageio-ffmpeg` 找一个带 x264 的静态版本；找不到才报错。
@@ -54,20 +58,24 @@ print(' '.join(w['w'] for w in T[0]['words'][:40]))
 PY
 ```
 
-看 edge-tts 实际切出来的词。
+看千问切出来的字级时间戳。
 
 ### 5. 语速不对
 
 `timings.json` 里有每卡 `cps`。目标 5.5：
 
-- 偏快（>6.2）：`project.json` 的 `rate` 调低，如 `+4%`。
-- 偏慢（<4.6）：调高，如 `+16%`。
+- 偏快（>6.2）：`project.json` 的 `rate` 调低，如 `1.04`。
+- 偏慢（<4.6）：调高，如 `1.16`。
+- `rate` 是倍数（0.5–2.0），不是百分数；写 `"+12%"` 也能识别。
 - 改完 `rate` 要 `gen_audio.py --force` 重跑配音，再重建时间轴。
 
-### 6. edge-tts 报 401 / 超时
+### 6. 千问配音报错
 
-- 需要外网；脚本已做 3 次退避重试。
-- 公司网络下换音色或稍后重试；也可预先准备好 `audio/*.mp3` 与 `timings.json` 跳过合成。
+- `没找到千问 API Key`：Key 有三个落点（环境变量 / `~/.dashscope/config` / 项目 `.env`），或临时加 `--api-key`。Key 不要写进 `project.json`。
+- `InvalidApiKey` / 401：Key 与地域要配套（北京 key 配 `dashscope.aliyuncs.com`）。
+- `voice_not_found`：音色名要跟模型匹配——`qwen-audio-3.1-tts-flash` 用 `longanhuan_v3.1` 这类 `_v3.1` 后缀的音色；`qwen3-tts-flash` 才是 `Cherry`。
+- WebSocket 连不上（`Handshake status 403/404`）：换业务空间专属域名，`--ws-url wss://<WorkspaceId>.cn-beijing.maas.aliyuncs.com/api-ws/v1/inference`，或设 `DASHSCOPE_WS_URL`。
+- 拿不到字级时间戳时脚本会打印 `没拿到字级时间戳，已按字数插值`：画面仍能渲，但“讲到才出现”会退化成按时长均分，尽量把 Key/模型修好再跑。
 
 ### 7. 渲染很慢 / 卡死
 

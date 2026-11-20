@@ -4,7 +4,7 @@
 用法: python make_srt.py [项目目录] [--max-len 14] [--min-dur 0.9] [--hold 0.35]
 产出: out/<name>.srt
 
-时间来源是 edge-tts 的词级时间戳：每个字的起始时刻按词内线性插值，
+时间来源是配音服务返回的字级时间戳：每个字的起始时刻按词内线性插值，
 所以断句边界落在 SentenceSplit 的任意字符上都能拿到近似精确的时间。
 """
 import bisect

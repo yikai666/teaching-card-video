@@ -10,7 +10,7 @@
 
 做教学视频最烦的不是剪辑，是**对齐**：字什么时候出现、说到哪个词出现、公式和旁白对不对得上。这个 skill 把对齐这件事变成数据问题——
 
-- 旁白用 edge-tts 合成，拿到**词级时间戳**；
+- 旁白用**千问 Qwen-Audio-TTS**（WebSocket 流式）合成，直接拿到**字级时间戳**；
 - 每个画面元素的触发词必须在旁白原文里**逐字命中**，命中时刻就是它的入场时刻；
 - 于是改一句旁白，整段动画自动重新对齐，不用手动拖时间线。
 
@@ -34,9 +34,13 @@ git clone https://github.com/<you>/notebook-video.git ~/.codebuddy/skills/notebo
 依赖（一次性）：
 
 ```bash
-pip install playwright edge-tts numpy pillow imageio-ffmpeg
+pip install playwright websocket-client numpy pillow imageio-ffmpeg
 python -m playwright install chromium
 # 中文字体：Linux 装 fonts-noto-cjk；Windows 用系统自带的微软雅黑/宋体即可
+
+# 配音走千问，需要一个百炼 API Key（三选一，别写进仓库）
+export DASHSCOPE_API_KEY=sk-xxx
+# echo 'DASHSCOPE_API_KEY=sk-xxx' >> ~/.dashscope/config
 ```
 
 `ffmpeg` 需要带 libx264；系统没有时脚本会自动切到 `imageio-ffmpeg` 自带的二进制。
@@ -84,7 +88,7 @@ python ../../scripts/encode.py .
 ├── SKILL.md                  # 方法论：硬规矩、工作流、版式、字幕规则、排障
 ├── scripts/                  # 11 个脚本，纯命令行，互不依赖 IDE
 │   ├── init_project.py       # 建项目骨架 / 升级 stage.html
-│   ├── gen_audio.py          # edge-tts 配音 + 词级时间戳
+│   ├── gen_audio.py          # 千问配音 + 字级时间戳
 │   ├── build_timeline.py     # 卡片 → 场景时间轴（触发词 → 绝对秒）
 │   ├── check_timeline.py     # 体检：同屏 ≤2、间隔 ≥12 帧、触发词命中
 │   ├── render_stills.py      # 静帧接触表（确认画面用）

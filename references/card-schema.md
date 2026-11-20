@@ -7,8 +7,10 @@
 | `name` | — | 项目名，也是成片文件名 |
 | `course` / `chapter` | — | 页眉、页脚显示的课程与章节 |
 | `fps` / `width` / `height` | 24 / 1280 / 720 | 16:9，不建议改 |
-| `voice` | `zh-CN-XiaoxiaoNeural` | edge-tts 音色 |
-| `rate` | `+12%` | 让中文落在 5.5 cps 左右；用一次试听校准 |
+| `tts_model` | `qwen-audio-3.1-tts-flash` | 千问语音合成模型；换模型要选对应音色 |
+| `voice` | `longanhuan_v3.1` | 千问音色 ID（女声）。男声可用 `xunanchuan_v3.1` |
+| `rate` | `1.12` | 语速倍数 0.5–2.0，实测约 5.0 cps；想到 5.5 用 `1.2`。也接受 `"+12%"` 写法 |
+| `tts_format` / `tts_sample_rate` | `mp3` / `24000` | 音频格式与采样率，一般不用改 |
 | `lead` | 0.4 | 首卡前的空白秒数 |
 | `tail` | 0.9 | 每卡旁白结束后的留白 |
 | `gap` | 0.55 | 相邻元素最小起始间隔（24fps 下 13 帧） |
@@ -25,7 +27,7 @@
 
 | 字段 | 必填 | 说明 |
 |---|---|---|
-| `id` | ✅ | 唯一，同时是配音文件名 `audio/<id>.mp3` |
+| `id` | ✅ | 唯一，同时是配音文件名 `audio/<id>.<格式>` |
 | `module` |  | 对应 `modules` 的键；缺省取第一个 |
 | `layout` |  | `concept` / `list` / `steps` / `chips` / `stem`，默认 `concept` |
 | `title` | ✅ | 卡片标题，自动成为第一个 `title` 节拍 |

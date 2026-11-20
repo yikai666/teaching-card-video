@@ -149,7 +149,7 @@ python scripts/encode.py <dir> --srt off                        # 出无字幕�
 - **中文变方块**：缺 `Noto Sans CJK SC` / `Noto Serif CJK SC`，装 `fonts-noto-cjk` 后重跑。
 - **公式显示成反斜杠**：`assets/tex-svg.js` 没加载，或本地 `file://` 路径不对；看控制台 `MathJax is not defined`。
 - **ffmpeg 报 Unknown encoder 'libx264'**：系统 ffmpeg 没编 x264，`pip install imageio-ffmpeg`，脚本会自动切换。
-- **edge-tts 导入失败**：脚本会自动找 `/usr/bin/python3` 里装过的解释器；否则 `pip install edge-tts`。
+- **配音报 401 / 没找到 Key**：配音走千问 `qwen-audio-3.1-tts-flash`（WebSocket 流式），Key 从 `DASHSCOPE_API_KEY` / `~/.dashscope/config` / 项目 `.env` 找，也可临时 `--api-key`。缺 `websocket-client` 就 `pip install websocket-client`。
 - **触发词没命中**：`build_timeline.py` 会列出具体卡片和词；把 `beats` 里的触发词换成 `tts` 中真实出现的片段。
 - **字幕没烧上**：`encode.py` 只在 `out/<name>.srt` 存在时自动启用；文件名取自 `timeline.json` 的 `name`（次选 `project.json`）。用 `--srt 路径` 直接指定最稳。
 - **字幕位置偏上/压页脚**：libass 对 SRT 的 `MarginV` 有缩放，按 720p 实测调 `--sub-margin`（默认 30 → 字幕底约 637px）；别按像素直觉算。

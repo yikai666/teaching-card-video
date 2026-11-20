@@ -112,6 +112,71 @@ def probe_duration(path):
     return int(h) * 3600 + int(mi) * 60 + float(se)
 
 
+_MP3_BR = {
+    3: [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320],   # MPEG1 L3
+    2: [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160],      # MPEG2 L3
+    0: [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160],      # MPEG2.5 L3
+}
+_MP3_SR = {3: [44100, 48000, 32000], 2: [22050, 24000, 16000], 0: [11025, 12000, 8000]}
+
+
+def mp3_duration(path):
+    """纯 Python 走 MP3 帧头算时长——不依赖 ffmpeg（云 TTS 产物是 CBR/AAC 之外的纯 MP3）。"""
+    with open(path, "rb") as f:
+        data = f.read()
+    n = len(data)
+    pos = 0
+    if data[:3] == b"ID3" and n > 10:  # 跳过 ID3v2 头
+        size = ((data[6] & 0x7F) << 21) | ((data[7] & 0x7F) << 14) | \
+               ((data[8] & 0x7F) << 7) | (data[9] & 0x7F)
+        pos = 10 + size
+    total, frames = 0.0, 0
+    while pos + 4 <= n:
+        if data[pos] != 0xFF or (data[pos + 1] & 0xE0) != 0xE0:
+            pos += 1
+            continue
+        b1, b2 = data[pos + 1], data[pos + 2]
+        ver = (b1 >> 3) & 0x03
+        layer = (b1 >> 1) & 0x03
+        br_i = (b2 >> 4) & 0x0F
+        sr_i = (b2 >> 2) & 0x03
+        pad = (b2 >> 1) & 0x01
+        if ver == 1 or layer != 1 or br_i in (0, 15) or sr_i == 3:
+            pos += 1
+            continue
+        br = _MP3_BR[ver][br_i] * 1000
+        sr = _MP3_SR[ver][sr_i]
+        spf = 1152 if ver == 3 else 576
+        flen = (144 if ver == 3 else 72) * br // sr + pad
+        if flen < 4:
+            pos += 1
+            continue
+        total += spf / float(sr)
+        frames += 1
+        pos += flen
+    if not frames:
+        sys.exit(f"[nv] 读不到时长：{path}")
+    return total
+
+
+def duration_of(path):
+    """优先不依赖 ffmpeg：wav 读头，mp3 走帧头；其他格式再交给 ffprobe。"""
+    ext = os.path.splitext(path)[1].lower()
+    if ext == ".wav":
+        import wave
+        try:
+            with wave.open(path, "rb") as w:
+                return w.getnframes() / float(w.getframerate())
+        except Exception:
+            pass
+    if ext == ".mp3":
+        try:
+            return mp3_duration(path)
+        except SystemExit:
+            pass
+    return probe_duration(path)
+
+
 def ensure_dir(*parts):
     p = os.path.join(*parts)
     os.makedirs(p, exist_ok=True)

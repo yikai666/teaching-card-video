@@ -1,91 +1,278 @@
 # -*- coding: utf-8 -*-
-"""逐卡合成旁白，并记录词级时间戳（驱动画面逐字展开）
+"""逐卡合成旁白（千问 Qwen-Audio-TTS 流式接口），记录字级时间戳（驱动画面逐字展开）
 
-用法: python gen_audio.py [项目目录] [--force] [--voice zh-CN-XiaoxiaoNeural] [--rate +12%]
-依赖: pip install edge-tts
+用法: python gen_audio.py [项目目录] [--force] [--voice longanhuan_v3.1] [--rate 1.12]
+
+鉴权（按顺序找，找到即用）:
+  1. --api-key
+  2. 环境变量 DASHSCOPE_API_KEY
+  3. ~/.dashscope/config 里的一行 DASHSCOPE_API_KEY=sk-xxx
+  4. 项目目录下的 .env 同名字段
+
+依赖: pip install websocket-client
 """
-import asyncio
 import json
 import os
 import re
-import subprocess
 import sys
+import time
+import uuid
 
-from nv_common import load_project, load_json, save_json, project_root, ensure_dir, probe_duration
+from nv_common import (load_project, load_json, save_json, project_root,
+                       ensure_dir, duration_of)
+
+DEFAULT_MODEL = "qwen-audio-3.1-tts-flash"
+DEFAULT_VOICE = "longanhuan_v3.1"
+DEFAULT_WS = "wss://dashscope.aliyuncs.com/api-ws/v1/inference"
+
+_PUNCT = "，。、；：？！,.;:?!…—（）()《》“”‘’\"'"
 
 
-def _ensure_edge_tts():
+# ---------------------------------------------------------------- 配置解析
+
+def _read_kv(path, key):
     try:
-        import edge_tts  # noqa: F401
-        return
-    except ImportError:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                k, v = line.split("=", 1)
+                if k.strip() == key:
+                    return v.strip().strip('"').strip("'")
+    except OSError:
         pass
-    for cand in ("/usr/bin/python3", "python3.11", "python3"):
-        if os.path.abspath(cand) == os.path.abspath(sys.executable):
-            continue
-        if subprocess.run([cand, "-c", "import edge_tts"],
-                          capture_output=True).returncode == 0:
-            os.execv(cand, [cand, os.path.abspath(__file__)] + sys.argv[1:])
-    sys.exit("[nv] 缺少 edge-tts：pip install edge-tts")
+    return None
 
 
-async def synth(text, voice, rate, out_mp3, tries=3):
-    import edge_tts
+def resolve_api_key(explicit, root="."):
+    if explicit:
+        return explicit.strip()
+    for k in ("DASHSCOPE_API_KEY", "QWEN_API_KEY"):
+        v = os.environ.get(k)
+        if v and v.strip():
+            return v.strip()
+    for p in (os.path.expanduser("~/.dashscope/config"),
+              os.path.expanduser("~/.qwen/config")):
+        v = _read_kv(p, "DASHSCOPE_API_KEY")
+        if v:
+            return v
+    v = _read_kv(os.path.join(root, ".env"), "DASHSCOPE_API_KEY")
+    if v:
+        return v
+    sys.exit("[nv] 没找到千问 API Key。三选一：\n"
+             "      export DASHSCOPE_API_KEY=sk-xxx\n"
+             "      echo 'DASHSCOPE_API_KEY=sk-xxx' >> ~/.dashscope/config\n"
+             "      命令行加 --api-key sk-xxx（不写进 project.json）")
+
+
+def norm_rate(v):
+    """'+12%' / 1.12 / '1.1' 统一成 0.5–2.0 的浮点倍数。"""
+    if v is None:
+        return 1.0
+    if isinstance(v, (int, float)):
+        r = float(v)
+    else:
+        s = str(v).strip()
+        m = re.match(r"^([+-]?\d+(?:\.\d+)?)\s*%$", s)
+        try:
+            r = 1 + float(m.group(1)) / 100.0 if m else float(s)
+        except (AttributeError, ValueError):
+            r = 1.0
+    return max(0.5, min(2.0, round(r, 3)))
+
+
+def norm_voice(v):
+    v = (v or DEFAULT_VOICE).strip()
+    if v.startswith(("zh-CN-", "zh-TW-", "en-US-", "Microsoft")) or "Neural" in v:
+        print(f"[!] project.json 里的 voice 是 edge-tts 音色（{v}），改用千问默认音色 "
+              f"{DEFAULT_VOICE}；可在 project.json 换成任意 Qwen 音色名", flush=True)
+        return DEFAULT_VOICE
+    return v
+
+
+# ---------------------------------------------------------------- 千问合成
+
+def _send(ws, task_id, action, payload):
+    ws.send(json.dumps({
+        "header": {"action": action, "task_id": task_id, "streaming": "duplex"},
+        "payload": payload,
+    }, ensure_ascii=False))
+
+
+def _one_task(text, cfg):
+    """建一条连接跑一张卡，返回 (音频字节, 字级时间戳列表)。"""
+    import websocket
+
+    ws = websocket.create_connection(
+        cfg["ws_url"],
+        header=["Authorization: bearer " + cfg["api_key"]],
+        timeout=cfg["timeout"],
+    )
+    task_id = uuid.uuid4().hex
+    audio = bytearray()
+    by_sentence = {}
+    err = None
+    try:
+        _send(ws, task_id, "run-task", {
+            "task_group": "audio",
+            "task": "tts",
+            "function": "SpeechSynthesizer",
+            "model": cfg["model"],
+            "parameters": {
+                "text_type": "PlainText",
+                "voice": cfg["voice"],
+                "format": cfg["format"],
+                "sample_rate": cfg["sample_rate"],
+                "volume": 50,
+                "rate": cfg["rate"],
+                "pitch": 1,
+                "enable_ssml": False,
+                "word_timestamp_enabled": True,
+                "language_hints": ["zh"],
+            },
+            "input": {},
+        })
+        while True:
+            msg = ws.recv()
+            if isinstance(msg, bytes):
+                audio += msg
+                continue
+            data = json.loads(msg)
+            head = data.get("header") or {}
+            event = head.get("event")
+            if event == "task-started":
+                _send(ws, task_id, "continue-task", {"input": {"text": text}})
+                _send(ws, task_id, "finish-task", {"input": {}})
+            elif event == "result-generated":
+                out = (data.get("payload") or {}).get("output") or {}
+                sent = out.get("sentence") or {}
+                # words 是「累积增长」的：sentence-begin 给开头几个，
+                # 之后的 sentence-synthesis 逐句补齐，偶尔夹几条空数组。
+                # 所以按句号收最新一次非空结果，空数组直接忽略。
+                if sent.get("words"):
+                    by_sentence[sent.get("index", 0)] = sent["words"]
+            elif event == "task-finished":
+                break
+            elif event == "task-failed":
+                err = head.get("error_message") or head.get("error_code") or "task-failed"
+                break
+            elif event == "error":
+                err = (data.get("payload") or {}).get("message") or "error"
+                break
+    finally:
+        try:
+            ws.close()
+        except Exception:
+            pass
+    if err:
+        raise RuntimeError(err)
+    words = [w for i in sorted(by_sentence) for w in by_sentence[i]]
+    return bytes(audio), words
+
+
+def _map_words(words, text):
+    """把服务端的字级时间戳对回原文字符区间，产出 timings 里的 words。"""
+    out, pos = [], 0
+    for w in words:
+        t = w.get("text") or ""
+        j = text.find(t, pos)
+        if j < 0:
+            j = pos
+        i, pos = j, min(len(text), j + len(t))
+        b = (w.get("begin_time") or 0) / 1000.0
+        e = (w.get("end_time") or b * 1000) / 1000.0
+        out.append({"t": round(b, 3), "d": round(max(0.0, e - b), 3),
+                    "w": t, "i": i, "j": pos})
+    return out
+
+
+def _interp_words(text, dur):
+    """拿不到字级时间戳时的兜底：按字重比例铺满整段时长（标点多留一点）。"""
+    idx = [(i, ch) for i, ch in enumerate(text)]
+    if not idx:
+        return []
+    weights = []
+    for _, ch in idx:
+        if ch in _PUNCT:
+            weights.append(3.0)
+        elif ch.isspace():
+            weights.append(0.2)
+        else:
+            weights.append(1.0)
+    total = sum(weights)
+    out, acc = [], 0.0
+    for (i, ch), w in zip(idx, weights):
+        t = dur * acc / total
+        acc += w
+        out.append({"t": round(t, 3), "d": round(dur * w / total, 3),
+                    "w": ch, "i": i, "j": i + 1})
+    return out
+
+
+def synth(text, cfg, out_path, tries=3):
     last = None
     for attempt in range(tries):
         try:
-            tts = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
-            data, words, pos = b"", [], 0
-            async for ch in tts.stream():
-                if ch["type"] == "audio":
-                    data += ch["data"]
-                elif ch["type"] == "WordBoundary":
-                    w = ch["text"]
-                    j = text.find(w, pos)
-                    if j < 0:
-                        j = pos
-                    i, pos = j, j + len(w)
-                    words.append({"t": round(ch["offset"] / 1e7, 3),
-                                  "d": round(ch["duration"] / 1e7, 3),
-                                  "w": w, "i": i, "j": pos})
-            if not data:
+            audio, words = _one_task(text, cfg)
+            if not audio:
                 raise RuntimeError("空音频")
-            with open(out_mp3, "wb") as f:
-                f.write(data)
+            with open(out_path, "wb") as f:
+                f.write(audio)
             return words
-        except Exception as e:  # 网络抖动：退避重试
+        except Exception as e:
             last = e
-            await asyncio.sleep(1.2 * (attempt + 1))
-    raise RuntimeError(f"{out_mp3} 合成失败: {last}")
+            if attempt < tries - 1:
+                time.sleep(1.5 * (attempt + 1))
+    raise RuntimeError(f"{os.path.basename(out_path)} 合成失败: {last}")
 
 
-async def run(root, force, voice, rate):
+# ---------------------------------------------------------------- 主流程
+
+def run(root, force, voice, rate, api_key, model, ws_url):
     meta, cards = load_project(root)
-    voice = voice or meta.get("voice", "zh-CN-XiaoxiaoNeural")
-    rate = rate or meta.get("rate", "+0%")
+    cfg = {
+        "api_key": resolve_api_key(api_key, root),
+        "model": model or meta.get("tts_model") or DEFAULT_MODEL,
+        "voice": norm_voice(voice or meta.get("voice")),
+        "rate": norm_rate(rate if rate is not None else meta.get("rate")),
+        "format": meta.get("tts_format") or "mp3",
+        "sample_rate": int(meta.get("tts_sample_rate") or 24000),
+        "ws_url": ws_url or os.environ.get("DASHSCOPE_WS_URL") or DEFAULT_WS,
+        "timeout": 180,
+    }
     audio_dir = ensure_dir(root, "audio")
     old = {}
     if not force and os.path.exists(os.path.join(root, "timings.json")):
         old = {x["id"]: x for x in load_json(os.path.join(root, "timings.json"))}
 
-    sem = asyncio.Semaphore(3)
+    ext = cfg["format"]
     results = {}
+    total = len(cards)
+    print(f"[nv] {cfg['model']} / {cfg['voice']} / rate {cfg['rate']}")
 
-    async def one(card):
+    for n, card in enumerate(cards, 1):
         cid = card["id"]
-        mp3 = os.path.join(audio_dir, f"{cid}.mp3")
-        if not force and cid in old and os.path.exists(mp3):
+        path = os.path.join(audio_dir, f"{cid}.{ext}")
+        if not force and cid in old and os.path.exists(path):
             results[cid] = old[cid]
-            print(f"  {cid:>6} 复用 {old[cid]['dur']:5.1f}s")
-            return
-        async with sem:
-            words = await synth(card["tts"], voice, rate, mp3)
-            dur = probe_duration(mp3)
-            cps = len(re.sub(r"\s", "", card["tts"])) / max(0.1, dur)
-            results[cid] = {"id": cid, "dur": round(dur, 3), "cps": round(cps, 2), "words": words}
-            print(f"  {cid:>6} {dur:5.1f}s  {cps:4.1f} cps  {len(words)} words", flush=True)
+            print(f"  {cid:>6} 复用 {old[cid]['dur']:5.1f}s", flush=True)
+            continue
+        raw = synth(card["tts"], cfg, path)
+        dur = duration_of(path)
+        words = _map_words(raw, card["tts"]) if raw else []
+        if not words:  # 服务端没回时间戳：按字数铺开，仍能渲
+            words = _interp_words(card["tts"], dur)
+            print(f"  [!] {cid} 没拿到字级时间戳，已按字数插值", flush=True)
+        if not dur:
+            dur = (words[-1]["t"] + words[-1]["d"]) if words else 0.0
+        chars = len(re.sub(r"\s", "", card["tts"]))
+        cps = chars / max(0.1, dur)
+        results[cid] = {"id": cid, "dur": round(dur, 3), "cps": round(cps, 2),
+                        "words": words}
+        print(f"  {cid:>6} [{n}/{total}] {dur:5.1f}s  {cps:4.1f} cps  "
+              f"{len(words)} 字", flush=True)
 
-    await asyncio.gather(*[one(c) for c in cards])
     ordered = [results[c["id"]] for c in cards]
     save_json(os.path.join(root, "timings.json"), ordered)
 
@@ -95,21 +282,28 @@ async def run(root, force, voice, rate):
     slow = [x["id"] for x in ordered if x["cps"] < 4.6]
     fast = [x["id"] for x in ordered if x["cps"] > 6.2]
     if slow:
-        print(f"[!] 偏慢（<4.6 cps）：{', '.join(slow)}")
+        print(f"[!] 偏慢（<4.6 cps）：{', '.join(slow)}　可把 rate 调大一点")
     if fast:
-        print(f"[!] 偏快（>6.2 cps）：{', '.join(fast)}")
+        print(f"[!] 偏快（>6.2 cps）：{', '.join(fast)}　可把 rate 调小一点")
 
 
 def main():
     import argparse
-    _ensure_edge_tts()
     ap = argparse.ArgumentParser()
     ap.add_argument("root", nargs="?", default=".")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--voice")
     ap.add_argument("--rate")
+    ap.add_argument("--api-key")
+    ap.add_argument("--model")
+    ap.add_argument("--ws-url")
     a = ap.parse_args()
-    asyncio.run(run(project_root(a.root), a.force, a.voice, a.rate))
+    try:
+        import websocket  # noqa: F401
+    except ImportError:
+        sys.exit("[nv] 缺少 websocket-client：pip install websocket-client")
+    root = project_root(a.root)
+    run(root, a.force, a.voice, a.rate, a.api_key, a.model, a.ws_url)
 
 
 if __name__ == "__main__":
