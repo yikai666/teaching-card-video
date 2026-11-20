@@ -8,8 +8,8 @@
 | `course` / `chapter` | — | 页眉、页脚显示的课程与章节 |
 | `fps` / `width` / `height` | 24 / 1280 / 720 | 16:9，不建议改 |
 | `tts_model` | `qwen-audio-3.1-tts-flash` | 千问语音合成模型；换模型要选对应音色 |
-| `voice` | `longanhuan_v3.1` | 千问音色 ID（女声）。男声可用 `xunanchuan_v3.1` |
-| `rate` | `1.12` | 语速倍数 0.5–2.0，实测约 5.0 cps；想到 5.5 用 `1.2`。也接受 `"+12%"` 写法 |
+| `voice` | `xieshurou_v3.1` | 千问音色 ID（谢舒柔，女·柔和知性）。男声可用 `anmingyuan_v3.1` |
+| `rate` | `1.10` | 语速倍数 0.5–2.0，谢舒柔实测约 5.5 cps。不同音色基准速度不同，不能照搬 |
 | `tts_format` / `tts_sample_rate` | `mp3` / `24000` | 音频格式与采样率，一般不用改 |
 | `lead` | 0.4 | 首卡前的空白秒数 |
 | `tail` | 0.9 | 每卡旁白结束后的留白 |

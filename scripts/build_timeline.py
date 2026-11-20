@@ -142,9 +142,12 @@ def build(root):
         if card.get("pause_after"):
             # 暂停卡继承本卡画面：题目留在屏幕上（压淡），只叠遮罩与底部提示条
             hold = dict(sc)
-            hold.update({"id": f"PAUSE{page}", "layout": "pause", "duration": pause_dur,
+            hold.update({"id": f"PAUSE{page}", "layout": "pause",
+                         "duration": float(card.get("pause_duration") or pause_dur),
                          "title": sc["title"],
-                         "pauseText": meta.get("pause_text", "请暂停，自己先算一遍"),
+                         # 提示条文案按卡定制（例题卡各说各的），没写就退回 project.json
+                         "pauseText": card.get("pause_text") or meta.get("pause_text", "请暂停，自己先算一遍"),
+                         "pauseSub": card.get("pause_sub") or "",
                          "audio": None, "start": round(clock, 3), "pauseFrom": sc["id"]})
             scenes.append(hold)
             clock += pause_dur

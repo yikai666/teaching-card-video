@@ -36,7 +36,7 @@ def main():
         "chapter": "第 X 章 章节名",
         "fps": 24, "width": 1280, "height": 720,
         "tts_model": "qwen-audio-3.1-tts-flash",
-        "voice": "longanhuan_v3.1", "rate": 1.12,
+        "voice": "xieshurou_v3.1", "rate": 1.10,
         "lead": 0.4, "tail": 0.9, "gap": 0.55, "pause_duration": 3.0,
         "pause_text": "请暂停，自己先算一遍",
         "modules": {
