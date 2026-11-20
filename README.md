@@ -52,6 +52,7 @@ export DASHSCOPE_API_KEY=sk-xxx
 ```bash
 cd examples/demo
 python ../../scripts/init_project.py . --name 示例_三卡
+python ../../scripts/gen_audio.py . --dry-run   # 只报要合成几张，不调接口
 python ../../scripts/gen_audio.py .
 python ../../scripts/build_timeline.py .
 python ../../scripts/check_timeline.py .      # 必须 PASS
@@ -139,7 +140,7 @@ python ../../scripts/encode.py .
 | 暂停卡纯黑 | 项目里的 `stage.html` 是旧版，`init_project.py --update-stage` 更新 |
 | 字幕把公式劈两半 | `--max-len` 太小；保持 22 |
 | 字幕压页脚 | libass 对 `MarginV` 有缩放，720p 用 `--sub-margin 30` |
-| 改完文字音画不同步 | 改了 `tts` 没重跑 `gen_audio.py` |
+| 改完文字音画不同步 | 每张卡带 `sig` 指纹，改了 `tts` 会自动重录；塞了旧音频就用 `--force` |
 
 完整排障见 `references/troubleshooting.md`。
 

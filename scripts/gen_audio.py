@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 """逐卡合成旁白（千问 Qwen-Audio-TTS 流式接口），记录字级时间戳（驱动画面逐字展开）
 
-用法: python gen_audio.py [项目目录] [--force] [--voice longanhuan_v3.1] [--rate 1.12]
+用法: python gen_audio.py [项目目录] [--dry-run] [--force] [--voice longanhuan_v3.1] [--rate 1.12]
+
+省事：每张卡带合成指纹（文案/音色/语速/模型），指纹没变就复用已有音频，
+改了文案会自动重录；`--dry-run` 只看要动几张卡，不调接口。
 
 鉴权（按顺序找，找到即用）:
   1. --api-key
@@ -11,6 +14,7 @@
 
 依赖: pip install websocket-client
 """
+import hashlib
 import json
 import os
 import re
@@ -93,6 +97,12 @@ def norm_voice(v):
 
 # ---------------------------------------------------------------- 千问合成
 
+def card_sig(cfg, text):
+    """一张卡的合成指纹：只要文案/音色/语速/模型任一项变了，才需要重录。"""
+    raw = "|".join([cfg["model"], cfg["voice"], str(cfg["rate"]), cfg["format"], text])
+    return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:12]
+
+
 def _send(ws, task_id, action, payload):
     ws.send(json.dumps({
         "header": {"action": action, "task_id": task_id, "streaming": "duplex"},
@@ -112,6 +122,7 @@ def _one_task(text, cfg):
     task_id = uuid.uuid4().hex
     audio = bytearray()
     by_sentence = {}
+    usage = {}
     err = None
     try:
         _send(ws, task_id, "run-task", {
@@ -153,6 +164,7 @@ def _one_task(text, cfg):
                 if sent.get("words"):
                     by_sentence[sent.get("index", 0)] = sent["words"]
             elif event == "task-finished":
+                usage = (data.get("payload") or {}).get("usage") or {}
                 break
             elif event == "task-failed":
                 err = head.get("error_message") or head.get("error_code") or "task-failed"
@@ -168,7 +180,7 @@ def _one_task(text, cfg):
     if err:
         raise RuntimeError(err)
     words = [w for i in sorted(by_sentence) for w in by_sentence[i]]
-    return bytes(audio), words
+    return bytes(audio), words, usage
 
 
 def _map_words(words, text):
@@ -214,12 +226,12 @@ def synth(text, cfg, out_path, tries=3):
     last = None
     for attempt in range(tries):
         try:
-            audio, words = _one_task(text, cfg)
+            audio, words, usage = _one_task(text, cfg)
             if not audio:
                 raise RuntimeError("空音频")
             with open(out_path, "wb") as f:
                 f.write(audio)
-            return words
+            return words, usage
         except Exception as e:
             last = e
             if attempt < tries - 1:
@@ -229,10 +241,10 @@ def synth(text, cfg, out_path, tries=3):
 
 # ---------------------------------------------------------------- 主流程
 
-def run(root, force, voice, rate, api_key, model, ws_url):
+def run(root, force, voice, rate, api_key, model, ws_url, dry_run=False):
     meta, cards = load_project(root)
     cfg = {
-        "api_key": resolve_api_key(api_key, root),
+        "api_key": api_key or "dry-run",  # dry-run 不调接口，不读 Key
         "model": model or meta.get("tts_model") or DEFAULT_MODEL,
         "voice": norm_voice(voice or meta.get("voice")),
         "rate": norm_rate(rate if rate is not None else meta.get("rate")),
@@ -241,37 +253,64 @@ def run(root, force, voice, rate, api_key, model, ws_url):
         "ws_url": ws_url or os.environ.get("DASHSCOPE_WS_URL") or DEFAULT_WS,
         "timeout": 180,
     }
+    if not dry_run:
+        cfg["api_key"] = resolve_api_key(api_key, root)
+
     audio_dir = ensure_dir(root, "audio")
     old = {}
     if not force and os.path.exists(os.path.join(root, "timings.json")):
         old = {x["id"]: x for x in load_json(os.path.join(root, "timings.json"))}
 
     ext = cfg["format"]
-    results = {}
-    total = len(cards)
     print(f"[nv] {cfg['model']} / {cfg['voice']} / rate {cfg['rate']}")
 
-    for n, card in enumerate(cards, 1):
+    # 先算账：只有文案/音色/语速变了才重录，一分额度都不多花
+    plan = []
+    for card in cards:
         cid = card["id"]
+        sig = card_sig(cfg, card["tts"])
         path = os.path.join(audio_dir, f"{cid}.{ext}")
-        if not force and cid in old and os.path.exists(path):
-            results[cid] = old[cid]
-            print(f"  {cid:>6} 复用 {old[cid]['dur']:5.1f}s", flush=True)
+        have = cid in old and os.path.exists(path)
+        old_sig = old[cid].get("sig") if have else None
+        reuse = bool(have) and not force and (old_sig is None or old_sig == sig)
+        plan.append({"card": card, "sig": sig, "path": path, "reuse": reuse,
+                     "legacy": bool(have) and old_sig is None})
+
+    todo = [p for p in plan if not p["reuse"]]
+    chars = sum(len(re.sub(r"\s", "", p["card"]["tts"])) for p in todo)
+
+    if dry_run:
+        for p in plan:
+            tag = "复用" if p["reuse"] else "合成"
+            print(f"  {p['card']['id']:>6} {tag}  {len(p['card']['tts']):>4} 字")
+        print(f"\n[nv] 待合成 {len(todo)} 张 / 可复用 {len(plan) - len(todo)} 张")
+        print(f"[nv] 预计消耗约 {chars} 字符 ≈ {int(chars * 1.9)} tokens（本次不调接口）")
+        return
+
+    results, tokens = {}, 0
+    total = len(cards)
+    for n, p in enumerate(plan, 1):
+        card, cid = p["card"], p["card"]["id"]
+        if p["reuse"]:
+            results[cid] = dict(old[cid], sig=p["sig"])
+            note = "（旧 timings 无签名，按原样复用）" if p["legacy"] else ""
+            print(f"  {cid:>6} 复用 {old[cid]['dur']:5.1f}s{note}", flush=True)
             continue
-        raw = synth(card["tts"], cfg, path)
-        dur = duration_of(path)
+        raw, usage = synth(card["tts"], cfg, p["path"])
+        tokens += int(usage.get("total_tokens") or 0)
+        dur = duration_of(p["path"])
         words = _map_words(raw, card["tts"]) if raw else []
         if not words:  # 服务端没回时间戳：按字数铺开，仍能渲
             words = _interp_words(card["tts"], dur)
             print(f"  [!] {cid} 没拿到字级时间戳，已按字数插值", flush=True)
         if not dur:
             dur = (words[-1]["t"] + words[-1]["d"]) if words else 0.0
-        chars = len(re.sub(r"\s", "", card["tts"]))
-        cps = chars / max(0.1, dur)
+        chars_one = len(re.sub(r"\s", "", card["tts"]))
+        cps = chars_one / max(0.1, dur)
         results[cid] = {"id": cid, "dur": round(dur, 3), "cps": round(cps, 2),
-                        "words": words}
+                        "sig": p["sig"], "words": words}
         print(f"  {cid:>6} [{n}/{total}] {dur:5.1f}s  {cps:4.1f} cps  "
-              f"{len(words)} 字", flush=True)
+              f"{len(words)} 字  {usage.get('total_tokens', '?')} tok", flush=True)
 
     ordered = [results[c["id"]] for c in cards]
     save_json(os.path.join(root, "timings.json"), ordered)
@@ -279,6 +318,10 @@ def run(root, force, voice, rate, api_key, model, ws_url):
     cps_all = [x["cps"] for x in ordered]
     print(f"\n[nv] {len(ordered)} 张卡，语速 {sum(cps_all)/len(cps_all):.2f} cps "
           f"(min {min(cps_all):.1f} / max {max(cps_all):.1f})")
+    if tokens:
+        print(f"[nv] 本次新合成 {len(todo)} 张，消耗 {tokens} tokens")
+    else:
+        print("[nv] 全部复用，本次零消耗")
     slow = [x["id"] for x in ordered if x["cps"] < 4.6]
     fast = [x["id"] for x in ordered if x["cps"] > 6.2]
     if slow:
@@ -292,6 +335,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("root", nargs="?", default=".")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="只算要合成几张、多少字，不调用接口")
     ap.add_argument("--voice")
     ap.add_argument("--rate")
     ap.add_argument("--api-key")
@@ -301,9 +346,10 @@ def main():
     try:
         import websocket  # noqa: F401
     except ImportError:
-        sys.exit("[nv] 缺少 websocket-client：pip install websocket-client")
+        if not a.dry_run:
+            sys.exit("[nv] 缺少 websocket-client：pip install websocket-client")
     root = project_root(a.root)
-    run(root, a.force, a.voice, a.rate, a.api_key, a.model, a.ws_url)
+    run(root, a.force, a.voice, a.rate, a.api_key, a.model, a.ws_url, a.dry_run)
 
 
 if __name__ == "__main__":
