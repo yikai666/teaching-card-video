@@ -177,6 +177,12 @@ def duration_of(path):
     return probe_duration(path)
 
 
+def file_uri(path):
+    """本地文件转 file:// URL；Windows 盘符也能转成合法的 file:///D:/...（别用字符串拼）。"""
+    from pathlib import Path
+    return Path(path).resolve().as_uri()
+
+
 def ensure_dir(*parts):
     p = os.path.join(*parts)
     os.makedirs(p, exist_ok=True)
