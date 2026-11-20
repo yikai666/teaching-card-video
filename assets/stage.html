@@ -44,6 +44,13 @@ body.wide #flow{width:1148px}
 .beat.problem.plast{padding-bottom:16px;border-radius:0 0 10px 0;margin-bottom:20px}
 .beat.banner{font-size:29px;line-height:1.45;font-family:"Noto Serif CJK SC","Source Han Serif SC","Songti SC","SimSun",serif;
   border-left:5px solid var(--accent);background:var(--tint);padding:13px 20px;border-radius:0 10px 10px 0}
+/* 知识点块：把要背的定义/定理正式写在屏幕上 */
+.beat.kp{position:relative;background:var(--tint);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:0 9px 9px 0;padding:11px 18px 13px;margin:8px 0 14px;
+  font-size:21px;line-height:1.66;color:#2E2A22}
+.beat.kp::before{content:"知识点";display:block;font-size:11px;letter-spacing:.18em;
+  color:var(--muted);margin-bottom:5px;font-family:"Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+.beat.kp .txt{display:inline}
 .beat.formula{font-size:32px;line-height:1.45;padding:10px 0}
 .beat.chip{display:inline-block;font-size:19px;padding:9px 16px;border:1.5px solid var(--line);
   border-radius:9px;color:var(--muted);margin:0 10px 0 0}
@@ -363,18 +370,18 @@ dcwave:(p={})=>{let d=`<line x1="24" y1="258" x2="336" y2="258" stroke="#9C9483"
  <text x="310" y="214" font-size="11" fill="#6E685B">${esc(p.devLabel||'起伏 · 交流')}</text>`;
  return d;},
 shiftinv:(p={})=>{let d='';
- d+=`<line x1="24" y1="132" x2="336" y2="132" stroke="#9C9483" stroke-width="1.2"/><line x1="24" y1="132" x2="24" y2="26" stroke="#9C9483" stroke-width="1.2"/>`;
- const wave=(dx,dash,op)=>{let pts=[];
+ const wv=(dx,dash,op)=>{let pts=[];
   for(let i=0;i<=40;i++){const x=26+i*(300/40)+dx;const y=86-34*Math.sin((i/40)*2.4*Math.PI);pts.push(x.toFixed(1)+','+y.toFixed(1));}
   return `<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.8" ${dash?'stroke-dasharray="6 5"':''} opacity="${op}"/>`;};
- d+=wave(0,false,1)+wave(44,true,.5);
+ const bell=(cx,dash)=>{let pts=[];
+  for(let i=0;i<=40;i++){const x=26+i*(300/40);const y=272-52*Math.exp(-Math.pow((x-cx)/34,2));pts.push(x.toFixed(1)+','+y.toFixed(1));}
+  return `<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.8" ${dash?'stroke-dasharray="6 5" opacity=".85"':''}/>`;};
+ d+=`<line x1="24" y1="132" x2="336" y2="132" stroke="#9C9483" stroke-width="1.2"/><line x1="24" y1="132" x2="24" y2="26" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=wv(0,false,1)+wv(44,true,.5);
  d+=`<path d="M150 34 h44" stroke="#9C9483" stroke-width="1.1" marker-end="url(#ar2)"/><text x="152" y="26" font-size="11" fill="#6E685B">${esc(p.dtLabel||'平移 Δt')}</text>`;
  d+=`<line x1="24" y1="272" x2="336" y2="272" stroke="#9C9483" stroke-width="1.2"/>`;
- const bell=(cx,op)=>{let pts=[];
-  for(let i=0;i<=40;i++){const x=26+i*(300/40);const y=272-52*Math.exp(-Math.pow((x-cx)/34,2));pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  return `<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.8" opacity="${op}"/>`;};
- d+=bell(150,.55)+bell(196,1);
- d+=`<text x="330" y="292" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.label||'密度曲线重合')}</text>`;
+ d+=bell(152,true)+bell(150,false);
+ d+=`<text x="330" y="292" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.label||'平移后密度完全重合')}</text>`;
  return d;},
 flatlines:(p={})=>{let d=`<line x1="24" y1="258" x2="336" y2="258" stroke="#9C9483" stroke-width="1.4"/><line x1="24" y1="258" x2="24" y2="30" stroke="#9C9483" stroke-width="1.4"/>`;
  const ys=[86,126,150,196,232];
