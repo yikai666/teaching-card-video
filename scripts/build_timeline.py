@@ -151,7 +151,7 @@ def build(root):
     clock += end_pad
 
     timeline = {"fps": fps, "width": int(meta.get("width", 1280)), "height": int(meta.get("height", 720)),
-                "name": meta.get("name", "notebook-video"), "meta": meta,
+                "name": meta.get("name", "teaching-card-video"), "meta": meta,
                 "duration": round(clock, 3), "scenes": scenes, "missing": missing_all}
     save_json(os.path.join(root, "timeline.json"), timeline)
     return timeline

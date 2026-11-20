@@ -1,13 +1,13 @@
 ---
-name: notebook-video
-description: "把教学卡片/讲稿做成 16:9 中文讲解视频：无笔草稿纸风格、按 TTS 词级时间戳逐字展开、LaTeX 公式用 MathJax 渲染、例题前自动插 3 秒“保留原题”的思考暂停。适用于“把这几张教学卡做成视频”“notebook video”“讲解视频”“草稿纸动画”“公式逐个写出来”“配音+烧字幕+成片”等请求。先出静帧接触表供确认，再渲染 MP4。"
+name: teaching-card-video
+description: "把教学卡片/讲稿做成 16:9 中文讲解视频：无笔草稿纸风格、按 TTS 词级时间戳逐字展开、LaTeX 公式用 MathJax 渲染、例题前自动插 3 秒“保留原题”的思考暂停。适用于“把这几张教学卡做成视频”“teaching card video”“讲解视频”“草稿纸动画”“公式逐个写出来”“配音+烧字幕+成片”等请求。先出静帧接触表供确认，再渲染 MP4。"
 version: "1.2.2"
 author: "CodeBuddy AI"
 created: "2026-11-20"
 updated: "2026-11-20"
 ---
 
-# Notebook Video
+# Teaching Card Video
 
 > **Goal**: 输入一组教学卡片（标题 / 屏幕文字 / TTS 旁白 / 画面动作），输出一支 16:9 的中文讲解视频。画面像草稿纸，没有笔；每个元素等旁白讲到它时才从左向右写出；公式全部走 LaTeX。
 

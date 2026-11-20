@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""新建一个 notebook-video 项目（复制舞台模板、写入最小 project.json / cards.json）
+"""新建一个 teaching-card-video 项目（复制舞台模板、写入最小 project.json / cards.json）
 
 用法: python init_project.py <目标目录> --name "第2章_xxx"
 """

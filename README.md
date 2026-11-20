@@ -1,4 +1,4 @@
-# notebook-video
+# teaching-card-video
 
 把一组**教学卡片**（标题 + 屏幕文字 + 旁白 + 画面动作）自动做成一支 16:9 的中文讲解视频：草稿纸质感、没有笔，每个元素等旁白讲到它时才从左往右写出，公式全部走 LaTeX，例题前面自动插 3 秒“保留原题”的思考暂停。
 
@@ -26,7 +26,7 @@
 ## 安装
 
 ```bash
-git clone https://github.com/<you>/notebook-video.git ~/.codebuddy/skills/notebook-video
+git clone https://github.com/yikai666/teaching-card-video.git ~/.codebuddy/skills/teaching-card-video
 ```
 
 其他 Agent 宿主把仓库放到它自己的 skills 目录即可；脚本不依赖特定 IDE，解压到任意目录也能直接跑。

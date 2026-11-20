@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Shared helpers for the notebook-video pipeline."""
+"""Shared helpers for the teaching-card-video pipeline."""
 import json
 import os
 import re
