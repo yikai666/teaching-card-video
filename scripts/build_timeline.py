@@ -77,12 +77,21 @@ def build(root):
 
         beats, missing = [], []
         prev, prev_rise, step_no = -gap, 0, 0
+        # 展示类内容（知识点/例题/图示/题目框）要在旁白念到之前就上屏：
+        # 展示类提前 2.5s，正文类提前 1.0s；题干卡（layout=stem）的题目框和
+        # 知识点块一律压进开头 2.2s 内——用户要求题目在念题前就挂在那儿。
+        stem = card.get("layout") == "stem"
+        DISPLAY = ("kp", "aside", "diagram", "problem")
 
         for kind, content, trig in beats_in:
             if trig == "__diagram__" and auto_t is not None:
                 t = auto_t + 0.55
             else:
                 t, _ = t_at(cid, trig)
+            if t is not None:
+                t = max(0.05, t - (2.5 if kind in DISPLAY else 1.0))
+                if stem and kind in DISPLAY:
+                    t = min(t, 2.2)
             if t is None:
                 if kind == "diagram":
                     t = prev + 0.7
