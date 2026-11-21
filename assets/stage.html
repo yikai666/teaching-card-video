@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html data-page-node-id="Wn4QaHkb6sOl0H9wPcwTFh" lang="zh-CN">
-<head data-page-node-id="pdMPeNG8JAAyFyt3rleBBa">
-<script data-page-node-id="W3HzbXwCTJDRiLdVYBQI7a" src="/page/page_comm/inject.js"></script>
-<meta data-page-node-id="BgwYgW9xjak61wRnq2O8og" charset="utf-8">
-<title data-page-node-id="ZNzDLctWZHkFnmXN2en8cz" data-pnid-children="IZctTdOhQtPY9ZC5mxgTE7">notebook-video stage</title>
-<style data-page-node-id="qQMJimmEpN3bnu1YELJdX8" data-pnid-children="rcOHTdvUQpjuTnbM9OzgE8">
-:root{--paper:#EFE6D2;--ink:#24221C;--muted:#6E685B;--line:#D2C6A9;--accent:#2F5D8A;--tint:#E8EFF6}
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>notebook-video stage</title>
+<style>
+:root{--paper:#F7F3E8;--ink:#24221C;--muted:#6E685B;--line:#D9D2C0;--accent:#2F5D8A;--tint:#E8EFF6}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1280px;height:720px;overflow:hidden}
 body{background:var(--paper);color:var(--ink);
-  font-family:"Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC","Microsoft YaHei","PingFang SC",sans-serif;
+  font-family:"Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif;
   background-image:linear-gradient(to right,rgba(90,80,60,.055) 1px,transparent 1px),
                    linear-gradient(to bottom,rgba(90,80,60,.045) 1px,transparent 1px);
   background-size:40px 40px}
@@ -21,7 +20,7 @@ body{background:var(--paper);color:var(--ink);
 .pill{font-size:12px;letter-spacing:.05em;color:var(--accent);border:1px solid var(--accent);
   background:var(--tint);padding:6px 13px;border-radius:999px}
 .rule{position:absolute;left:64px;right:64px;top:56px;height:1px;background:var(--line)}
-#title{position:absolute;left:64px;top:82px;width:1150px;font-family:"Noto Serif CJK SC","Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;
+#title{position:absolute;left:64px;top:82px;width:1150px;font-family:"Noto Serif CJK SC","Noto Serif SC",serif;
   font-size:39px;line-height:1.3;font-weight:700}
 #titleText{display:block;white-space:nowrap;overflow:hidden}
 #title .ul{position:absolute;left:0;bottom:-9px;height:4px;width:54px;background:var(--accent);border-radius:2px}
@@ -29,28 +28,45 @@ body{background:var(--paper);color:var(--ink);
 body.wide #flow{width:1148px}
 .beat{margin:0 0 22px 0}
 .beat .wipe{display:inline-block;max-width:100%;position:relative}
+.beat.def .wipe{max-width:100%}
 .beat.note{font-size:25px;line-height:1.62;color:#3B372D;padding-left:26px}
 .beat.note:before{content:"";position:absolute;left:0;top:12px;width:9px;height:9px;border-radius:2px;background:var(--accent);opacity:.85}
-.beat.main{font-size:46px;line-height:1.35;font-family:"Noto Serif CJK SC","Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif}
+.beat.main{font-size:46px;line-height:1.35;font-family:"Noto Serif CJK SC","Noto Serif SC",serif}
 .beat.main.small{font-size:37px}
 .beat.step{font-size:25px;line-height:1.55;padding-left:46px;color:#332F27;margin-bottom:16px}
 .beat.step .num{position:absolute;left:0;top:1px;width:29px;height:29px;border-radius:50%;
-  border:1.5px solid var(--accent);color:var(--accent);font-family:"Noto Serif CJK SC","Source Han Serif SC","Songti SC","SimSun",serif;
+  border:1.5px solid var(--accent);color:var(--accent);font-family:"Noto Serif CJK SC",serif;
   font-size:14px;display:flex;align-items:center;justify-content:center;background:var(--tint)}
 .beat.problem{font-size:25px;line-height:1.58;color:#2B2620;background:var(--tint);
   border-left:4px solid var(--accent);padding:9px 22px;margin:0}
 .beat.problem.pfirst{padding-top:15px;border-radius:0 10px 0 0;margin-top:2px}
 .beat.problem .wipe{display:block;max-width:100%}
 .beat.problem.plast{padding-bottom:16px;border-radius:0 0 10px 0;margin-bottom:20px}
-.beat.banner{font-size:29px;line-height:1.45;font-family:"Noto Serif CJK SC","Source Han Serif SC","Songti SC","SimSun",serif;
+/* knowledge blocks: definition / symbol note */
+.beat.def{position:relative;font-size:23px;line-height:1.55;background:var(--tint);
+  border-left:4px solid var(--accent);padding:9px 20px 10px 72px;border-radius:0 8px 8px 0;
+  color:#2B2620;margin-bottom:14px}
+.beat.def .tag{position:absolute;left:18px;top:13px;font-size:11.5px;letter-spacing:.14em;
+  color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:1px 7px}
+/* 知识点块：正式定义 / 定理 / 结论，比 def 更轻 */
+.beat.kp{position:relative;font-size:23px;line-height:1.56;background:#FCF8EC;
+  border:1px solid var(--line);border-radius:9px;padding:10px 18px 11px 78px;
+  color:#2B2620;margin-bottom:14px}
+.beat.kp .tag{position:absolute;left:16px;top:14px;font-size:11px;letter-spacing:.12em;
+  color:var(--accent);background:var(--tint);border-radius:4px;padding:2px 7px}
+.beat.sym{font-size:19px;line-height:1.5;color:#6E685B;padding-left:46px;position:relative;margin-bottom:12px}
+.beat.sym:before{content:"符号";position:absolute;left:0;top:2px;font-size:10.5px;letter-spacing:.1em;
+  color:#9A9384;border:1px solid var(--line);border-radius:3px;padding:1px 4px}
+#stemBar{position:absolute;left:64px;right:64px;top:178px;display:none;
+  font-size:17px;line-height:1.55;color:#3B372D;background:var(--tint);
+  border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:8px 18px 9px}
+#stemBar .tag{display:inline-block;font-size:11px;letter-spacing:.14em;color:var(--accent);
+  border:1px solid var(--accent);border-radius:4px;padding:1px 6px;margin-right:9px;vertical-align:2px}
+body.havestem #stemBar{display:block}
+body.havestem #flow{top:264px}
+body.havestem #diagram{top:244px;height:330px}
+.beat.banner{font-size:29px;line-height:1.45;font-family:"Noto Serif CJK SC",serif;
   border-left:5px solid var(--accent);background:var(--tint);padding:13px 20px;border-radius:0 10px 10px 0}
-/* 知识点块：把要背的定义/定理正式写在屏幕上 */
-.beat.kp{position:relative;background:var(--tint);border:1px solid var(--line);border-left:3px solid var(--accent);
-  border-radius:0 9px 9px 0;padding:11px 18px 13px;margin:8px 0 14px;
-  font-size:21px;line-height:1.66;color:#2E2A22}
-.beat.kp::before{content:"知识点";display:block;font-size:11px;letter-spacing:.18em;
-  color:var(--muted);margin-bottom:5px;font-family:"Noto Sans CJK SC","Microsoft YaHei",sans-serif}
-.beat.kp .txt{display:inline}
 .beat.formula{font-size:32px;line-height:1.45;padding:10px 0}
 .beat.chip{display:inline-block;font-size:19px;padding:9px 16px;border:1.5px solid var(--line);
   border-radius:9px;color:var(--muted);margin:0 10px 0 0}
@@ -58,6 +74,56 @@ body.wide #flow{width:1148px}
 .chips{display:flex;gap:0;flex-wrap:wrap;margin-bottom:22px}
 #diagram{position:absolute;right:56px;top:172px;width:410px;height:392px}
 #diagram svg{width:100%;height:100%;display:block}
+/* 高数备忘框：右下角，一次只放一条工具公式 */
+#aside{position:absolute;right:56px;bottom:118px;width:374px;display:none;
+  background:rgba(250,247,238,.96);border:1px solid var(--line);border-top:3px solid var(--accent);
+  border-radius:6px;padding:8px 16px 11px;box-shadow:0 4px 16px rgba(40,34,24,.07)}
+body.hasaside #aside{display:block}
+body.hasaside #diagram{height:318px}
+#aside .ah{font-size:10.5px;letter-spacing:.16em;color:var(--accent);margin-bottom:4px}
+#aside .af{font-size:19px;line-height:1.5;color:#24221C;font-family:"Noto Serif CJK SC",serif}
+#aside .an{font-size:12.5px;line-height:1.5;color:#6E685B;margin-top:3px}
+/* 公式 / 符号速查小卡：右上角，跟随本页正文自动出现 */
+#gloss{position:absolute;right:64px;top:78px;width:auto;min-width:238px;max-width:364px;display:none;
+  background:rgba(251,248,239,.95);border:1px solid var(--line);border-radius:10px;
+  padding:8px 13px 9px;box-shadow:0 2px 10px rgba(40,34,24,.045)}
+body.hasgloss #gloss{display:block}
+#gloss .gh{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.14em;
+  color:#9A9384;margin-bottom:4px}
+#gloss .gh:after{content:"";flex:1;height:1px;background:var(--line)}
+#gloss .grow{display:flex;align-items:baseline;gap:9px;line-height:1.42;margin-top:2px}
+#gloss .gk{flex:0 0 auto;white-space:nowrap;font-size:14.5px;color:var(--accent);
+  font-family:"Noto Serif CJK SC",serif}
+#gloss .gv{flex:1;min-width:0;font-size:12.5px;color:#5C5647}
+/* 例题卡：左侧题目常驻，右侧解答 */
+#exPanel{position:absolute;left:64px;top:78px;width:428px;max-height:648px;min-height:250px;display:none;
+  flex-direction:column;background:rgba(252,249,241,.94);border:1px solid var(--line);
+  border-top:3px solid var(--accent);border-radius:10px;padding:15px 19px 13px;
+  box-shadow:0 4px 18px rgba(40,34,24,.05)}
+body.example #exPanel{display:flex}
+body.example #title{display:none}
+body.example #flow{left:536px;top:86px;width:680px;height:560px;
+  display:flex;flex-direction:column;justify-content:center}
+body.example .beat{margin-bottom:19px}
+body.example .beat.main{font-size:31px;line-height:1.55}
+body.example .beat.main.small{font-size:27px}
+body.example .beat.step,body.example .beat.note{font-size:21px;line-height:1.62}
+body.example .beat.def,body.example .beat.kp{font-size:20px;line-height:1.55}
+body.example .beat.banner{font-size:24px}
+.beat.fig{margin:2px 0 18px}
+.beat.fig svg{display:block;width:100%;height:auto}
+.exh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.exno{flex:0 0 auto;font-size:12.5px;letter-spacing:.08em;color:#fff;background:var(--accent);
+  border-radius:5px;padding:3px 9px;font-family:"Noto Serif CJK SC",serif}
+.ext{font-size:18.5px;line-height:1.35;font-family:"Noto Serif CJK SC",serif;font-weight:600}
+#exStem{font-size:17px;line-height:1.75;color:#332F27;flex:0 0 auto;overflow:hidden}
+#exStem>div{margin-bottom:4px}
+#exStem .mjx-container{font-size:105%!important}
+.exused{margin-top:14px;border-top:1px dashed var(--line);padding-top:8px;flex:0 0 auto}
+.exused .uh{font-size:10.5px;letter-spacing:.16em;color:var(--accent);margin-bottom:5px}
+.exused .ui{position:relative;font-size:12.4px;line-height:1.52;color:#5C5647;padding-left:13px;margin-bottom:3px}
+.exused .ui:before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;
+  background:var(--accent);opacity:.7}
 #footer{position:absolute;left:64px;right:64px;bottom:20px;display:flex;justify-content:space-between;
   font-size:11.5px;letter-spacing:.10em;color:#9A9384;border-top:1px solid var(--line);padding-top:9px}
 #footer .id{font-family:ui-monospace,Menlo,monospace}
@@ -66,45 +132,42 @@ body.wide #flow{width:1148px}
 .ch.on{opacity:1}
 /* pause card: keep the previous page on screen, fade it slightly, put a hint bar at the bottom */
 .pause #stage:before{opacity:.45}
-#pauseMask{position:absolute;inset:0;display:none;z-index:20;background:rgba(239,230,210,.40)}
+#pauseMask{position:absolute;inset:0;display:none;z-index:20;background:rgba(247,243,232,.40)}
 .pause #pauseMask{display:block}
-#aside{position:absolute;right:52px;bottom:112px;width:440px;display:none;z-index:16;
-  background:rgba(255,253,246,.92);border:1px solid var(--line);border-left:3px solid var(--accent);
-  border-radius:8px;padding:12px 16px 14px;box-shadow:0 6px 20px rgba(40,34,24,.08);
-  color:#3E382C;font-size:15px;line-height:1.6}
-#aside .body>div{margin:6px 0}
-#aside .t{font-size:11px;letter-spacing:.16em;color:var(--muted);margin-bottom:7px}
-#aside .body math{font-size:15px}
-body.asideon #aside{display:block}
-body.aslayout #flow{width:716px}
-body.aslayout #diagram{top:96px;height:300px}
-#pauseText{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);
-  display:none;z-index:21;flex-direction:column;align-items:center;gap:6px;white-space:nowrap;
-  background:#F6EFDF;border:1.5px solid var(--accent);border-radius:14px;
-  padding:14px 34px 15px;box-shadow:0 8px 26px rgba(40,34,24,.16);
-  color:var(--ink);font-family:"Noto Serif CJK SC","Source Han Serif SC","Songti SC","SimSun",serif;font-size:31px;letter-spacing:.05em}
-#pauseText small{font-family:"Noto Sans CJK SC","Microsoft YaHei",sans-serif;font-size:13px;font-weight:400;
+#pauseText{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);
+  display:none;z-index:21;flex-direction:column;align-items:center;gap:5px;white-space:nowrap;
+  background:#FBF8EF;border:1.5px solid var(--accent);border-radius:13px;
+  padding:11px 30px 12px;box-shadow:0 8px 26px rgba(40,34,24,.16);
+  color:var(--ink);font-family:"Noto Serif CJK SC",serif;font-size:28px;letter-spacing:.05em}
+#pauseText small{font-family:"Noto Sans CJK SC",sans-serif;font-size:12.5px;font-weight:400;
   letter-spacing:.14em;color:var(--muted)}
 .pause #pauseText{display:flex}
 </style>
-<script data-page-node-id="e9hkK57fMBHVVgD9s3FDuB" data-pnid-children="tHbBqIPyo6Vy6gzrxoxaKJ">
+<script>
 window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']]},svg:{fontCache:'local'},startup:{typeset:true}};
 </script>
-<script data-page-node-id="d1lIZ3way55nTs5UfEEX3d" src="assets/tex-svg.js"></script>
+<script src="assets/tex-svg.js"></script>
 </head>
-<body data-page-node-id="ok0MSX7v4j80wzMYnkL6oQ">
-<div data-page-node-id="HmpK2v893Lg8kCIKhejpdg" id="stage">
-  <div data-page-node-id="18STHyxWZMabi8q3Y7nC3D" class="topbar"><div data-page-node-id="dT4ke9ZWwDEcYV7cWlf6bL" class="chapter" id="chapter"></div><div data-page-node-id="MG1bqtehendbeBnxnni9PZ" class="pill" id="modpill"></div></div>
-  <div data-page-node-id="Mwsay0EgIMWHv1MpCPqVop" class="rule"></div>
-  <div data-page-node-id="E0U0CU0UhjvzNgBLssfOig" id="title"><span data-page-node-id="zoOmlCkTfUqrQxkBn0c4R2" id="titleText"></span><span data-page-node-id="Q0yyEYE6xSu1luRPHPVGcD" class="ul"></span></div>
-  <div data-page-node-id="EfsckMe1MnkwRbZGfmGLsZ" id="flow"></div>
-  <div data-page-node-id="jig1XmwjJi0t933OmxmSV2" id="diagram"></div>
-  <div id="aside"><div class="t">高数备忘</div><div class="body"></div></div>
-  <div data-page-node-id="49wNFwt7NT8xeYDSfShU0y" id="footer"><span data-page-node-id="0lcsIqSUtMzEgbrqvfH6Nb" id="ref"></span><span data-page-node-id="qpNpTrYKU8TG6x2toORWUr" class="id" id="pageid"></span></div>
-  <div data-page-node-id="IWSnpdiIoftfBmhyDHuweW" id="pauseMask"></div>
-  <div data-page-node-id="GCyb0srty7LCkCSclKsBJo" id="pauseText"><span data-page-node-id="gL4RIwrOp5tDbdL0RlnKT2" id="pauseMain"><!--pnid:XbaUXk6wxTWSjNt3oMPTyZ-->请暂停，自己先算一遍</span><small data-page-node-id="d8tjmQSQV4oNVl7zc1tSiN" id="pauseSub"><!--pnid:PzLfkj58Rv4ffySc91YIE4-->按暂停自己算 · 3 秒后继续</small></div>
+<body>
+<div id="stage">
+  <div class="topbar"><div class="chapter" id="chapter"></div><div class="pill" id="modpill"></div></div>
+  <div class="rule"></div>
+  <div id="stemBar"><span class="tag">原题</span><span id="stemText"></span></div>
+  <div id="gloss"><div class="gh">本页符号</div><div id="glossBody"></div></div>
+  <div id="aside"><div class="ah">高数备忘</div><div class="af" id="asideF"></div><div class="an" id="asideN"></div></div>
+  <div id="exPanel">
+    <div class="exh"><span class="exno" id="exno"></span><span class="ext" id="ext"></span></div>
+    <div id="exStem"></div>
+    <div class="exused"><div class="uh">本页用到</div><div id="exUsed"></div></div>
+  </div>
+  <div id="title"><span id="titleText"></span><span class="ul"></span></div>
+  <div id="flow"></div>
+  <div id="diagram"></div>
+  <div id="footer"><span id="ref"></span><span class="id" id="pageid"></span></div>
+  <div id="pauseMask"></div>
+  <div id="pauseText"><span id="pauseMain">请暂停，自己先算一遍</span><small id="pauseSub">按暂停自己算 · 3 秒后继续</small></div>
 </div>
-<script data-page-node-id="g8VgOyBmTpM5FK7EbZgiIn" data-pnid-children="AcaahQraqz9imgc950x18x">
+<script>
 let SCENE=null,BEATS=[],AC='#2F5D8A',TINT='#E8EFF6',META={};
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const isMath=s=>String(s||'').indexOf('\\(')>=0||String(s||'').indexOf('$$')>=0;
@@ -119,6 +182,802 @@ window.setMeta=function(m){
 
 /* ---------- diagram library: every renderer takes a params object ---------- */
 const DIAG={
+/* ===== 第 3 章图示（v1.5.0）===== */
+convchain:(p={})=>{const bx=(x,y,w,t)=>{let s=`<rect x="${x}" y="${y}" width="${w}" height="42" rx="7" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.2"/>`;
+ s+=`<text x="${x+w/2}" y="${y+28}" text-anchor="middle" font-size="14" fill="${AC}">${t}</text>`;return s;};
+ let d=bx(18,56,80,`R<tspan font-size="10" dy="3">X</tspan>`)+bx(140,56,80,`R<tspan font-size="10" dy="3">XY</tspan>`)+bx(260,56,80,`R<tspan font-size="10" dy="3">Y</tspan>`);
+ d+=`<line x1="100" y1="77" x2="136" y2="77" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="118" y="68" text-anchor="middle" font-size="11.5" fill="#6E685B">h(t2)</text>`;
+ d+=`<line x1="222" y1="77" x2="256" y2="77" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="239" y="68" text-anchor="middle" font-size="11.5" fill="#6E685B">h(t1)</text>`;
+ d+=bx(140,152,80,`R<tspan font-size="10" dy="3">YX</tspan>`);
+ d+=`<path d="M58 100 V173 H136" fill="none" stroke="${AC}" stroke-width="1.5" marker-end="url(#ar)"/>`;
+ d+=`<text x="94" y="165" text-anchor="middle" font-size="11.5" fill="#6E685B">h(t1)</text>`;
+ d+=`<path d="M222 173 H300 V102" fill="none" stroke="${AC}" stroke-width="1.5" marker-end="url(#ar)"/>`;
+ d+=`<text x="262" y="165" text-anchor="middle" font-size="11.5" fill="#6E685B">h(t2)</text>`;
+ d+=`<text x="18" y="236" font-size="13" fill="#6E685B">卷两次才到自相关</text>`;
+ d+=`<text x="18" y="262" font-size="12" fill="#9A9384">只卷一次，拿到的是互相关</text>`;
+ d+=`<text x="18" y="290" font-size="12" fill="#9A9384">两条路都通向 RY，别只走一半</text>`;return d;},
+ramp:(p={})=>{let d=`<line x1="30" y1="290" x2="334" y2="290" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="30" y1="26" x2="30" y2="290" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<line x1="30" y1="96" x2="330" y2="96" stroke="${AC}" stroke-width="2"/>`;
+ d+=`<text x="36" y="80" font-size="11.5" fill="${AC}">mX · H(0)</text>`;
+ let pts=[];for(let i=0;i<=40;i++){const t=i/40;pts.push([30+294*t,290-196*(1-Math.exp(-3.4*t))]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<text x="196" y="196" font-size="12" fill="#6E685B">从 t=0 加入：先爬升</text>`;
+ d+=`<text x="24" y="272" text-anchor="end" font-size="11" fill="#6E685B">mY</text>`;
+ d+=`<text x="326" y="268" text-anchor="end" font-size="11" fill="#6E685B">t</text>`;return d;},
+evenodd:(p={})=>{let d=`<line x1="30" y1="236" x2="334" y2="236" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="30" y1="26" x2="30" y2="236" stroke="#9C9483" stroke-width="1.4"/>`;
+ let pts=[];for(let i=0;i<=50;i++){const x=44+i*5.8;pts.push([x,236-148*Math.exp(-Math.pow((x-184)/76,2))]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ d+=`<line x1="184" y1="88" x2="184" y2="236" stroke="#9C9483" stroke-width="1" stroke-dasharray="4 4"/>`;
+ d+=`<line x1="138" y1="88" x2="230" y2="88" stroke="${AC}" stroke-width="1.6" stroke-dasharray="3 3" opacity=".75"/>`;
+ d+=`<circle cx="184" cy="88" r="4.2" fill="${AC}"/>`;
+ d+=`<text x="238" y="84" font-size="11.5" fill="${AC}">斜率 = 0</text>`;
+ d+=`<text x="184" y="44" text-anchor="middle" font-size="12" fill="#6E685B">偶函数：左右对称</text>`;
+ d+=`<text x="330" y="258" text-anchor="end" font-size="11" fill="#6E685B">t</text>`;
+ d+=`<text x="38" y="256" font-size="11" fill="#6E685B">RX(t)</text>`;
+ d+=`<text x="184" y="258" text-anchor="middle" font-size="10.5" fill="#9A9384">0</text>`;return d;},
+ident:(p={})=>{let d='';
+ d+=`<rect x="104" y="54" width="92" height="58" rx="8" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.3"/>`;
+ d+=`<text x="150" y="90" text-anchor="middle" font-size="15" fill="${AC}">h(t)</text>`;
+ d+=`<line x1="30" y1="84" x2="100" y2="84" stroke="#9C9483" stroke-width="1.5" marker-end="url(#ar2)"/>`;
+ d+=`<text x="30" y="70" font-size="11.5" fill="#6E685B">白噪声 X(t)</text>`;
+ d+=`<line x1="196" y1="84" x2="320" y2="84" stroke="#9C9483" stroke-width="1.5" marker-end="url(#ar2)"/>`;
+ d+=`<text x="296" y="70" font-size="11.5" fill="#6E685B">Y(t)</text>`;
+ d+=`<circle cx="30" cy="84" r="3.4" fill="${AC}"/><path d="M30 84 V206 H140" fill="none" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<path d="M254 84 V206 H178" fill="none" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<circle cx="254" cy="84" r="3.4" fill="${AC}"/>`;
+ d+=`<circle cx="159" cy="206" r="15" fill="#FBF8EF" stroke="${AC}" stroke-width="1.4"/>`;
+ d+=`<path d="M152 199 L166 213 M166 199 L152 213" stroke="${AC}" stroke-width="1.4"/>`;
+ d+=`<line x1="174" y1="206" x2="198" y2="206" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<rect x="200" y="186" width="66" height="40" rx="6" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.2"/>`;
+ d+=`<text x="233" y="210" text-anchor="middle" font-size="12.5" fill="${AC}">积分</text>`;
+ d+=`<line x1="266" y1="206" x2="288" y2="206" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<text x="292" y="202" font-size="11.5" fill="${AC}">RYX</text>`;
+ d+=`<text x="292" y="220" font-size="11" fill="#6E685B">∝ h(t)</text>`;
+ d+=`<text x="30" y="262" font-size="13" fill="#6E685B">互相关正比于冲激响应</text>`;
+ d+=`<text x="30" y="290" font-size="12" fill="#9A9384">敲一下系统，测互相关，就拿到 h(t)</text>`;return d;},
+bandlimit:(p={})=>{let d=`<line x1="30" y1="250" x2="334" y2="250" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<rect x="126" y="96" width="116" height="154" fill="${AC}" fill-opacity=".16" stroke="${AC}" stroke-width="1.7"/>`;
+ d+=`<rect x="76" y="122" width="44" height="128" fill="${AC}" fill-opacity=".07" stroke="${AC}" stroke-width="1.3" stroke-dasharray="5 3"/>`;
+ d+=`<rect x="248" y="122" width="44" height="128" fill="${AC}" fill-opacity=".07" stroke="${AC}" stroke-width="1.3" stroke-dasharray="5 3"/>`;
+ d+=`<text x="184" y="86" text-anchor="middle" font-size="12" fill="${AC}">低通</text>`;
+ d+=`<text x="98" y="112" text-anchor="middle" font-size="11.5" fill="#6E685B">带通</text>`;
+ d+=`<text x="270" y="112" text-anchor="middle" font-size="11.5" fill="#6E685B">带通</text>`;
+ d+=`<text x="184" y="270" text-anchor="middle" font-size="11" fill="#6E685B">0</text>`;
+ d+=`<text x="330" y="270" text-anchor="end" font-size="11" fill="#6E685B">ω</text>`;
+ d+=`<text x="34" y="294" font-size="11.5" fill="#9A9384">带外功率严格为零，这才叫限带</text>`;return d;},
+band2x:(p={})=>{const sc=x=>{const u=(x-176)/42;return Math.abs(u)<1e-6?1:Math.sin(u)/u;};
+ let d=`<line x1="28" y1="112" x2="332" y2="112" stroke="#9C9483" stroke-width="1.1"/>`;
+ let p1=[];for(let i=0;i<=76;i++){const x=36+i*4;p1.push([x,112-46*sc(x)]);}
+ d+=`<polyline points="${p1.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
+ d+=`<text x="28" y="46" font-size="12" fill="${AC}">低通</text>`;
+ d+=`<text x="328" y="46" text-anchor="end" font-size="11" fill="#9A9384">功率 ∝ 1</text>`;
+ d+=`<line x1="28" y1="262" x2="332" y2="262" stroke="#9C9483" stroke-width="1.1"/>`;
+ let p2=[];for(let i=0;i<=300;i++){const x=36+i;const u=(x-176)/42;p2.push([x,262-48*sc(x)*Math.cos(3.4*u)]);}
+ d+=`<polyline points="${p2.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="1.8" opacity=".92"/>`;
+ d+=`<text x="28" y="196" font-size="12" fill="${AC}">带通</text>`;
+ d+=`<text x="328" y="196" text-anchor="end" font-size="11" fill="${AC}">功率 ∝ 2</text>`;
+return d;},
+zplane:(p={})=>{let d='';
+ d+=`<circle cx="90" cy="150" r="62" fill="none" stroke="#D9D2C0" stroke-width="1.2"/>`;
+ d+=`<line x1="22" y1="150" x2="158" y2="150" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="90" y1="80" x2="90" y2="222" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<circle cx="90" cy="90" r="4.2" fill="${AC}"/><text x="98" y="80" font-size="11.5" fill="${AC}">jω</text>`;
+ d+=`<text x="26" y="76" font-size="11.5" fill="#6E685B">s 平面</text>`;
+ d+=`<circle cx="268" cy="150" r="62" fill="none" stroke="${AC}" stroke-width="1.6"/>`;
+ d+=`<line x1="200" y1="150" x2="336" y2="150" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="268" y1="80" x2="268" y2="222" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<circle cx="268" cy="90" r="4.2" fill="${AC}"/><text x="280" y="80" font-size="11.5" fill="${AC}">e<tspan font-size="9" dy="-4">jω</tspan></text>`;
+ d+=`<text x="206" y="76" font-size="11.5" fill="#6E685B">z 平面</text>`;
+ d+=`<line x1="156" y1="150" x2="202" y2="150" stroke="${AC}" stroke-width="1.4" marker-end="url(#ar)"/>`;
+ d+=`<text x="179" y="140" text-anchor="middle" font-size="10.5" fill="${AC}">映射</text>`;
+ d+=`<text x="184" y="258" text-anchor="middle" font-size="12.5" fill="#6E685B">卷积换成求和</text>`;
+ d+=`<text x="184" y="286" text-anchor="middle" font-size="11.5" fill="${AC}">H(jω) 换成 H(e<tspan font-size="9" dy="-4">jω</tspan>)</text>`;
+ d+=`<text x="184" y="38" text-anchor="middle" font-size="11.5" fill="#9A9384">虚轴上的点，搬到单位圆上</text>`;return d;},
+artrail:(p={})=>{let d=`<line x1="30" y1="250" x2="334" y2="250" stroke="#9C9483" stroke-width="1.4"/>`;
+ for(let m=-10;m<=10;m++){const x=184+13.6*m;const hgt=196*Math.pow(0.9,Math.abs(m));
+  d+=`<rect x="${(x-4.5).toFixed(1)}" y="${(250-hgt).toFixed(1)}" width="9" height="${hgt.toFixed(1)}" fill="${AC}" fill-opacity="${m===0?'.8':'.45'}"/>`;}
+ d+=`<text x="34" y="40" font-size="11.5" fill="#6E685B">RY(m)</text>`;
+ d+=`<text x="50" y="92" font-size="11.5" fill="${AC}">r = 0.9</text>`;
+ d+=`<text x="330" y="40" text-anchor="end" font-size="11" fill="#9A9384">无限拖尾</text>`;
+ d+=`<text x="184" y="272" text-anchor="middle" font-size="11" fill="#6E685B">0</text>`;
+ d+=`<text x="330" y="272" text-anchor="end" font-size="11" fill="#6E685B">m</text>`;
+ d+=`<text x="34" y="298" font-size="11.5" fill="#9A9384">r 越接近 1，尾巴越长、谱峰越尖</text>`;return d;},
+mathree:(p={})=>{let d=`<line x1="30" y1="250" x2="334" y2="250" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<rect x="86" y="154" width="48" height="96" fill="${AC}" fill-opacity=".45"/>`;
+ d+=`<rect x="160" y="74" width="48" height="176" fill="${AC}" fill-opacity=".8"/>`;
+ d+=`<rect x="234" y="154" width="48" height="96" fill="${AC}" fill-opacity=".45"/>`;
+ d+=`<text x="110" y="144" text-anchor="middle" font-size="11" fill="#6E685B">b0b1σ²</text>`;
+ d+=`<text x="184" y="64" text-anchor="middle" font-size="11" fill="#6E685B">(b0²+b1²)σ²</text>`;
+ d+=`<text x="258" y="144" text-anchor="middle" font-size="11" fill="#6E685B">b0b1σ²</text>`;
+ d+=`<circle cx="58" cy="250" r="4" fill="#C9C2B0"/><circle cx="310" cy="250" r="4" fill="#C9C2B0"/>`;
+ d+=`<text x="58" y="272" text-anchor="middle" font-size="11" fill="#9A9384">0</text>`;
+ d+=`<text x="310" y="272" text-anchor="middle" font-size="11" fill="#9A9384">0</text>`;
+ d+=`<text x="184" y="294" text-anchor="middle" font-size="12.5" fill="${AC}">只有三点，|m|>1 全为零</text>`;
+ d+=`<text x="34" y="316" font-size="11" fill="#9A9384">有限长冲激响应，相关也有限长</text>`;return d;},
+comb:(p={})=>{let d=`<line x1="30" y1="236" x2="334" y2="236" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="30" y1="236" x2="30" y2="30" stroke="#9C9483" stroke-width="1.2"/>`;
+ const f=w=>236-190*Math.abs(Math.sin(w/2));
+ let p1=[];for(let i=0;i<=300;i++){const x=30+i;p1.push([x,f(Math.PI*i/300)]);}
+ d+=`<polyline points="${p1.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ let p2=[];for(let i=0;i<=300;i++){const x=30+i;p2.push([x,236-190*Math.abs(Math.cos(Math.PI*i/300))]);}
+ d+=`<polyline points="${p2.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="1.2" stroke-dasharray="5 4" opacity=".45"/>`;
+ d+=`<circle cx="30" cy="236" r="4.2" fill="${AC}"/>`;
+ d+=`<line x1="36" y1="72" x2="30" y2="230" stroke="${AC}" stroke-width="1" stroke-dasharray="3 3" opacity=".6"/>`;
+ d+=`<text x="40" y="68" font-size="11.5" fill="${AC}">ω = 0 处完全对消</text>`;
+ d+=`<text x="28" y="258" font-size="11" fill="#6E685B">0</text>`;
+ d+=`<text x="308" y="258" font-size="11" fill="#6E685B">2π</text>`;
+ d+=`<text x="330" y="212" text-anchor="end" font-size="11" fill="#6E685B">ω</text>`;
+ d+=`<line x1="34" y1="282" x2="58" y2="282" stroke="${AC}" stroke-width="2"/>`;
+ d+=`<text x="66" y="286" font-size="11" fill="#6E685B">b0=1, b1=-1：高通、对消</text>`;
+ d+=`<line x1="34" y1="304" x2="58" y2="304" stroke="${AC}" stroke-width="1.2" stroke-dasharray="5 4" opacity=".45"/>`;
+ d+=`<text x="66" y="308" font-size="11" fill="#6E685B">b0=b1=1：低通</text>`;return d;},
+armapk:(p={})=>{let d=`<line x1="30" y1="236" x2="334" y2="236" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="30" y1="236" x2="30" y2="30" stroke="#9C9483" stroke-width="1.2"/>`;
+ const a=x=>92*(1+0.95*Math.exp(-Math.pow((x-116)/40,2)))*(1-0.78*Math.exp(-Math.pow((x-252)/34,2)));
+ let p1=[];for(let i=0;i<=300;i++){const x=30+i;p1.push([x,236-a(x)]);}
+ d+=`<polyline points="${p1.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ d+=`<circle cx="116" cy="${(236-a(116)).toFixed(1)}" r="4.2" fill="${AC}"/>`;
+ d+=`<text x="112" y="42" text-anchor="middle" font-size="11.5" fill="${AC}">分母零点 → 峰</text>`;
+ d+=`<circle cx="252" cy="${(236-a(252)).toFixed(1)}" r="4.2" fill="${AC}"/>`;
+ d+=`<text x="252" y="${(236-a(252)-22).toFixed(1)}" text-anchor="middle" font-size="11.5" fill="${AC}">分子零点 → 谷</text>`;
+ d+=`<text x="184" y="288" text-anchor="middle" font-size="12" fill="#9A9384">既有峰又有谷，才叫 ARMA</text>`;return d;},
+match:(p={})=>{let d='';
+ d+=`<text x="30" y="52" font-size="11.5" fill="#6E685B">输入 s(t)</text>`;
+ d+=`<rect x="52" y="64" width="148" height="36" fill="${AC}" fill-opacity=".3" stroke="${AC}" stroke-width="1.5"/>`;
+ d+=`<line x1="52" y1="114" x2="228" y2="114" stroke="#9C9483" stroke-width="1.2" marker-end="url(#ar2)"/>`;
+ d+=`<text x="48" y="128" font-size="10.5" fill="#6E685B">0</text>`;
+ d+=`<text x="192" y="128" font-size="10.5" fill="#6E685B">τ</text>`;
+ d+=`<text x="232" y="118" font-size="10.5" fill="#9A9384">t</text>`;
+ d+=`<path d="M124 142 L124 166" stroke="${AC}" stroke-width="1.3" marker-end="url(#ar)"/>`;
+ d+=`<text x="132" y="160" font-size="11.5" fill="${AC}">翻转，再右移 t0</text>`;
+ d+=`<text x="30" y="204" font-size="11.5" fill="#6E685B">滤波器 h(t)</text>`;
+ d+=`<rect x="200" y="198" width="148" height="36" fill="${AC}" fill-opacity=".16" stroke="${AC}" stroke-width="1.5" stroke-dasharray="5 3"/>`;
+ d+=`<line x1="196" y1="248" x2="344" y2="248" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="344" y1="248" x2="344" y2="194" stroke="${AC}" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<text x="340" y="266" text-anchor="end" font-size="10.5" fill="${AC}">t0</text>`;
+ d+=`<text x="30" y="288" font-size="13" fill="${AC}">h(t) = c · s<tspan font-size="9" dy="-5">*</tspan>(t0 - t)</text>`;
+ d+=`<text x="30" y="312" font-size="11" fill="#9A9384">t0 不能早于信号结束时刻</text>`;return d;},
+triout:(p={})=>{let d='';
+ d+=`<text x="34" y="40" font-size="11" fill="#6E685B">输入：矩形脉冲</text>`;
+ d+=`<rect x="70" y="54" width="86" height="30" fill="${AC}" fill-opacity=".22" stroke="${AC}" stroke-width="1.3"/>`;
+ d+=`<line x1="70" y1="94" x2="200" y2="94" stroke="#9C9483" stroke-width="1"/>`;
+ d+=`<text x="150" y="90" font-size="10.5" fill="#6E685B">τ</text>`;
+ d+=`<line x1="30" y1="250" x2="334" y2="250" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<path d="M92 250 L200 118 L308 250 Z" fill="${AC}" fill-opacity=".14" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<text x="206" y="112" font-size="11.5" fill="${AC}">峰值 c·a²·τ</text>`;
+ d+=`<line x1="92" y1="268" x2="308" y2="268" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<path d="M92 262 v12 M308 262 v12" stroke="#9C9483" stroke-width="1.1"/>`;
+ d+=`<text x="200" y="288" text-anchor="middle" font-size="11.5" fill="#6E685B">底宽 2τ</text>`;
+ d+=`<text x="34" y="312" font-size="11" fill="#9A9384">两个矩形卷起来，就是三角</text>`;return d;},
+whiten:(p={})=>{let d='';
+ d+=`<line x1="28" y1="126" x2="72" y2="126" stroke="#9C9483" stroke-width="1.5" marker-end="url(#ar2)"/>`;
+ d+=`<text x="28" y="112" font-size="11.5" fill="#6E685B">s + n</text>`;
+ d+=`<rect x="76" y="98" width="86" height="56" rx="7" fill="${AC}" fill-opacity=".1" stroke="${AC}" stroke-width="1.4"/>`;
+ d+=`<text x="119" y="133" text-anchor="middle" font-size="15" fill="${AC}">H1</text>`;
+ d+=`<text x="119" y="176" text-anchor="middle" font-size="11" fill="#6E685B">白化</text>`;
+ d+=`<line x1="162" y1="126" x2="206" y2="126" stroke="#9C9483" stroke-width="1.5" marker-end="url(#ar2)"/>`;
+ d+=`<rect x="210" y="98" width="86" height="56" rx="7" fill="${AC}" fill-opacity=".1" stroke="${AC}" stroke-width="1.4"/>`;
+ d+=`<text x="253" y="133" text-anchor="middle" font-size="15" fill="${AC}">H2</text>`;
+ d+=`<text x="253" y="176" text-anchor="middle" font-size="11" fill="#6E685B">匹配</text>`;
+ d+=`<line x1="296" y1="126" x2="332" y2="126" stroke="#9C9483" stroke-width="1.5" marker-end="url(#ar2)"/>`;
+ d+=`<text x="119" y="198" text-anchor="middle" font-size="10" fill="#9A9384">取左半平面零极点</text>`;
+ d+=`<text x="253" y="198" text-anchor="middle" font-size="10" fill="#9A9384">共轭镜像</text>`;
+ d+=`<text x="34" y="240" font-size="12" fill="#6E685B">① 白化：让噪声先变白</text>`;
+ d+=`<text x="34" y="268" font-size="12" fill="#6E685B">② 匹配：再按白噪声做镜像</text>`;
+ d+=`<text x="34" y="296" font-size="12" fill="#9A9384">③ 合成后丢掉右半平面极点</text>`;return d;},
+gaussout:(p={})=>{let d=`<line x1="30" y1="222" x2="334" y2="222" stroke="#9C9483" stroke-width="1.4"/>
+<line x1="30" y1="222" x2="30" y2="34" stroke="#9C9483" stroke-width="1.2"/>`;
+ let p1=[];for(let i=0;i<=300;i++){const x=32+i;p1.push([x,222-160*Math.exp(-Math.pow((x-184)/54,2))]);}
+ d+=`<polyline points="${p1.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ d+=`<line x1="184" y1="62" x2="184" y2="222" stroke="${AC}" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>`;
+ d+=`<line x1="238" y1="110" x2="238" y2="222" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 4"/>`;
+ d+=`<text x="244" y="126" font-size="11" fill="#6E685B">σ</text>`;
+ d+=`<text x="184" y="242" text-anchor="middle" font-size="11" fill="#6E685B">0</text>`;
+ d+=`<text x="16" y="42" font-size="11" fill="#6E685B">fY(y)</text>`;
+ d+=`<text x="184" y="46" text-anchor="middle" font-size="11.5" fill="${AC}">正态进，正态出</text>`;
+ d+=`<text x="34" y="274" font-size="11.5" fill="#6E685B">只算均值和方差，不用求分布</text>`;
+ d+=`<text x="34" y="300" font-size="11" fill="#9A9384">宽带噪声过窄带系统，趋近正态</text>`;return d;},
+/* ===== 第 5 章图示（v1.7.0）===== */
+hilbphase:(p={})=>{
+ const wv=(x0,y0,amp,ph)=>{let pts=[];for(let i=0;i<=60;i++){const t=i/60;const x=x0+132*t;pts.push([x,y0-amp*Math.cos(2*Math.PI*2*t+ph)]);}return pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ');};
+ let d=`<text x="16" y="34" font-size="11.5" fill="#9A9384">输入</text>`;
+ d+=`<polyline points="${wv(18,72,22,0)}" fill="none" stroke="#9C9483" stroke-width="2"/>`;
+ d+=`<text x="84" y="112" text-anchor="middle" font-size="11.5" fill="#6E685B">cos</text>`;
+ d+=`<line x1="158" y1="72" x2="198" y2="72" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="178" y="60" text-anchor="middle" font-size="11.5" fill="${AC}">−90°</text>`;
+ d+=`<text x="16" y="34" font-size="11.5" fill="#9A9384">输入</text>`;
+ d+=`<text x="206" y="34" font-size="11.5" fill="#9A9384">输出</text>`;
+ d+=`<polyline points="${wv(206,72,22,-Math.PI/2)}" fill="none" stroke="${AC}" stroke-width="2"/>`;
+ d+=`<text x="272" y="112" text-anchor="middle" font-size="11.5" fill="#6E685B">sin</text>`;
+ d+=`<line x1="24" y1="146" x2="336" y2="146" stroke="#D8D2C4" stroke-width="1"/>`;
+ d+=`<text x="30" y="182" font-size="13" fill="#3B372D">幅度不变：</text><text x="120" y="182" font-size="13" fill="${AC}">|H| = 1</text>`;
+ d+=`<text x="30" y="216" font-size="13" fill="#3B372D">正频滞后</text><text x="104" y="216" font-size="13" fill="${AC}">90°</text>`;
+ d+=`<text x="180" y="216" font-size="13" fill="#3B372D">负频超前</text><text x="262" y="216" font-size="13" fill="${AC}">90°</text>`;
+ d+=`<text x="30" y="258" font-size="13" fill="#6E685B">H(ω) = −j sgn ω</text>`;
+ d+=`<text x="30" y="290" font-size="12" fill="#9A9384">只拧相位，不动幅度</text>`;return d;},
+hilb2:(p={})=>{
+ const bx=(x,y,w,t)=>{let s=`<rect x="${x}" y="${y}" width="${w}" height="42" rx="7" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.2"/>`;
+  s+=`<text x="${x+w/2}" y="${y+27}" text-anchor="middle" font-size="14" fill="${AC}">${t}</text>`;return s;};
+ let d=bx(20,58,86,'x(t)')+bx(236,58,86,'x̂(t)')+bx(236,168,86,'−x(t)')+bx(20,168,86,'−x̂(t)');
+ d+=`<line x1="110" y1="79" x2="232" y2="79" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="171" y="70" text-anchor="middle" font-size="11.5" fill="#6E685B">H</text>`;
+ d+=`<line x1="279" y1="104" x2="279" y2="164" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="290" y="138" font-size="11.5" fill="#6E685B">H</text>`;
+ d+=`<line x1="232" y1="189" x2="110" y2="189" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="171" y="208" text-anchor="middle" font-size="11.5" fill="#6E685B">H</text>`;
+ d+=`<line x1="63" y1="164" x2="63" y2="104" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="46" y="138" text-anchor="end" font-size="11.5" fill="#6E685B">H</text>`;
+ d+=`<text x="171" y="136" text-anchor="middle" font-size="14" fill="${AC}">两次 = −x</text>`;
+ d+=`<text x="171" y="158" text-anchor="middle" font-size="11.5" fill="#9A9384">四次回原点</text>`;
+ d+=`<text x="20" y="250" font-size="12.5" fill="#6E685B">cos → sin → −cos → −sin</text>`;
+ d+=`<text x="20" y="280" font-size="12" fill="#9A9384">负 j 乘负 j 得 −1，所以是负号</text>`;return d;},
+hstat:(p={})=>{
+ const row=(y,l1,l2,fill)=>{let s=`<rect x="16" y="${y}" width="328" height="44" rx="7" fill="${fill}" stroke="${AC}" stroke-width="1" stroke-opacity=".45"/>`;
+  s+=`<text x="30" y="${y+28}" font-size="13.5" fill="#3B372D">${l1}</text>`;
+  s+=`<text x="330" y="${y+28}" text-anchor="end" font-size="11.5" fill="${AC}">${l2}</text>`;return s;};
+ let d=row(24,'R<tspan font-size="10" dy="3">X̂</tspan><tspan dy="-3">(τ) = R</tspan><tspan font-size="10" dy="3">X</tspan><tspan dy="-3">(τ)</tspan>','幅度谱不变','#F4F7FA');
+ d+=row(84,'R<tspan font-size="10" dy="3">XX̂</tspan><tspan dy="-3">(τ) = −R̂</tspan><tspan font-size="10" dy="3">X</tspan><tspan dy="-3">(τ)</tspan>','带负号','#FBF5EE');
+ d+=row(144,'R<tspan font-size="10" dy="3">X̂X</tspan><tspan dy="-3">(τ) = +R̂</tspan><tspan font-size="10" dy="3">X</tspan><tspan dy="-3">(τ)</tspan>','带正号','#F4F7FA');
+ d+=`<text x="18" y="216" font-size="12" fill="#6E685B">帽在 X 上：变换后的过程</text>`;
+ d+=`<text x="18" y="242" font-size="12" fill="#6E685B">帽在 R 上：对相关再做一次变换</text>`;
+ d+=`<text x="18" y="278" font-size="13" fill="${AC}">两者差一个负号，最常见抄错点</text>`;return d;},
+odd0:(p={})=>{
+ let d=`<line x1="24" y1="180" x2="336" y2="180" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<line x1="180" y1="40" x2="180" y2="300" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4 4"/>`;
+ let pts=[];for(let i=0;i<=120;i++){const u=-3+6*i/120;pts.push([180+52*u,180-150*u*Math.exp(-u*u/2)]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<circle cx="180" cy="180" r="4.6" fill="${AC}"/>`;
+ d+=`<text x="190" y="204" font-size="12" fill="${AC}">R(0) = 0</text>`;
+ d+=`<text x="52" y="70" font-size="11.5" fill="#6E685B">τ &lt; 0：取负</text>`;
+ d+=`<text x="248" y="70" font-size="11.5" fill="#6E685B">τ &gt; 0：取正</text>`;
+ d+=`<text x="316" y="200" text-anchor="end" font-size="11" fill="#9A9384">τ</text>`;
+ d+=`<text x="24" y="290" font-size="12" fill="#9A9384">奇函数：左右反号，原点必为零</text>`;return d;},
+aspec:(p={})=>{
+ const tri=(cx,h,dash)=>{const x1=cx-40,x2=cx+40,y0=118;return `<polygon points="${x1},${y0} ${cx},${y0-h} ${x2},${y0}" fill="${AC}" fill-opacity="${dash?'.06':'.16'}" stroke="${AC}" stroke-width="1.4" ${dash?'stroke-dasharray="5 3"':''}/>`;};
+ let d=`<text x="18" y="30" font-size="11.5" fill="#9A9384">实信号：正负对称，各占一半</text>`;
+ d+=`<line x1="24" y1="118" x2="336" y2="118" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=tri(100,40,true)+tri(260,40,false);
+ d+=`<text x="100" y="136" text-anchor="middle" font-size="11" fill="#6E685B">−ω₀</text>`;
+ d+=`<text x="260" y="136" text-anchor="middle" font-size="11" fill="#6E685B">+ω₀</text>`;
+ d+=`<text x="180" y="136" text-anchor="middle" font-size="10.5" fill="#9A9384">0</text>`;
+ d+=`<line x1="180" y1="158" x2="180" y2="186" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="192" y="178" font-size="11.5" fill="${AC}">去掉负频、正频加倍</text>`;
+ d+=`<text x="18" y="212" font-size="11.5" fill="#9A9384">解析信号：只留正频</text>`;
+ d+=`<line x1="24" y1="272" x2="336" y2="272" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<polygon points="220,272 260,192 300,272" fill="${AC}" fill-opacity=".2" stroke="${AC}" stroke-width="1.6"/>`;
+ d+=`<text x="260" y="290" text-anchor="middle" font-size="11" fill="#6E685B">+ω₀（×2）</text>`;
+ d+=`<text x="120" y="266" text-anchor="middle" font-size="11" fill="#9A9384">负频为 0</text>`;
+ d+=`<text x="30" y="306" font-size="12" fill="#9A9384">信息不丢：正频能反推实信号</text>`;return d;},
+aspec4:(p={})=>{
+ const bar=(x,h,fill,op)=>{let s=`<rect x="${x}" y="${276-h}" width="34" height="${h}" rx="3" fill="${fill}" fill-opacity="${op}" stroke="${AC}" stroke-width="1.3"/>`;return s;};
+ let d=`<line x1="24" y1="276" x2="336" y2="276" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=bar(58,38,'#9C9483','.12')+bar(96,38,'#9C9483','.12');
+ d+=`<text x="94" y="300" text-anchor="middle" font-size="11" fill="#6E685B">G_X：正负各一份</text>`;
+ d+=`<text x="326" y="296" text-anchor="end" font-size="11" fill="#9A9384">ω</text>`;
+ d+=bar(214,152,'#2F5D8A','.26');
+ d+=`<text x="231" y="300" text-anchor="middle" font-size="11" fill="${AC}">G_Z̃ = 4G_X</text>`;
+ d+=`<text x="231" y="112" text-anchor="middle" font-size="12" fill="${AC}">4 倍</text>`;
+ d+=`<text x="30" y="44" font-size="12.5" fill="#3B372D">只留正频，功率集中到一边</text>`;
+ d+=`<text x="30" y="70" font-size="11.5" fill="#9A9384">幅度 ×2 → 功率 ×4</text>`;
+ d+=`<text x="30" y="326" font-size="11.5" fill="#9A9384">负频清零，所以单边谱</text>`;return d;},
+narrow:(p={})=>{
+ let d=`<line x1="24" y1="252" x2="336" y2="252" stroke="#9C9483" stroke-width="1.3"/>`;
+ let pts=[];for(let i=0;i<=80;i++){const x=112+136*i/80;pts.push([x,252-150*Math.exp(-Math.pow((x-180)/24,2))]);}
+ d+=`<polygon points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')} 248,252 112,252" fill="${AC}" fill-opacity=".16" stroke="${AC}" stroke-width="1.8"/>`;
+ d+=`<line x1="180" y1="94" x2="180" y2="252" stroke="#9C9483" stroke-width="1" stroke-dasharray="4 4"/>`;
+ d+=`<text x="180" y="272" text-anchor="middle" font-size="11.5" fill="#6E685B">ω₀</text>`;
+ d+=`<line x1="156" y1="86" x2="204" y2="86" stroke="${AC}" stroke-width="1.2"/>`;
+ d+=`<line x1="156" y1="80" x2="156" y2="92" stroke="${AC}" stroke-width="1.2"/>`;
+ d+=`<line x1="204" y1="80" x2="204" y2="92" stroke="${AC}" stroke-width="1.2"/>`;
+ d+=`<text x="180" y="76" text-anchor="middle" font-size="11" fill="${AC}">B</text>`;
+ d+=`<text x="30" y="40" font-size="12.5" fill="#3B372D">载频很高，带宽很窄</text>`;
+ d+=`<text x="30" y="64" font-size="11.5" fill="#9A9384">B% = 2B / f₀，远小于 1</text>`;
+ d+=`<text x="30" y="294" font-size="12" fill="#9A9384">窄带：包络和相位都变得很慢</text>`;return d;},
+rot:(p={})=>{
+ const ox=132,oy=248,L=160,ang=38*Math.PI/180;
+ const ex=ox+L*Math.cos(ang),ey=oy-L*Math.sin(ang);
+ let d=`<line x1="${ox}" y1="${oy}" x2="332" y2="${oy}" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<line x1="${ox}" y1="${oy}" x2="${ox}" y2="52" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<text x="328" y="${oy+18}" text-anchor="end" font-size="11" fill="#6E685B">cos 轴</text>`;
+ d+=`<text x="${ox+22}" y="62" font-size="11" fill="#6E685B">sin 轴</text>`;
+ d+=`<line x1="${ox}" y1="${oy}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="${AC}" stroke-width="2.4" marker-end="url(#ar)"/>`;
+ d+=`<line x1="${ex.toFixed(1)}" y1="${ey.toFixed(1)}" x2="${ex.toFixed(1)}" y2="${oy}" stroke="${AC}" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+ d+=`<line x1="${ex.toFixed(1)}" y1="${ey.toFixed(1)}" x2="${ox}" y2="${ey.toFixed(1)}" stroke="${AC}" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+ d+=`<text x="${(ex+6).toFixed(0)}" y="${(ey-8).toFixed(0)}" font-size="12.5" fill="${AC}">A</text>`;
+ d+=`<text x="${(ex-6).toFixed(0)}" y="${oy+18}" text-anchor="end" font-size="11.5" fill="#6E685B">Ac = A cos φ</text>`;
+ d+=`<text x="${ox-6}" y="${(ey-6).toFixed(0)}" text-anchor="end" font-size="11.5" fill="#6E685B">As = A sin φ</text>`;
+ d+=`<path d="M${ox+52} ${oy} A52 52 0 0 0 ${(ox+52*Math.cos(ang)).toFixed(1)} ${(oy-52*Math.sin(ang)).toFixed(1)}" fill="none" stroke="${AC}" stroke-width="1.2"/>`;
+ d+=`<text x="${ox+62}" y="${oy-14}" font-size="12" fill="${AC}">φ</text>`;
+ d+=`<text x="20" y="38" font-size="12" fill="#9A9384">反解 = 往两根轴上投影</text>`;
+ d+=`<text x="20" y="292" font-size="11.5" fill="#9A9384">一正一负：往 sin 轴投是减</text>`;return d;},
+rdecomp:(p={})=>{
+ let d=`<line x1="24" y1="176" x2="336" y2="176" stroke="#9C9483" stroke-width="1.2"/>`;
+ const env=x=>112*Math.exp(-Math.abs(x-180)/86);
+ let up=[],dn=[],osc=[];
+ for(let i=0;i<=420;i++){const x=24+312*i/420;up.push([x,176-env(x)]);dn.push([x,176+env(x)]);
+  osc.push([x,176-env(x)*Math.cos((x-180)/9)]);}
+ d+=`<polyline points="${up.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="#9C9483" stroke-width="1.2" stroke-dasharray="5 4"/>`;
+ d+=`<polyline points="${dn.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="#9C9483" stroke-width="1.2" stroke-dasharray="5 4"/>`;
+ d+=`<polyline points="${osc.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="1.9"/>`;
+ d+=`<text x="26" y="54" font-size="11" fill="#6E685B">虚线：Ra 慢变包络</text>`;
+ d+=`<text x="26" y="76" font-size="11" fill="${AC}">实线：乘 cos 快速振荡</text>`;
+ d+=`<text x="24" y="252" font-size="12.5" fill="#3B372D">谱对称时 Rb = 0</text>`;
+ d+=`<text x="24" y="278" font-size="11.5" fill="#9A9384">只剩 Ra cos 一项，sin 项消失</text>`;
+ d+=`<text x="316" y="196" text-anchor="end" font-size="11" fill="#9A9384">τ</text>`;return d;},
+core2:(p={})=>{
+ let d=`<line x1="24" y1="128" x2="336" y2="128" stroke="#9C9483" stroke-width="1.2"/>`;
+ let c1=[],c2=[];
+ for(let i=0;i<=120;i++){const x=40+280*i/120;const v=96*Math.exp(-Math.pow((x-180)/62,2));c1.push([x,128-v]);c2.push([x,128-v*0.96]);}
+ d+=`<polyline points="${c1.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ d+=`<polyline points="${c2.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="#A85B2A" stroke-width="1.6" stroke-dasharray="6 4"/>`;
+ d+=`<text x="238" y="52" font-size="11.5" fill="${AC}">Rc（实线）</text>`;
+ d+=`<text x="238" y="72" font-size="11.5" fill="#A85B2A">Rs（虚线）</text>`;
+ d+=`<text x="30" y="152" font-size="11.5" fill="#9A9384">两条完全重合</text>`;
+ d+=`<line x1="24" y1="256" x2="336" y2="256" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="180" y1="196" x2="180" y2="300" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4 4"/>`;
+ let o=[];for(let i=0;i<=120;i++){const u=-3+6*i/120;o.push([180+52*u,256-96*u*Math.exp(-u*u/2)]);}
+ d+=`<polyline points="${o.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.1"/>`;
+ d+=`<circle cx="180" cy="256" r="4" fill="${AC}"/>`;
+ d+=`<text x="190" y="278" font-size="11.5" fill="${AC}">Rcs：奇函数，原点为零</text>`;
+ d+=`<text x="24" y="300" font-size="11.5" fill="#9A9384">自相关相同，互相关反对称</text>`;return d;},
+lowfreq:(p={})=>{
+ let d=`<line x1="20" y1="112" x2="340" y2="112" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<rect x="66" y="66" width="42" height="46" fill="${AC}" fill-opacity=".14" stroke="${AC}" stroke-width="1.3"/>`;
+ d+=`<rect x="252" y="66" width="42" height="46" fill="${AC}" fill-opacity=".14" stroke="${AC}" stroke-width="1.3"/>`;
+ d+=`<text x="87" y="58" text-anchor="middle" font-size="10.5" fill="#6E685B">−ω₀</text>`;
+ d+=`<text x="273" y="58" text-anchor="middle" font-size="10.5" fill="#6E685B">+ω₀</text>`;
+ d+=`<line x1="180" y1="128" x2="180" y2="160" stroke="${AC}" stroke-width="1.5" marker-end="url(#ar)"/>`;
+ d+=`<text x="192" y="150" font-size="11" fill="${AC}">搬移</text>`;
+ d+=`<line x1="20" y1="262" x2="340" y2="262" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<rect x="146" y="200" width="68" height="62" fill="${AC}" fill-opacity=".2" stroke="${AC}" stroke-width="1.5"/>`;
+ d+=`<text x="180" y="240" text-anchor="middle" font-size="11" fill="${AC}">低频</text>`;
+ d+=`<rect x="30" y="222" width="46" height="40" fill="#9C9483" fill-opacity=".1" stroke="#9C9483" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+ d+=`<rect x="284" y="222" width="46" height="40" fill="#9C9483" fill-opacity=".1" stroke="#9C9483" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+ d+=`<text x="53" y="214" text-anchor="middle" font-size="10.5" fill="#9A9384">2ω₀</text>`;
+ d+=`<text x="307" y="214" text-anchor="middle" font-size="10.5" fill="#9A9384">2ω₀</text>`;
+ d+=`<path d="M44 232 L62 252 M62 232 L44 252" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<path d="M298 232 L316 252 M316 232 L298 252" stroke="#9C9483" stroke-width="1.4"/>`;
+ d+=`<text x="20" y="300" font-size="12" fill="#3B372D">2ω₀ 被低通滤掉，只剩零频</text>`;
+ d+=`<text x="20" y="322" font-size="11.5" fill="#9A9384">带宽减半，采样率也能减半</text>`;return d;},
+polar:(p={})=>{
+ const ox=140,oy=250,R=150;
+ let d=`<circle cx="${ox}" cy="${oy}" r="${R-14}" fill="none" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="5 4"/>`;
+ d+=`<line x1="${ox}" y1="${oy}" x2="${ox+R}" y2="${oy}" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="${ox}" y1="${oy}" x2="${ox}" y2="${oy-R}" stroke="#9C9483" stroke-width="1.2"/>`;
+ const a1=28*Math.PI/180,a2=44*Math.PI/180;
+ const p1=[ox+(R-34)*Math.cos(a1),oy-(R-34)*Math.sin(a1)];
+ const p2=[ox+R*Math.cos(a1),oy-R*Math.sin(a1)];
+ const p3=[ox+R*Math.cos(a2),oy-R*Math.sin(a2)];
+ const p4=[ox+(R-34)*Math.cos(a2),oy-(R-34)*Math.sin(a2)];
+ d+=`<polygon points="${p1.map(v=>v.toFixed(1)).join(',')} ${p2.map(v=>v.toFixed(1)).join(',')} ${p3.map(v=>v.toFixed(1)).join(',')} ${p4.map(v=>v.toFixed(1)).join(',')}" fill="${AC}" fill-opacity=".3" stroke="${AC}" stroke-width="1.4"/>`;
+ d+=`<line x1="${ox}" y1="${oy}" x2="${(ox+R*Math.cos(a2)).toFixed(0)}" y2="${(oy-R*Math.sin(a2)).toFixed(0)}" stroke="${AC}" stroke-width="1.6"/>`;
+ d+=`<path d="M${ox+46} ${oy} A46 46 0 0 0 ${(ox+46*Math.cos(a2)).toFixed(1)} ${(oy-46*Math.sin(a2)).toFixed(1)}" fill="none" stroke="${AC}" stroke-width="1.2"/>`;
+ d+=`<text x="${ox+56}" y="${oy-16}" font-size="12" fill="${AC}">dφ</text>`;
+ d+=`<text x="${(ox+R*0.55).toFixed(0)}" y="${(oy-R*0.30).toFixed(0)}" font-size="12" fill="${AC}">dA</text>`;
+ d+=`<text x="20" y="36" font-size="12.5" fill="#3B372D">极坐标的面积元</text>`;
+ d+=`<text x="20" y="60" font-size="12" fill="${AC}">dA · A dφ</text>`;
+ d+=`<text x="20" y="300" font-size="11.5" fill="#9A9384">那个 A 是雅可比，不是系数</text>`;return d;},
+rayleigh:(p={})=>{
+ let d=`<line x1="30" y1="268" x2="332" y2="268" stroke="#9C9483" stroke-width="1.3"/>`;
+ let pts=[];for(let i=0;i<=120;i++){const A=4*i/120;const x=58+250*A/4;pts.push([x,268-232*(A*Math.exp(-A*A/2))]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ const xs=58+250*1/4, xm=58+250*1.253/4;
+ d+=`<line x1="${xs.toFixed(0)}" y1="120" x2="${xs.toFixed(0)}" y2="268" stroke="#9C9483" stroke-width="1" stroke-dasharray="4 4"/>`;
+ d+=`<circle cx="${xs.toFixed(0)}" cy="127" r="3.6" fill="${AC}"/>`;
+ d+=`<text x="${(xs+8).toFixed(0)}" y="112" font-size="11" fill="${AC}">峰值 σ</text>`;
+ d+=`<line x1="${xm.toFixed(0)}" y1="214" x2="${xm.toFixed(0)}" y2="268" stroke="${AC}" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<text x="${(xm+6).toFixed(0)}" y="232" font-size="10.5" fill="#6E685B">均值 1.25σ</text>`;
+ d+=`<text x="34" y="48" font-size="12.5" fill="#3B372D">瑞利：单峰、右偏</text>`;
+ d+=`<text x="34" y="72" font-size="11.5" fill="#9A9384">包络不会取负值</text>`;
+ d+=`<text x="326" y="288" text-anchor="end" font-size="11" fill="#9A9384">A</text>`;return d;},
+unif:(p={})=>{
+ let d=`<line x1="44" y1="238" x2="320" y2="238" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<rect x="56" y="150" width="248" height="88" fill="${AC}" fill-opacity=".14" stroke="${AC}" stroke-width="1.8"/>`;
+ d+=`<line x1="56" y1="150" x2="304" y2="150" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<text x="180" y="192" text-anchor="middle" font-size="13" fill="${AC}">1 / 2π</text>`;
+ d+=`<text x="56" y="258" text-anchor="middle" font-size="11" fill="#6E685B">0</text>`;
+ d+=`<text x="304" y="258" text-anchor="middle" font-size="11" fill="#6E685B">2π</text>`;
+ d+=`<text x="30" y="40" font-size="12.5" fill="#3B372D">相位完全随机</text>`;
+ d+=`<text x="30" y="64" font-size="11.5" fill="#9A9384">每个角度概率一样，没有偏好</text>`;
+ d+=`<text x="30" y="298" font-size="11.5" fill="#9A9384">密度是常数，所以叫均匀分布</text>`;return d;},
+sameproc:(p={})=>{
+ let d=`<rect x="18" y="58" width="146" height="160" rx="8" fill="${AC}" fill-opacity=".05" stroke="#D8D2C4" stroke-width="1.2"/>`;
+ d+=`<text x="91" y="84" text-anchor="middle" font-size="12" fill="#3B372D">同一时刻</text>`;
+ d+=`<circle cx="91" cy="132" r="26" fill="none" stroke="${AC}" stroke-width="1.6"/>`;
+ d+=`<circle cx="91" cy="132" r="4" fill="${AC}"/>`;
+ d+=`<text x="91" y="180" text-anchor="middle" font-size="11" fill="#6E685B">A 与 Φ</text>`;
+ d+=`<text x="91" y="202" text-anchor="middle" font-size="12" fill="${AC}">√ 独立</text>`;
+ d+=`<rect x="196" y="58" width="146" height="160" rx="8" fill="${AC}" fill-opacity=".05" stroke="#D8D2C4" stroke-width="1.2"/>`;
+ d+=`<text x="269" y="84" text-anchor="middle" font-size="12" fill="#3B372D">整个过程</text>`;
+ d+=`<line x1="210" y1="140" x2="328" y2="140" stroke="#9C9483" stroke-width="1.2"/>`;
+ let pts=[];for(let i=0;i<=30;i++){const x=210+118*i/30;pts.push([x,140-18*Math.sin(i/2.4)-6*Math.sin(i/1.1)]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="1.5"/>`;
+ [216,246,276,306].forEach(x=>{d+=`<circle cx="${x}" cy="140" r="3" fill="${AC}"/>`;});
+ d+=`<text x="269" y="180" text-anchor="middle" font-size="11" fill="#6E685B">前后时刻有牵连</text>`;
+ d+=`<text x="269" y="202" text-anchor="middle" font-size="12" fill="#A85B2A">× 不独立</text>`;
+ d+=`<text x="18" y="252" font-size="12.5" fill="#3B372D">联合密度能拆，只说明这一瞬间</text>`;
+ d+=`<text x="18" y="286" font-size="12" fill="${AC}">四个字：同一时刻</text>`;return d;},
+rician:(p={})=>{
+ const I0=x=>{let s=1,t=1;for(let k=1;k<16;k++){t*=x*x/4/(k*k);s+=t;}return s;};
+ const pdf=(A,a)=>A*Math.exp(-(A*A+a*a)/2)*I0(a*A);
+ const X=A=>58+250*A/5, Y=v=>268-300*v;
+ let d=`<line x1="30" y1="268" x2="332" y2="268" stroke="#9C9483" stroke-width="1.3"/>`;
+ const curve=(a,col,dash)=>{let pts=[];for(let i=0;i<=150;i++){const A=5*i/150;pts.push([X(A),Y(pdf(A,a))]);}
+  return `<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${col}" stroke-width="2.1" ${dash?'stroke-dasharray="6 4"':''}/>`;};
+ d+=curve(0,AC,false)+curve(1.5,'#A85B2A',true)+curve(3.5,'#2F6B4F',true);
+
+ d+=`<text x="${X(2.3).toFixed(0)}" y="${(Y(pdf(2.3,1.5))-10).toFixed(0)}" font-size="11" fill="#A85B2A">a/σ=1.5</text>`;
+ d+=`<text x="${X(4.3).toFixed(0)}" y="${(Y(pdf(4.3,3.5))-10).toFixed(0)}" text-anchor="end" font-size="11" fill="#2F6B4F">a/σ=3.5</text>`;
+ d+=`<text x="30" y="34" font-size="11.5" fill="#3B372D">实线为瑞利（a=0），a 越大越靠右、越窄</text>`;
+ d+=`<text x="326" y="290" text-anchor="end" font-size="11" fill="#9A9384">A</text>`;return d;},
+expdist:(p={})=>{
+ let d=`<line x1="30" y1="268" x2="332" y2="268" stroke="#9C9483" stroke-width="1.3"/>`;
+ let pts=[];for(let i=0;i<=120;i++){const u=5*i/120;pts.push([58+250*u/5,268-190*Math.exp(-u)]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ const x1=58+250*1/5;
+ d+=`<line x1="${x1.toFixed(0)}" y1="${(268-190*Math.exp(-1)).toFixed(0)}" x2="${x1.toFixed(0)}" y2="268" stroke="#9C9483" stroke-width="1" stroke-dasharray="4 4"/>`;
+ d+=`<text x="${(x1+8).toFixed(0)}" y="200" font-size="11" fill="${AC}">均值 2σ²</text>`;
+ d+=`<text x="46" y="288" text-anchor="middle" font-size="10.5" fill="#9A9384">0</text>`;
+ d+=`<text x="34" y="42" font-size="12.5" fill="#3B372D">指数分布：一路下坡</text>`;
+ d+=`<text x="34" y="66" font-size="11.5" fill="#9A9384">均值与标准差一样长</text>`;
+ d+=`<text x="326" y="290" text-anchor="end" font-size="11" fill="#9A9384">u</text>`;return d;},
+syncdet:(p={})=>{
+ let d=`<line x1="16" y1="86" x2="76" y2="86" stroke="#9C9483" stroke-width="1.6" marker-end="url(#ar2)"/>`;
+ d+=`<text x="16" y="70" font-size="11.5" fill="#6E685B">X(t)</text>`;
+ d+=`<circle cx="100" cy="86" r="22" fill="none" stroke="${AC}" stroke-width="1.7"/>`;
+ d+=`<path d="M92 78 L108 94 M108 78 L92 94" stroke="${AC}" stroke-width="1.6"/>`;
+ d+=`<line x1="122" y1="86" x2="158" y2="86" stroke="#9C9483" stroke-width="1.6" marker-end="url(#ar2)"/>`;
+ d+=`<rect x="160" y="62" width="96" height="48" rx="6" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.4"/>`;
+ d+=`<text x="208" y="91" text-anchor="middle" font-size="12" fill="${AC}">低通</text>`;
+ d+=`<line x1="256" y1="86" x2="304" y2="86" stroke="#9C9483" stroke-width="1.6" marker-end="url(#ar2)"/>`;
+ d+=`<text x="310" y="90" font-size="11.5" fill="#6E685B">Z(t)</text>`;
+ d+=`<line x1="100" y1="196" x2="100" y2="112" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="100" y="216" text-anchor="middle" font-size="11.5" fill="${AC}">2cos ω₀t</text>`;
+ d+=`<text x="20" y="264" font-size="12.5" fill="#3B372D">乘法器把频谱搬到零频和 2ω₀</text>`;
+ d+=`<text x="20" y="290" font-size="11.5" fill="#9A9384">低通只留零频：输出同相分量</text>`;return d;},
+gain3db:(p={})=>{
+ let d=`<line x1="26" y1="272" x2="338" y2="272" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<rect x="54" y="202" width="34" height="70" rx="3" fill="#9C9483" fill-opacity=".16" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<rect x="100" y="132" width="34" height="140" rx="3" fill="${AC}" fill-opacity=".2" stroke="${AC}" stroke-width="1.3"/>`;
+ d+=`<text x="71" y="286" text-anchor="middle" font-size="10" fill="#9A9384">前</text>`;
+ d+=`<text x="117" y="286" text-anchor="middle" font-size="10" fill="#9A9384">后</text>`;
+ d+=`<text x="93" y="112" text-anchor="middle" font-size="11.5" fill="${AC}">信号 ×2</text>`;
+ d+=`<rect x="204" y="182" width="34" height="90" rx="3" fill="#9C9483" fill-opacity=".16" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<rect x="250" y="182" width="34" height="90" rx="3" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.3"/>`;
+ d+=`<text x="221" y="286" text-anchor="middle" font-size="10" fill="#9A9384">前</text>`;
+ d+=`<text x="267" y="286" text-anchor="middle" font-size="10" fill="#9A9384">后</text>`;
+ d+=`<text x="243" y="166" text-anchor="middle" font-size="11.5" fill="${AC}">噪声不变</text>`;
+ d+=`<text x="180" y="42" text-anchor="middle" font-size="15" fill="${AC}">+3 dB</text>`;
+ d+=`<text x="30" y="66" font-size="11.5" fill="#9A9384">功率比翻倍，就是 10log2 ≈ 3 dB</text>`;
+ d+=`<text x="30" y="306" font-size="11" fill="#9A9384">原因：信号相干相加，噪声只留一路</text>`;return d;},
+envdet:(p={})=>{
+ let d=`<line x1="24" y1="176" x2="336" y2="176" stroke="#D8D2C4" stroke-width="1"/>`;
+ let w=[],up=[],dn=[];
+ for(let i=0;i<=1400;i++){const x=24+312*i/1400;const env=34+26*Math.cos((x-180)/95);
+  w.push([x,176-env*Math.cos((x-180)/5.2)]);up.push([x,176-env]);dn.push([x,176+env]);}
+ d+=`<polyline points="${w.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="1.5"/>`;
+ d+=`<polyline points="${up.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="#A85B2A" stroke-width="1.3" stroke-dasharray="5 4"/>`;
+ d+=`<polyline points="${dn.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="#A85B2A" stroke-width="1.3" stroke-dasharray="5 4"/>`;
+ d+=`<text x="30" y="60" font-size="11.5" fill="#A85B2A">虚线：包络 = m(t)</text>`;
+ d+=`<text x="30" y="86" font-size="11.5" fill="${AC}">实线：调幅波</text>`;
+ d+=`<text x="24" y="262" font-size="12.5" fill="#3B372D">取出包络，不用本地载波</text>`;
+ d+=`<text x="24" y="274" font-size="11.5" fill="#9A9384">代价：大信噪比下也只有 2/3</text>`;
+ d+=`<text x="24" y="300" font-size="11.5" fill="#9A9384">小信噪比还会门限效应</text>`;return d;},
+threshold:(p={})=>{
+ let d=`<line x1="40" y1="288" x2="330" y2="288" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="40" y1="288" x2="40" y2="48" stroke="#9C9483" stroke-width="1.2"/>`;
+ const sy=x=>270-(x-40)*0.70;
+ d+=`<line x1="40" y1="270" x2="310" y2="${sy(310).toFixed(0)}" stroke="${AC}" stroke-width="2" stroke-dasharray="6 4"/>`;
+ let pts=[];
+ for(let i=0;i<=140;i++){
+   const x=40+276*i/140;
+   let y=sy(x);
+   if(x<190){ y=Math.min(284, y+86*Math.pow((190-x)/150,1.7)); }
+   pts.push([x,y]);
+ }
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="#A85B2A" stroke-width="2.4"/>`;
+ d+=`<line x1="190" y1="122" x2="190" y2="288" stroke="#9C9483" stroke-width="1" stroke-dasharray="4 4"/>`;
+ d+=`<circle cx="190" cy="${sy(190).toFixed(0)}" r="4" fill="#A85B2A"/>`;
+ d+=`<text x="196" y="116" font-size="11" fill="#A85B2A">门限</text>`;
+ d+=`<text x="248" y="92" font-size="10.5" fill="${AC}">同步检波</text>`;
+ d+=`<text x="58" y="266" font-size="10.5" fill="#A85B2A">包络检波</text>`;
+ d+=`<text x="30" y="34" font-size="11.5" fill="#9A9384">输出信噪比</text>`;
+ d+=`<text x="326" y="304" text-anchor="end" font-size="11" fill="#9A9384">输入信噪比</text>`;return d;},
+gains:(p={})=>{
+ const bars=[[52,2,'双边带'],[122,1,'单边带'],[192,0.667,'包络AM'],[262,0.222,'平方律']];
+ let d=`<line x1="30" y1="272" x2="332" y2="272" stroke="#9C9483" stroke-width="1.2"/>`;
+ bars.forEach(([x,v,name])=>{
+  const h=Math.max(10,v*88);
+  d+=`<rect x="${x}" y="${272-h}" width="40" height="${h}" rx="3" fill="${AC}" fill-opacity=".18" stroke="${AC}" stroke-width="1.3"/>`;
+  d+=`<text x="${x+20}" y="${272-h-8}" text-anchor="middle" font-size="11" fill="${AC}">${v}</text>`;
+  d+=`<text x="${x+20}" y="292" text-anchor="middle" font-size="10" fill="#6E685B">${name}</text>`;
+ });
+ d+=`<text x="30" y="40" font-size="12.5" fill="#3B372D">增益 = 输出信噪比 / 输入信噪比</text>`;
+ d+=`<text x="30" y="64" font-size="11.5" fill="#9A9384">同步检波最好，平方律最差</text>`;
+ d+=`<text x="30" y="316" font-size="11" fill="#9A9384">三步：写输入、写输出、相除</text>`;return d;},
+/* ===== 第 4 章图示（v1.8.0）===== */
+memoryless:(p={})=>{
+ let d=`<text x="16" y="26" font-size="11" fill="#9A9384">输入序列</text>`;
+ const xs=[86,160,234];
+ xs.forEach((x,i)=>{d+=`<circle cx="${x}" cy="58" r="4" fill="${i===1?AC:'#C9C2B2'}"/>`;});
+ d+=`<text x="86" y="86" text-anchor="middle" font-size="11.5" fill="#9A9384">x(n−1)</text>`;
+ d+=`<text x="160" y="86" text-anchor="middle" font-size="11.5" fill="${AC}">x(n)</text>`;
+ d+=`<text x="234" y="86" text-anchor="middle" font-size="11.5" fill="#9A9384">x(n+1)</text>`;
+ d+=`<line x1="160" y1="64" x2="160" y2="112" stroke="${AC}" stroke-width="1.8" marker-end="url(#ar)"/>`;
+ d+=`<line x1="80" y1="66" x2="96" y2="96" stroke="#C9C2B2" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+ d+=`<line x1="240" y1="66" x2="224" y2="96" stroke="#C9C2B2" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+ d+=`<rect x="106" y="112" width="108" height="46" rx="7" fill="${AC}" fill-opacity=".09" stroke="${AC}" stroke-width="1.4"/>`;
+ d+=`<text x="160" y="141" text-anchor="middle" font-size="15" fill="${AC}">g(·)</text>`;
+ d+=`<line x1="160" y1="158" x2="160" y2="196" stroke="${AC}" stroke-width="1.8" marker-end="url(#ar)"/>`;
+ d+=`<text x="166" y="192" font-size="11" fill="#6E685B">y(n)</text>`;
+ d+=`<text x="20" y="232" font-size="12.5" fill="#3B372D">只由当前输入决定</text>`;
+ d+=`<text x="20" y="258" font-size="12.5" fill="#3B372D">不含 C、L 等储能元件</text>`;
+ d+=`<text x="20" y="286" font-size="11.5" fill="${AC}">Y(t) = g[X(t)]，且时不变</text>`;return d;},
+vslinear:(p={})=>{
+ const sp=(x0,y0,hs,tag,col)=>{let s=`<text x="${x0}" y="${y0-54}" font-size="11" fill="#9A9384">${tag}</text>`;
+  s+=`<line x1="${x0}" y1="${y0}" x2="${x0+150}" y2="${y0}" stroke="#9C9483" stroke-width="1.1"/>`;
+  hs.forEach(([u,h])=>{s+=`<line x1="${x0+u}" y1="${y0}" x2="${x0+u}" y2="${y0-h}" stroke="${col}" stroke-width="2.6"/>`;});
+  return s;};
+ let d=`<text x="30" y="24" font-size="11.5" fill="#6E685B">输入：单根谱线 ω₀</text>`;
+ d+=sp(30,100,[[74,44]],'线性系统输出',AC);
+ d+=`<line x1="30" y1="132" x2="336" y2="132" stroke="#E2DCCE" stroke-width="1"/>`;
+ d+=`<text x="30" y="164" font-size="11.5" fill="#6E685B">输入：同一根谱线 ω₀</text>`;
+ d+=sp(30,238,[[40,40],[118,26],[196,18]],'非线性系统输出','#A85B2A');
+ d+=`<text x="226" y="210" text-anchor="middle" font-size="10.5" fill="#A85B2A">2ω₀</text>`;
+ d+=`<text x="70" y="188" text-anchor="middle" font-size="10.5" fill="#A85B2A">0</text>`;
+ d+=`<text x="26" y="278" font-size="12.5" fill="#A85B2A">多出直流与二倍频：新频率分量</text>`;
+ d+=`<text x="26" y="302" font-size="11" fill="#9A9384">线性系统只有增益和相移，位置不变</text>`;return d;},
+jacobian:(p={})=>{
+ let d=`<text x="18" y="24" font-size="11" fill="#9A9384">输入密度</text>`;
+ let pin=[];for(let i=0;i<=60;i++){const u=-3+6*i/60;pin.push([87+21*u,96-50*Math.exp(-u*u/2)]);}
+ d+=`<polyline points="${pin.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="#9C9483" stroke-width="2"/>`;
+ d+=`<line x1="24" y1="96" x2="152" y2="96" stroke="#9C9483" stroke-width="1.1"/>`;
+ d+=`<text x="148" y="88" font-size="10.5" fill="#9A9384">x</text>`;
+ d+=`<line x1="188" y1="176" x2="338" y2="176" stroke="#9C9483" stroke-width="1.1"/>`;
+ d+=`<line x1="192" y1="42" x2="192" y2="182" stroke="#9C9483" stroke-width="1.1"/>`;
+ d+=`<line x1="200" y1="170" x2="330" y2="54" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<text x="246" y="72" font-size="10.5" fill="#6E685B">y = g(x)</text>`;
+ d+=`<text x="196" y="202" font-size="12" fill="${AC}">|J| = |dx/dy|</text>`;
+ d+=`<text x="18" y="234" font-size="12.5" fill="#3B372D">密度 = 概率 ÷ 长度</text>`;
+ d+=`<text x="18" y="258" font-size="12.5" fill="#3B372D">长度被拉伸，密度就变稀</text>`;
+ d+=`<text x="18" y="284" font-size="11.5" fill="${AC}">J 为负要取绝对值</text>`;
+ d+=`<text x="18" y="306" font-size="11" fill="#9A9384">方向：x 对 y 求导</text>`;return d;},
+multival:(p={})=>{
+ let d=`<line x1="26" y1="196" x2="334" y2="196" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="180" y1="30" x2="180" y2="216" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4 4"/>`;
+ let pts=[];for(let i=0;i<=100;i++){const u=-2.5+5*i/100;pts.push([180+54*u,196-24*u*u]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<line x1="52" y1="120" x2="308" y2="120" stroke="#A85B2A" stroke-width="1.4" stroke-dasharray="5 4"/>`;
+ d+=`<circle cx="97" cy="120" r="4" fill="#A85B2A"/><circle cx="263" cy="120" r="4" fill="#A85B2A"/>`;
+ d+=`<text x="84" y="112" text-anchor="middle" font-size="11" fill="#A85B2A">x₁</text>`;
+ d+=`<text x="276" y="112" text-anchor="middle" font-size="11" fill="#A85B2A">x₂</text>`;
+ d+=`<text x="310" y="124" text-anchor="end" font-size="11" fill="#A85B2A">y</text>`;
+ d+=`<text x="18" y="240" font-size="12.5" fill="#3B372D">两个分支都映射到同一个 y</text>`;
+ d+=`<text x="18" y="264" font-size="12" fill="${AC}">f_Y(y) = Σ |Jᵢ| f_X(xᵢ)</text>`;
+ d+=`<text x="18" y="290" font-size="11.5" fill="#9A9384">互不相容 ⇒ 概率直接相加</text>`;return d;},
+egx:(p={})=>{
+ const box=(y,t1,t2,ok)=>`<rect x="16" y="${y}" width="328" height="52" rx="7" fill="${ok?'#EEF5EF':'#FBEEEA'}" stroke="${ok?'#3F7A5A':'#B4553F'}" stroke-width="1.2"/>`+
+  `<text x="30" y="${y+22}" font-size="12.5" fill="#3B372D">${t1}</text>`+
+  `<text x="30" y="${y+42}" font-size="12.5" fill="${ok?'#3F7A5A':'#B4553F'}">${t2}</text>`;
+ let d=box(28,'正确：先求密度再积分','E[Y] = σ²','true')+box(92,'错误：先取均值再代入','g(E[X]) = 0','');
+ d+=`<text x="180" y="176" text-anchor="middle" font-size="15" fill="${AC}">差一个 σ²</text>`;
+ d+=`<text x="180" y="200" text-anchor="middle" font-size="11.5" fill="#9A9384">差的是方差，不是零头</text>`;
+ d+=`<line x1="40" y1="216" x2="320" y2="216" stroke="#E2DCCE" stroke-width="1"/>`;
+ d+=`<text x="20" y="242" font-size="12" fill="#6E685B">平方器 + 零均值输入：</text>`;
+ d+=`<text x="20" y="266" font-size="12.5" fill="${AC}">E[g(X)] ≠ g(E[X])</text>`;
+ d+=`<text x="20" y="292" font-size="11.5" fill="#9A9384">期望不能与非线性函数换序</text>`;return d;},
+threeg:(p={})=>{
+ let d=`<line x1="40" y1="230" x2="330" y2="230" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="180" y1="34" x2="180" y2="248" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4 4"/>`;
+ const cl=(f,col,w)=>{let pts=[];for(let i=0;i<=120;i++){const u=-2.4+4.8*i/120;const v=f(u);if(v>3.2)continue;pts.push([180+52*u,230-46*v]);}
+  return `<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${col}" stroke-width="${w}"/>`;};
+ d+=cl(x=>x*x,'#9A9384',2);
+ d+=cl(x=>Math.abs(x),AC,2.2);
+ d+=cl(x=>(x+Math.abs(x))/2,'#A85B2A',1.8);
+ d+=`<text x="20" y="256" font-size="12.5" fill="#3B372D">抛物线 / V 字 / 半个 V</text>`;
+ d+=`<line x1="22" y1="282" x2="44" y2="282" stroke="#9A9384" stroke-width="2"/><text x="50" y="286" font-size="11" fill="#6E685B">x²</text>`;
+ d+=`<line x1="104" y1="282" x2="126" y2="282" stroke="${AC}" stroke-width="2.2"/><text x="132" y="286" font-size="11" fill="#6E685B">|x|</text>`;
+ d+=`<line x1="186" y1="282" x2="208" y2="282" stroke="#A85B2A" stroke-width="1.8"/><text x="214" y="286" font-size="11" fill="#6E685B">(x+|x|)/2</text>`;
+ d+=`<text x="20" y="310" font-size="11" fill="#9A9384">输入都是零均值正态，只是 g 不同</text>`;return d;},
+sqpdf:(p={})=>{
+ let d=`<line x1="42" y1="248" x2="330" y2="248" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="42" y1="34" x2="42" y2="248" stroke="#9C9483" stroke-width="1.2"/>`;
+ let pts=[];for(let i=1;i<=160;i++){const y=0.02+3.0*i/160;const v=1/Math.sqrt(y)*Math.exp(-y/2);pts.push([42+88*y,248-30*v]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<line x1="130" y1="248" x2="130" y2="150" stroke="#A85B2A" stroke-width="1.1" stroke-dasharray="4 4"/>`;
+ d+=`<text x="134" y="164" font-size="11" fill="#A85B2A">均值 σ²</text>`;
+ d+=`<text x="46" y="52" font-size="11" fill="#B4553F">y→0⁺ 发散</text>`;
+ d+=`<text x="20" y="276" font-size="12.5" fill="#3B372D">1 / √(2πσ²y) · e^(−y/2σ²) · U(y)</text>`;
+ d+=`<text x="20" y="302" font-size="11.5" fill="${AC}">缩放卡方，不是指数分布</text>`;return d;},
+fullwave:(p={})=>{
+ let d=`<line x1="42" y1="248" x2="330" y2="248" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="42" y1="34" x2="42" y2="248" stroke="#9C9483" stroke-width="1.2"/>`;
+ let pts=[];for(let i=0;i<=160;i++){const z=3.2*i/160;pts.push([42+86*z,248-68*Math.exp(-z*z/2)]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<line x1="111" y1="248" x2="111" y2="188" stroke="#A85B2A" stroke-width="1.1" stroke-dasharray="4 4"/>`;
+ d+=`<text x="115" y="200" font-size="11" fill="#A85B2A">均值 0.8σ</text>`;
+ d+=`<circle cx="42" cy="180" r="4" fill="${AC}"/>`;
+ d+=`<text x="20" y="276" font-size="12.5" fill="#3B372D">√(2/π)·(1/σ)·e^(−z²/2σ²)·U(z)</text>`;
+ d+=`<text x="20" y="302" font-size="11.5" fill="${AC}">半正态，量纲仍是线性的</text>`;return d;},
+halfdelta:(p={})=>{
+ let d=`<line x1="42" y1="248" x2="330" y2="248" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="86" y1="34" x2="86" y2="248" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4 4"/>`;
+ let pts=[];for(let i=0;i<=160;i++){const w=3.2*i/160;pts.push([86+82*w,248-60*Math.exp(-w*w/2)]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<line x1="86" y1="248" x2="86" y2="86" stroke="#B4553F" stroke-width="5"/>`;
+ d+=`<text x="92" y="80" font-size="11.5" fill="#B4553F">½ δ(w)</text>`;
+ d+=`<text x="150" y="130" font-size="11" fill="${AC}">右半边原密度</text>`;
+ d+=`<text x="20" y="276" font-size="12.5" fill="#3B372D">一半概率压在 w = 0</text>`;
+ d+=`<text x="20" y="302" font-size="11.5" fill="#B4553F">漏掉冲激项就是错</text>`;return d;},
+fourth:(p={})=>{
+ const row=(y,a,b,hi)=>`<rect x="16" y="${y}" width="328" height="46" rx="7" fill="${hi?'#FBF3E6':'#F7F4EC'}" stroke="${hi?'#C79A5A':'#DDD6C6'}" stroke-width="1.1"/>`+
+  `<text x="30" y="${y+28}" font-size="12.5" fill="#3B372D">${a}</text>`+
+  `<text x="330" y="${y+28}" text-anchor="end" font-size="11.5" fill="${hi?'#A8703A':'#8A8271'}">${b}</text>`;
+ let d=row(24,'E[X₁X₂]·E[X₃X₄]','R²(0)','true');
+ d+=row(78,'E[X₁X₃]·E[X₂X₄]','R²(τ)','true');
+ d+=row(132,'E[X₁X₄]·E[X₂X₃]','R²(τ)','true');
+ d+=`<text x="180" y="204" text-anchor="middle" font-size="12" fill="#9A9384">三项里两项相同</text>`;
+ d+=`<text x="180" y="236" text-anchor="middle" font-size="13.5" fill="${AC}">R_Y = R²(0) + 2R²(τ)</text>`;
+ d+=`<text x="180" y="266" text-anchor="middle" font-size="11.5" fill="#6E685B">= σ⁴ + 2R_X²(τ)</text>`;
+ d+=`<text x="20" y="296" font-size="11" fill="#9A9384">零均值正态：四阶矩拆三对二阶矩</text>`;return d;},
+sqspec:(p={})=>{
+ let d=`<text x="16" y="24" font-size="11" fill="#9A9384">输入谱</text>`;
+ d+=`<line x1="30" y1="86" x2="334" y2="86" stroke="#9C9483" stroke-width="1.1"/>`;
+ d+=`<line x1="180" y1="34" x2="180" y2="92" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="3 3"/>`;
+ let p1=[];for(let i=0;i<=100;i++){const u=-3+6*i/100;const v=Math.exp(-u*u/0.9);p1.push([180+50*u,86-44*v]);}
+ d+=`<polyline points="${p1.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="#9C9483" stroke-width="2"/>`;
+ d+=`<line x1="140" y1="94" x2="220" y2="94" stroke="#9C9483" stroke-width="1"/>`;
+ d+=`<text x="180" y="112" text-anchor="middle" font-size="10.5" fill="#9A9384">带宽 ω_c</text>`;
+ d+=`<text x="16" y="140" font-size="11" fill="${AC}">输出谱</text>`;
+ d+=`<line x1="30" y1="232" x2="334" y2="232" stroke="#9C9483" stroke-width="1.1"/>`;
+ d+=`<line x1="180" y1="146" x2="180" y2="238" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="3 3"/>`;
+ let p2=[];for(let i=0;i<=100;i++){const u=-3+6*i/100;const v=Math.exp(-u*u/3.4);p2.push([180+50*u,232-58*v]);}
+ d+=`<polyline points="${p2.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<line x1="180" y1="232" x2="180" y2="160" stroke="#B4553F" stroke-width="4.5"/>`;
+ d+=`<text x="186" y="158" font-size="10.5" fill="#B4553F">δ(ω)</text>`;
+ d+=`<text x="16" y="262" font-size="11.5" fill="#3B372D">直流冲激 + 卷积展宽</text>`;
+ d+=`<text x="16" y="288" font-size="11.5" fill="${AC}">带宽 ω_c → 2ω_c</text>`;return d;},
+transfun:(p={})=>{
+ const bx=(x,y,w,t,sub)=>`<rect x="${x}" y="${y}" width="${w}" height="48" rx="7" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.3"/>`+
+  `<text x="${x+w/2}" y="${y+24}" text-anchor="middle" font-size="13.5" fill="${AC}">${t}</text>`+
+  `<text x="${x+w/2}" y="${y+40}" text-anchor="middle" font-size="10.5" fill="#6E685B">${sub}</text>`;
+ let d=bx(16,52,96,'g(x)','非线性');
+ d+=bx(140,52,96,'F(ω)','转移函数');
+ d+=bx(264,52,80,'R_Y(τ)','输出相关');
+ d+=`<line x1="114" y1="76" x2="136" y2="76" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<line x1="238" y1="76" x2="260" y2="76" stroke="${AC}" stroke-width="1.6" marker-end="url(#ar)"/>`;
+ d+=`<text x="124" y="66" text-anchor="middle" font-size="10" fill="#6E685B">FT</text>`;
+ d+=`<text x="249" y="66" text-anchor="middle" font-size="10" fill="#6E685B">积分</text>`;
+ d+=`<rect x="16" y="132" width="328" height="86" rx="8" fill="#F7F4EC" stroke="#DDD6C6" stroke-width="1.1"/>`;
+ d+=`<text x="180" y="160" text-anchor="middle" font-size="12" fill="#3B372D">R_Y(τ) = 1/(4π²) ∬ Φ_X(μ₁,μ₂,τ)</text>`;
+ d+=`<text x="180" y="184" text-anchor="middle" font-size="12" fill="#3B372D">× F(μ₁) F(μ₂) dμ₁ dμ₂</text>`;
+ d+=`<text x="180" y="208" text-anchor="middle" font-size="10.5" fill="#9A9384">理论上完整，实际是二重积分</text>`;
+ d+=`<text x="20" y="250" font-size="12.5" fill="#3B372D">不好求密度、只想要相关时用它</text>`;
+ d+=`<text x="20" y="278" font-size="12" fill="${AC}">真正好用：Price 定理</text>`;
+ d+=`<text x="20" y="302" font-size="11" fill="#9A9384">把求导挪到积分号里</text>`;return d;},
+pricepre:(p={})=>{
+ const tag=(x,t)=>`<rect x="${x}" y="34" width="96" height="38" rx="19" fill="${AC}" fill-opacity=".1" stroke="${AC}" stroke-width="1.3"/>`+
+  `<text x="${x+48}" y="59" text-anchor="middle" font-size="13" fill="${AC}">${t}</text>`;
+ let d=tag(16,'零均值')+tag(124,'平稳')+tag(232,'正态');
+ d+=`<text x="180" y="96" text-anchor="middle" font-size="11.5" fill="#B4553F">三个条件缺一不可</text>`;
+ d+=`<rect x="16" y="116" width="328" height="66" rx="8" fill="#F7F4EC" stroke="#DDD6C6" stroke-width="1.1"/>`;
+ d+=`<text x="180" y="146" text-anchor="middle" font-size="13" fill="#3B372D">dR_Y / dR_X = E[g′(X₁)g′(X₂)]</text>`;
+ d+=`<text x="180" y="170" text-anchor="middle" font-size="10.5" fill="#9A9384">对输入相关求一次导，就把积分变成了期望</text>`;
+ d+=`<text x="20" y="212" font-size="12.5" fill="#3B372D">为什么非正态不行？</text>`;
+ d+=`<text x="20" y="238" font-size="11.5" fill="#6E685B">推导用到二维正态密度对相关系数求导</text>`;
+ d+=`<text x="20" y="262" font-size="11.5" fill="#6E685B">非正态没有这个性质</text>`;
+ d+=`<text x="20" y="292" font-size="12" fill="#B4553F">拿到题先查三个前提</text>`;return d;},
+price4:(p={})=>{
+ const step=(y,n,t,sub)=>`<circle cx="34" cy="${y+22}" r="14" fill="${AC}" fill-opacity=".12" stroke="${AC}" stroke-width="1.2"/>`+
+  `<text x="34" y="${y+27}" text-anchor="middle" font-size="12.5" fill="${AC}">${n}</text>`+
+  `<text x="58" y="${y+19}" font-size="12.5" fill="#3B372D">${t}</text>`+
+  `<text x="58" y="${y+37}" font-size="10.5" fill="#9A9384">${sub}</text>`;
+ let d=step(26,'1','求 g′','可能出现 δ、U、sgn');
+ d+=step(92,'2','代二维正态求期望','结果是一个关于 R_X 的函数');
+ d+=step(158,'3','对 R_X 积分','得到 R_Y 加一个常数');
+ d+=step(224,'4','用边界定常数','边界选错就全错');
+ d+=`<line x1="34" y1="56" x2="34" y2="86" stroke="#D8D2C4" stroke-width="1.4"/>`;
+ d+=`<line x1="34" y1="122" x2="34" y2="152" stroke="#D8D2C4" stroke-width="1.4"/>`;
+ d+=`<line x1="34" y1="188" x2="34" y2="218" stroke="#D8D2C4" stroke-width="1.4"/>`;
+ d+=`<text x="20" y="292" font-size="11" fill="#B4553F">第 3、4 步最容易出错</text>`;return d;},
+foursum:(p={})=>{
+ const row=(y,name,f1,hi)=>`<rect x="14" y="${y}" width="332" height="54" rx="7" fill="${hi?'#FBF3E6':'#F7F4EC'}" stroke="${hi?'#C79A5A':'#DDD6C6'}" stroke-width="1.1"/>`+
+  `<text x="26" y="${y+22}" font-size="12" fill="${AC}">${name}</text>`+
+  `<text x="26" y="${y+43}" font-size="12" fill="#3B372D">${f1}</text>`;
+ let d=row(18,'平方律','R_X²(0) + 2R_X²(τ)','false');
+ d+=row(78,'全波','(2σ²/π)(α sin α + cos α)','false');
+ d+=row(138,'半波','(σ²/2π)(α sin α + cos α) + R_X/4','true');
+ d+=row(198,'硬限幅','(2/π) arcsin[R_X(τ)/R_X(0)]','false');
+ d+=`<text x="20" y="272" font-size="11.5" fill="#6E685B">α = arcsin[R_X(τ)/R_X(0)]</text>`;
+ d+=`<text x="20" y="298" font-size="11" fill="#B4553F">半波系数是 σ²/2π，别写成 2σ²/π</text>`;return d;},
+boundary:(p={})=>{
+ const box=(x,y,w,title,v,ok)=>`<rect x="${x}" y="${y}" width="${w}" height="86" rx="8" fill="${ok?'#EEF5EF':'#FBEEEA'}" stroke="${ok?'#3F7A5A':'#B4553F'}" stroke-width="1.3"/>`+
+  `<text x="${x+w/2}" y="${y+24}" text-anchor="middle" font-size="11.5" fill="#6E685B">${title}</text>`+
+  `<text x="${x+w/2}" y="${y+52}" text-anchor="middle" font-size="13" fill="${ok?'#3F7A5A':'#B4553F'}">${v}</text>`+
+  `<text x="${x+w/2}" y="${y+72}" text-anchor="middle" font-size="10.5" fill="#9A9384">${ok?'用它':'别用'}</text>`;
+ let d=box(14,34,152,'τ = 0','R_W(0) = σ²/2','')+box(192,34,152,'R_X = 0','E[W]² = σ²/2π','true');
+ d+=`<text x="180" y="146" text-anchor="middle" font-size="12" fill="#9A9384">用错差 2π 倍</text>`;
+ d+=`<text x="20" y="184" font-size="12.5" fill="#3B372D">R_X = 0 时两时刻独立</text>`;
+ d+=`<text x="20" y="210" font-size="12" fill="${AC}">R_Z = E|X|² = 2σ²/π</text>`;
+ d+=`<text x="20" y="236" font-size="12" fill="${AC}">R_W = E[W]² = σ²/2π</text>`;
+ d+=`<text x="20" y="272" font-size="11.5" fill="#6E685B">积分常数由这个边界值反推</text>`;
+ d+=`<text x="20" y="298" font-size="11" fill="#B4553F">边界看 R_X，不是看 τ</text>`;return d;},
+typo:(p={})=>{
+ let d=`<rect x="14" y="24" width="332" height="46" rx="7" fill="#FBEEEA" stroke="#B4553F" stroke-width="1.1"/>`;
+ d+=`<text x="26" y="44" font-size="11.5" fill="#B4553F">课件印：</text>`;
+ d+=`<text x="96" y="44" font-size="13" fill="#B4553F">2σ²/π</text>`;
+ d+=`<line x1="94" y1="48" x2="162" y2="48" stroke="#B4553F" stroke-width="1.6"/>`;
+ d+=`<text x="26" y="62" font-size="10.5" fill="#9A9384">看着跟全波一样，其实少了个二</text>`;
+ d+=`<rect x="14" y="84" width="332" height="46" rx="7" fill="#EEF5EF" stroke="#3F7A5A" stroke-width="1.1"/>`;
+ d+=`<text x="26" y="104" font-size="11.5" fill="#3F7A5A">正确应为：</text>`;
+ d+=`<text x="112" y="104" font-size="13" fill="#3F7A5A">σ²/(2π)</text>`;
+ d+=`<text x="26" y="122" font-size="10.5" fill="#9A9384">校核：R_W(0) = σ²/2 反推</text>`;
+ d+=`<text x="20" y="164" font-size="12" fill="#3B372D">校核过程</text>`;
+ d+=`<text x="20" y="190" font-size="12" fill="#6E685B">R_W(0) = E[W²] = σ²/2</text>`;
+ d+=`<text x="20" y="214" font-size="12" fill="#6E685B">α = π/2 时 cos α = 0</text>`;
+ d+=`<text x="20" y="238" font-size="12" fill="#6E685B">代入 → 系数必须是 σ²/2π</text>`;
+ d+=`<text x="20" y="272" font-size="12" fill="${AC}">全波：g′ = sgn x</text>`;
+ d+=`<text x="20" y="296" font-size="11.5" fill="#9A9384">两个 sgn 相乘的期望 = (2/π)arcsin</text>`;return d;},
+taylor:(p={})=>{
+ let d=`<line x1="34" y1="220" x2="330" y2="220" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="150" y1="30" x2="150" y2="232" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4 4"/>`;
+ const cl=(f,col,w,dash)=>{let pts=[];for(let i=0;i<=140;i++){const u=-2.2+4.4*i/140;const v=f(u);if(Math.abs(v)>2.8)continue;pts.push([150+58*u,220-56*v]);}
+  return `<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${col}" stroke-width="${w}" ${dash?'stroke-dasharray="6 4"':''}/>`;};
+ d+=cl(u=>Math.tanh(1.6*u),'#9A9384',2.2);
+ d+=cl(u=>1.6*u,'#A85B2A',1.8,true);
+ d+=`<text x="256" y="72" font-size="11" fill="#9A9384">g(x)</text>`;
+ d+=`<text x="256" y="96" font-size="11" fill="#A85B2A">一次近似</text>`;
+ d+=`<text x="20" y="256" font-size="12.5" fill="#3B372D">原点附近贴合，远处分开</text>`;
+ d+=`<text x="20" y="280" font-size="12" fill="${AC}">a_k = g⁽ᵏ⁾(0) / k!</text>`;
+ d+=`<text x="20" y="304" font-size="11" fill="#9A9384">弱非线性才敢这么近似</text>`;return d;},
+series2:(p={})=>{
+ let d=`<text x="18" y="24" font-size="11" fill="#9A9384">系数 × 矩，双重求和</text>`;
+ for(let i=0;i<3;i++)for(let j=0;j<3;j++){
+   const x=40+j*62,y=44+i*54;
+   d+=`<rect x="${x}" y="${y}" width="52" height="42" rx="5" fill="${(i===j||i+j===1)?'#FBF3E6':'#F7F4EC'}" stroke="#DDD6C6" stroke-width="1"/>`;
+   d+=`<text x="${x+26}" y="${y+26}" text-anchor="middle" font-size="10.5" fill="#6E685B">a${i+1}a${j+1}</text>`;
+ }
+ d+=`<text x="20" y="228" font-size="12.5" fill="#3B372D">E[Y] = Σ aₖ mₖ</text>`;
+ d+=`<text x="20" y="252" font-size="12" fill="${AC}">R_Y = ΣΣ aₖaⱼ E[XᵏXʲ]</text>`;
+ d+=`<text x="20" y="280" font-size="11.5" fill="#6E685B">联合矩不能随便拆，除非独立</text>`;
+ d+=`<text x="20" y="304" font-size="11" fill="#9A9384">mₖ = E[Xᵏ] 是 k 阶原点矩</text>`;return d;},
+limit3:(p={})=>{
+ const row=(y,t,sub,col)=>`<rect x="14" y="${y}" width="332" height="62" rx="7" fill="#FBEEEA" stroke="${col}" stroke-width="1.2"/>`+
+  `<text x="28" y="${y+26}" font-size="13" fill="${col}">${t}</text>`+
+  `<text x="28" y="${y+48}" font-size="11" fill="#6E685B">${sub}</text>`;
+ let d=row(24,'① 只对弱非线性成立','非线性强了要很多项，甚至不收敛','#B4553F');
+ d+=row(96,'② 幂次不超过三次','四阶以上项数爆炸，手算做不完','#B4553F');
+ d+=row(168,'③ 结果只是近似','要精确密度就别走这条路','#B4553F');
+ d+=`<text x="20" y="258" font-size="12" fill="#3B372D">看到「小信号」三个字</text>`;
+ d+=`<text x="20" y="282" font-size="12.5" fill="${AC}">就是在提示你用级数展开</text>`;
+ d+=`<text x="20" y="306" font-size="11" fill="#9A9384">精确解请回直接分析法</text>`;return d;},
+parab2:(p={})=>{
+ let d=`<line x1="34" y1="228" x2="330" y2="228" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="150" y1="34" x2="150" y2="240" stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4 4"/>`;
+ d+=`<line x1="34" y1="228" x2="34" y2="60" stroke="#9C9483" stroke-width="1.2"/>`;
+ let pts=[];for(let i=0;i<=120;i++){const u=-1.9+3.8*i/120;pts.push([150+66*u,228-58*(0.55*u+0.8*u*u)]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<circle cx="150" cy="228" r="4" fill="#A85B2A"/>`;
+ d+=`<text x="158" y="246" font-size="10.5" fill="#A85B2A">x = 0</text>`;
+ d+=`<text x="24" y="256" font-size="12" fill="#3B372D">g = b₁x + b₂x²</text>`;
+ d+=`<text x="24" y="280" font-size="12" fill="#6E685B">E[Y] = b₂(a²/2 + σ²)</text>`;
+ d+=`<text x="24" y="304" font-size="11" fill="${AC}">那个 1/2 是正弦功率</text>`;
+ d+=`<text x="292" y="60" text-anchor="end" font-size="10.5" fill="#9A9384">g(x)</text>`;return d;},
+cyclostat:(p={})=>{
+ let d=`<line x1="34" y1="180" x2="330" y2="180" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="34" y1="40" x2="34" y2="192" stroke="#9C9483" stroke-width="1.2"/>`;
+ let pts=[];for(let i=0;i<=260;i++){const u=6.2*i/260;const v=Math.exp(-u/3.4)*(0.55+0.45*Math.cos(2.6*u));pts.push([34+46*u,180-92*v]);}
+ d+=`<polyline points="${pts.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
+ d+=`<line x1="34" y1="132" x2="320" y2="132" stroke="#C9C2B2" stroke-width="1.1" stroke-dasharray="6 4"/>`;
+ d+=`<text x="322" y="128" text-anchor="end" font-size="10.5" fill="#9A9384">上界含 cos 2ω₀t</text>`;
+ d+=`<text x="120" y="208" font-size="10.5" fill="#6E685B">τ</text>`;
+ d+=`<text x="20" y="240" font-size="12" fill="#3B372D">自相关随绝对时间起伏</text>`;
+ d+=`<text x="20" y="264" font-size="12.5" fill="#B4553F">⇒ 周期平稳，不是广义平稳</text>`;
+ d+=`<text x="20" y="292" font-size="11" fill="#9A9384">看 R_Y 里有没有单独的 t</text>`;return d;},
 map:(p={})=>{let d=`<circle cx="86" cy="94" r="52" fill="none" stroke="${AC}" stroke-width="1.5" opacity=".5"/>
 <text x="86" y="36" text-anchor="middle" font-size="13" fill="#6E685B">${esc(p.space||'样本空间')}</text>`;
  const pts=[[64,74],[104,112],[58,122]];
@@ -290,141 +1149,437 @@ gap:(p={})=>{let d=`<rect x="43" y="133" width="270" height="62" fill="#9C9483" 
  d+=`<text x="320" y="184" font-size="11" fill="#6E685B">x</text>`;
  d+=`<text x="186" y="36" font-size="11" fill="#6E685B">y</text>`;
  return d;},
-wavefam:(p={})=>{const n=p.n||4;let d=`<line x1="26" y1="262" x2="336" y2="262" stroke="#9C9483" stroke-width="1.4"/><line x1="26" y1="262" x2="26" y2="26" stroke="#9C9483" stroke-width="1.4"/>`;
- for(let k=0;k<n;k++){const ph=k*0.82,amp=1-0.06*k;let pts=[];
-  for(let i=0;i<=48;i++){const x=26+i*(306/48);const y=168-amp*58*Math.sin((i/48)*2.6*Math.PI+ph);pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="${k===0?2.2:1.3}" opacity="${k===0?1:.42}"/>`;}
- d+=`<text x="332" y="46" text-anchor="end" font-size="12" fill="#6E685B">${esc(p.label||'一簇样本函数')}</text>`;
- d+=`<text x="332" y="284" text-anchor="end" font-size="11" fill="#9A9384">t</text>`;return d;},
-slicet:(p={})=>{let d=`<line x1="26" y1="238" x2="336" y2="238" stroke="#9C9483" stroke-width="1.4"/><line x1="26" y1="238" x2="26" y2="26" stroke="#9C9483" stroke-width="1.4"/>`;
- const xc=188,ys=[];
- for(let k=0;k<3;k++){const ph=k*1.05;let pts=[];
-  for(let i=0;i<=44;i++){const x=26+i*(306/44);const y=140-50*Math.sin((i/44)*2.6*Math.PI+ph);pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.3" opacity=".5"/>`;
-  const i2=(xc-26)/(306/44);ys.push(140-50*Math.sin((i2/44)*2.6*Math.PI+ph));}
- d+=`<line x1="${xc}" y1="34" x2="${xc}" y2="304" stroke="${AC}" stroke-width="1.7" stroke-dasharray="7 5"/>`;
- ys.forEach((y,k)=>{d+=`<circle cx="${xc}" cy="${y.toFixed(1)}" r="4.8" fill="${AC}"/>`;
-  d+=`<line x1="${xc+6}" y1="${y.toFixed(1)}" x2="286" y2="${(104+k*54)}" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3" opacity=".8"/>`;
-  d+=`<circle cx="292" cy="${104+k*54}" r="4.2" fill="${AC}" opacity=".75"/>`;});
- d+=`<text x="292" y="86" text-anchor="middle" font-size="11" fill="#6E685B">${esc(p.label||'一个随机变量')}</text>`;
- d+=`<text x="332" y="284" text-anchor="end" font-size="11" fill="#9A9384">t</text>`;return d;},
-cosfam:(p={})=>{let d='';
- const box=(x0,title,kind,sub)=>{let s=`<line x1="${x0}" y1="226" x2="${x0+146}" y2="226" stroke="#9C9483" stroke-width="1.2"/>`;
-  for(let k=0;k<3;k++){let pts=[];const amp=kind==='amp'?(0.5+0.26*k):0.85,ph=kind==='amp'?0:k*1.15;
-   for(let i=0;i<=32;i++){const x=x0+i*(146/32);const y=126-amp*50*Math.sin((i/32)*2.2*Math.PI+ph);pts.push(x.toFixed(1)+','+y.toFixed(1));}
-   s+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.4" opacity="${k===0?1:.5}"/>`;}
-  s+=`<text x="${x0+73}" y="246" text-anchor="middle" font-size="12" fill="#6E685B">${esc(title)}</text>`;
-  s+=`<text x="${x0+73}" y="266" text-anchor="middle" font-size="11" fill="#9A9384">${esc(sub)}</text>`;return s;};
- d+=box(24,'幅度随机','amp','不平稳')+box(190,'相位随机','ph','平稳');
+/* ===== 第 2 章图示（v1.9.0）===== */
+teplane:(p={})=>{const y=i=>160+16*i-44*Math.sin((270-46)/44+i*1.12);
+ let d=`<line x1="46" y1="252" x2="338" y2="252" stroke="#9C9483" stroke-width="1.4"/>
+ <line x1="46" y1="30" x2="46" y2="252" stroke="#9C9483" stroke-width="1.4"/>`;
+ for(let i=0;i<3;i++){const pts=[];for(let x=46;x<=334;x+=4){pts.push(x.toFixed(1)+','+(160+16*i-44*Math.sin((x-46)/44+i*1.12)).toFixed(1));}
+  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="#9A9384" stroke-width="1.5" opacity=".9"/>`;}
+ const p0=[];for(let x=46;x<=334;x+=3){p0.push(x.toFixed(1)+','+(160-44*Math.sin((x-46)/44)).toFixed(1));}
+ d+=`<polyline points="${p0.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.7"/>`;
+ d+=`<line x1="270" y1="36" x2="270" y2="252" stroke="${AC}" stroke-width="1.2" stroke-dasharray="5 4" opacity=".85"/>`;
+ for(let i=0;i<3;i++){d+=`<circle cx="270" cy="${y(i).toFixed(1)}" r="4.2" fill="${i===0?AC:'#9A9384'}"/>`;}
+ d+=`<text x="270" y="24" text-anchor="middle" font-size="11" fill="${AC}">t 固定 → 随机变量 X(t₀)</text>`;
+ d+=`<text x="30" y="150" text-anchor="middle" font-size="11" fill="#6E685B" transform="rotate(-90 30 150)">样本函数 e</text>`;
+ d+=`<text x="56" y="44" font-size="11" fill="#6E685B">e 固定 → 一条样本函数</text>`;
+ d+=`<text x="334" y="270" text-anchor="end" font-size="11" fill="#6E685B">t</text>`;
+ d+=`<text x="46" y="292" font-size="12" fill="#332F27">横着切是样本函数，竖着切是随机变量</text>`;return d;},
+
+fourclass:(p={})=>{const cells=[
+ [52,58,'连续型随机过程','随机相位信号'],[200,58,'随机序列','采样后的噪声'],
+ [52,166,'离散型随机过程','半二元传输'],[200,166,'离散随机序列','随机游动、伪随机码']];
+ let d=`<text x="124" y="44" text-anchor="middle" font-size="12" fill="#6E685B">时间连续</text>
+ <text x="272" y="44" text-anchor="middle" font-size="12" fill="#6E685B">时间离散</text>`;
+ d+=`<text x="34" y="110" text-anchor="middle" font-size="12" fill="#6E685B" transform="rotate(-90 34 110)">状态连续</text>
+ <text x="34" y="218" text-anchor="middle" font-size="12" fill="#6E685B" transform="rotate(-90 34 218)">状态离散</text>`;
+ for(const c of cells){d+=`<rect x="${c[0]}" y="${c[1]}" width="144" height="96" rx="8" fill="${AC}" fill-opacity=".06" stroke="${AC}" stroke-width="1.2"/>`;
+  d+=`<text x="${c[0]+72}" y="${c[1]+40}" text-anchor="middle" font-size="13.5" fill="#332F27">${c[2]}</text>`;
+  d+=`<text x="${c[0]+72}" y="${c[1]+66}" text-anchor="middle" font-size="11" fill="#6E685B">例：${c[3]}</text>`;}
+ d+=`<text x="52" y="298" font-size="12" fill="#6E685B">先问状态，再问时间，两问两答四类分完</text>`;return d;},
+
+dist12:(p={})=>{let d=`<line x1="28" y1="202" x2="160" y2="202" stroke="#9C9483" stroke-width="1.3"/>
+ <line x1="28" y1="64" x2="28" y2="202" stroke="#9C9483" stroke-width="1.3"/>`;
+ let pts=[];for(let i=0;i<=40;i++){const x=28+132*i/40;const u=(i/40-0.5)*5;pts.push(x.toFixed(1)+','+(172-104/(1+Math.exp(-u))).toFixed(1));}
+ d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<line x1="94" y1="172" x2="94" y2="202" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<text x="94" y="220" text-anchor="middle" font-size="10.5" fill="#6E685B">t 固定</text>`;
+ d+=`<text x="94" y="54" text-anchor="middle" font-size="12" fill="${AC}">一维：一个时刻</text>`;
+ d+=`<line x1="200" y1="202" x2="340" y2="202" stroke="#9C9483" stroke-width="1.3"/>
+ <line x1="200" y1="64" x2="200" y2="202" stroke="#9C9483" stroke-width="1.3"/>`;
+ d+=`<rect x="200" y="120" width="86" height="82" fill="${AC}" fill-opacity=".12" stroke="none"/>`;
+ const dots=[[224,142],[250,158],[268,134],[238,180],[286,172]];
+ for(const q of dots){d+=`<circle cx="${q[0]}" cy="${q[1]}" r="3" fill="${AC}" opacity=".55"/>`;}
+ d+=`<line x1="286" y1="120" x2="286" y2="202" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<line x1="200" y1="120" x2="286" y2="120" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<circle cx="286" cy="120" r="4" fill="${AC}"/>`;
+ d+=`<text x="292" y="114" font-size="10.5" fill="#6E685B">(x₁,x₂)</text>`;
+ d+=`<text x="270" y="54" text-anchor="middle" font-size="12" fill="${AC}">二维：两个时刻</text>`;
+ d+=`<text x="28" y="244" font-size="12" fill="#332F27">一维看一个时刻；二维把两个时刻绑在一起看</text>`;
+ d+=`<text x="28" y="268" font-size="11" fill="#9A9384">二维能推出边缘，反过来推不回去</text>`;return d;},
+
+fourmom:(p={})=>{let d=`<line x1="34" y1="230" x2="332" y2="230" stroke="#9C9483" stroke-width="1.3"/>
+ <line x1="34" y1="52" x2="34" y2="230" stroke="#9C9483" stroke-width="1.3"/>`;
+ let pts=[];for(let x=34;x<=330;x+=3){const u=x-34;pts.push(x.toFixed(1)+','+(150-40*Math.sin(u/34)-8*Math.sin(u/12)).toFixed(1));}
+ d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<line x1="34" y1="150" x2="330" y2="150" stroke="${AC}" stroke-width="1.3" stroke-dasharray="6 4" opacity=".7"/>`;
+ d+=`<line x1="76" y1="230" x2="76" y2="158" stroke="#6E685B" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<text x="84" y="198" font-size="11.5" fill="#6E685B">均值 m：直流位置</text>`;
+ d+=`<text x="196" y="60" font-size="11" fill="${AC}">↕ σ：交流起伏，相对均值</text>`;
+ d+=`<text x="40" y="80" font-size="10.5" fill="#9A9384">R(0)＝总功率</text>`;
+ d+=`<text x="34" y="262" font-size="12" fill="#332F27">均值管位置，方差管起伏，均方管总量</text>`;
+ d+=`<text x="34" y="288" font-size="11.5" fill="#9A9384">协方差：先扣掉直流，再谈相关</text>`;
+ d+=`<text x="326" y="248" text-anchor="end" font-size="11" fill="#6E685B">t</text>`;return d;},
+
+pyth:(p={})=>{let d=`<path d="M70 242 H252 V124 Z" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="2"/>`;
+ d+=`<path d="M238 242 V228 H252" fill="none" stroke="${AC}" stroke-width="1.2"/>`;
+ d+=`<text x="160" y="262" text-anchor="middle" font-size="12" fill="#6E685B">直流 m</text>`;
+ d+=`<text x="258" y="196" font-size="12" fill="#6E685B">交流 σ</text>`;
+ d+=`<text x="138" y="150" text-anchor="middle" font-size="11.5" fill="${AC}" transform="rotate(-33 138 150)">总功率 √R(0)</text>`;
+ d+=`<circle cx="252" cy="124" r="4" fill="${AC}"/>`;
+ d+=`<text x="34" y="298" font-size="12" fill="#332F27">斜边平方 ＝ 两条直角边平方和</text>`;return d;},
+
+phasesig:(p={})=>{let d=`<line x1="28" y1="132" x2="334" y2="132" stroke="#9C9483" stroke-width="1.1"/>`;
+ for(let k=0;k<3;k++){const pts=[];for(let x=28;x<=332;x+=3){pts.push(x.toFixed(1)+','+(92-34*Math.cos((x-28)/30+k*2.1)).toFixed(1));}
+  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${k===0?AC:'#9A9384'}" stroke-width="${k===0?2.4:1.4}" opacity="${k===0?1:.85}"/>`;}
+ d+=`<text x="30" y="34" font-size="11.5" fill="#6E685B">同一个 A、同一个 ω₀，只有相位不同</text>`;
+ d+=`<line x1="28" y1="198" x2="334" y2="198" stroke="#9C9483" stroke-width="1.1"/>`;
+ let p2=[];for(let x=28;x<=330;x+=3){p2.push(x.toFixed(1)+','+(174-16*Math.cos((x-28)/30)).toFixed(1));}
+ d+=`<polyline points="${p2.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.1"/>`;
+ d+=`<line x1="28" y1="174" x2="334" y2="174" stroke="${AC}" stroke-width="1" stroke-dasharray="4 4" opacity=".45"/>`;
+ d+=`<text x="30" y="150" font-size="10.5" fill="${AC}">自相关只依赖 τ，与相位无关</text>`;
+ d+=`<text x="30" y="220" font-size="11" fill="#6E685B">三条样本，起点各不一样</text>`;return d;},
+
+nested:(p={})=>{let d=`<rect x="22" y="34" width="316" height="228" rx="14" fill="${AC}" fill-opacity=".05" stroke="${AC}" stroke-width="1.6"/>`;
+ d+=`<text x="34" y="56" font-size="12.5" fill="${AC}">广义平稳：均值常数、相关只依赖 τ</text>`;
+ d+=`<rect x="52" y="92" width="216" height="122" rx="10" fill="#FBF8EF" stroke="${AC}" stroke-width="1.4" stroke-dasharray="6 4"/>`;
+ d+=`<text x="66" y="116" font-size="12.5" fill="#332F27">严平稳：任意 N 维分布</text>
+ <text x="66" y="136" font-size="12.5" fill="#332F27">对时间平移不变</text>`;
+ d+=`<text x="66" y="166" font-size="11.5" fill="#6E685B">⇒ 一维密度与 t 无关</text>
+ <text x="66" y="186" font-size="11.5" fill="#6E685B">⇒ 二维只依赖 τ</text>`;
+ d+=`<line x1="276" y1="153" x2="330" y2="153" stroke="${AC}" stroke-width="1.8" marker-end="url(#ar)"/>`;
+ d+=`<text x="296" y="144" text-anchor="middle" font-size="10.5" fill="#6E685B">单向</text>`;
+ d+=`<text x="22" y="292" font-size="12" fill="#332F27">正态过程是唯一例外：两个圈重合，双向都成立</text>`;return d;},
+
+ampvphase:(p={})=>{let d=`<line x1="18" y1="196" x2="172" y2="196" stroke="#9C9483" stroke-width="1.1"/>
+ <line x1="190" y1="196" x2="344" y2="196" stroke="#9C9483" stroke-width="1.1"/>`;
+ const amps=[24,38,52];
+ for(const a of amps){const pts=[];for(let x=20;x<=170;x+=3){pts.push(x.toFixed(1)+','+(120-a*Math.cos((x-20)/22)).toFixed(1));}
+  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="#9A9384" stroke-width="1.4" opacity=".85"/>`;}
+ let pm=[];for(let x=20;x<=170;x+=3){pm.push(x.toFixed(1)+','+(120-38*Math.cos((x-20)/22)).toFixed(1));}
+ d+=`<polyline points="${pm.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.1" stroke-dasharray="5 4"/>`;
+ for(let k=0;k<3;k++){const pts=[];for(let x=192;x<=342;x+=3){pts.push(x.toFixed(1)+','+(120-44*Math.cos((x-192)/22+k*2.2)).toFixed(1));}
+  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="#9A9384" stroke-width="1.4" opacity=".85"/>`;}
+ d+=`<line x1="190" y1="120" x2="344" y2="120" stroke="${AC}" stroke-width="1.8" stroke-dasharray="5 4"/>`;
+ d+=`<text x="95" y="54" text-anchor="middle" font-size="12" fill="#332F27">幅度随机、相位固定</text>`;
+ d+=`<text x="267" y="54" text-anchor="middle" font-size="12" fill="#332F27">幅度固定、相位随机</text>`;
+ d+=`<text x="95" y="218" text-anchor="middle" font-size="11.5" fill="${AC}">均值随时间变 → 非平稳</text>`;
+ d+=`<text x="267" y="218" text-anchor="middle" font-size="11.5" fill="${AC}">均值恒为 0 → 平稳</text>`;
+ d+=`<text x="18" y="256" font-size="12" fill="#6E685B">只差一个位置：随机量乘在幅度上，还是加在相位上</text>`;
+ d+=`<text x="18" y="282" font-size="11.5" fill="#9A9384">前者一算均值就露馅，后者要算自相关才看得出来</text>`;return d;},
+
+judge3:(p={})=>{let d='';
+ const rows=[[34,'① 均值是常数吗？','否 → 非平稳'],[112,'② 相关只含时间差吗？','否 → 非平稳'],[190,'③ 三阶矩随时间变吗？','是 → 非严平稳']];
+ for(const r of rows){d+=`<rect x="22" y="${r[0]}" width="214" height="54" rx="8" fill="${AC}" fill-opacity=".06" stroke="${AC}" stroke-width="1.15"/>`;
+  d+=`<text x="34" y="${r[0]+33}" font-size="12" fill="#332F27">${r[1]}</text>`;
+  d+=`<text x="246" y="${r[0]+33}" font-size="10.5" fill="#B4442F">${r[2]}</text>`;}
+ d+=`<line x1="129" y1="88" x2="129" y2="110" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>
+ <line x1="129" y1="166" x2="129" y2="188" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<text x="140" y="103" font-size="10.5" fill="#9A9384">是</text>
+ <text x="140" y="181" font-size="10.5" fill="#9A9384">是</text>`;
+ d+=`<text x="22" y="286" font-size="12.5" fill="#332F27">三步都过，才敢下“平稳”的结论</text>`;return d;},
+
+cyclo:(p={})=>{let d=`<line x1="26" y1="132" x2="336" y2="132" stroke="#9C9483" stroke-width="1.1"/>`;
+ let pts=[];for(let x=26;x<=334;x+=2){const ph=((x-26)%52)/52;pts.push(x.toFixed(1)+','+(130-44*Math.abs(Math.cos(Math.PI*ph))).toFixed(1));}
+ d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ for(let k=0;k<6;k++){const x=26+52*k;d+=`<line x1="${x}" y1="58" x2="${x}" y2="132" stroke="#9C9483" stroke-width=".9" stroke-dasharray="3 3"/>`;}
+ d+=`<text x="26" y="50" font-size="11.5" fill="#6E685B">统计量按 T 周期重复</text>`;
+ d+=`<line x1="26" y1="256" x2="336" y2="256" stroke="#9C9483" stroke-width="1.1"/>`;
+ let p2=[];for(let x=26;x<=334;x+=2){const ph=((x-26)%52)/52;p2.push(x.toFixed(1)+','+(240-6*Math.abs(Math.cos(Math.PI*ph))).toFixed(1));}
+ d+=`<polyline points="${p2.join(' ')}" fill="none" stroke="#9A9384" stroke-width="1.2" opacity=".7"/>`;
+ d+=`<line x1="26" y1="234" x2="336" y2="234" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<text x="26" y="214" font-size="11.5" fill="${AC}">随机化：把相位在一个周期里平均 → 常数</text>`;
+ d+=`<text x="26" y="288" font-size="12" fill="#6E685B">循环平稳不是平稳，随机化以后才是</text>`;return d;},
+
+ergodic:(p={})=>{let d=`<line x1="30" y1="220" x2="336" y2="220" stroke="#9C9483" stroke-width="1.1"/>`;
+ for(let k=0;k<5;k++){const pts=[];for(let x=32;x<=330;x+=3){pts.push(x.toFixed(1)+','+(120-10*k-30*Math.sin((x-32)/44+k*1.3)).toFixed(1));}
+  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="#9A9384" stroke-width="1.3" opacity=".8"/>`;}
+ let ph=[];for(let x=32;x<=330;x+=3){ph.push(x.toFixed(1)+','+(60-30*Math.sin((x-32)/44+2.6)).toFixed(1));}
+ d+=`<polyline points="${ph.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<line x1="212" y1="40" x2="212" y2="220" stroke="${AC}" stroke-width="1.1" stroke-dasharray="4 4" opacity=".8"/>`;
+ for(let k=0;k<5;k++){const y=120-10*k-30*Math.sin((212-32)/44+k*1.3);d+=`<circle cx="212" cy="${y.toFixed(1)}" r="3.2" fill="${k===2?AC:'#9A9384'}"/>`;}
+ d+=`<text x="218" y="48" font-size="11" fill="${AC}">竖着取：集平均</text>`;
+ d+=`<line x1="60" y1="238" x2="300" y2="238" stroke="${AC}" stroke-width="1.3" marker-start="url(#ar)" marker-end="url(#ar)"/>`;
+ d+=`<text x="180" y="256" text-anchor="middle" font-size="11" fill="${AC}">横着取：一条样本的时间平均</text>`;
+ d+=`<text x="30" y="288" font-size="12" fill="#6E685B">遍历：横着算出来的，等于竖着算出来的</text>`;return d;},
+
+sve:(p={})=>{let d=`<line x1="40" y1="216" x2="322" y2="216" stroke="#9C9483" stroke-width="1.1"/>
+ <line x1="40" y1="40" x2="40" y2="216" stroke="#9C9483" stroke-width="1.1"/>`;
+ const lv=[68,104,140,176];
+ for(let k=0;k<4;k++){d+=`<line x1="40" y1="${lv[k]}" x2="310" y2="${lv[k]}" stroke="${k===1?AC:'#9A9384'}" stroke-width="${k===1?2.4:1.4}"/>`;
+  d+=`<text x="316" y="${lv[k]+4}" font-size="10.5" fill="#6E685B">y${['₁','₂','₃','₄'][k]}</text>`;}
+ d+=`<line x1="40" y1="122" x2="310" y2="122" stroke="#B4442F" stroke-width="1.2" stroke-dasharray="5 4"/>`;
+ d+=`<text x="48" y="116" font-size="10.5" fill="#B4442F">集合平均</text>`;
+ d+=`<text x="40" y="48" font-size="11.5" fill="#6E685B">每条样本是一条水平线</text>`;
+ d+=`<text x="40" y="248" font-size="12" fill="#332F27">时间平均 ＝ 这条线的 Y，不等于集合平均</text>`;
+ d+=`<text x="40" y="274" font-size="11.5" fill="${AC}">平稳 ✓　遍历 ✗</text>`;
+ d+=`<text x="40" y="300" font-size="11.5" fill="#9A9384">一条样本再长，也看不到集合的分布</text>`;return d;},
+
+acf5:(p={})=>{let d=`<line x1="38" y1="236" x2="336" y2="236" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="38" y1="50" x2="38" y2="236" stroke="#9C9483" stroke-width="1.2"/>`;
+ let pts=[];for(let x=38;x<=332;x+=2){const u=x-38;pts.push(x.toFixed(1)+','+(176-96*Math.exp(-0.011*u)*Math.cos(0.052*u)).toFixed(1));}
+ d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ d+=`<line x1="38" y1="176" x2="332" y2="176" stroke="#9C9483" stroke-width="1.1" stroke-dasharray="5 4"/>`;
+ 
+ d+=`<circle cx="38" cy="80" r="3.6" fill="${AC}"/>`;
+ d+=`<text x="46" y="74" font-size="11" fill="${AC}">最高点：总功率</text>`;
+ d+=`<line x1="38" y1="80" x2="38" y2="176" stroke="${AC}" stroke-width="1" stroke-dasharray="2 3" opacity=".6"/>`;
+ d+=`<text x="210" y="58" font-size="11" fill="#6E685B">左右对称</text>`;
+ d+=`<text x="206" y="206" font-size="11" fill="#6E685B">τ 变大 → 落到均值平方</text>`;
+ d+=`<text x="38" y="270" font-size="11.5" fill="#332F27">① 偶　② 峰值在原点　③ 总功率</text>`;
+ d+=`<text x="38" y="294" font-size="11.5" fill="#332F27">④ 极限是均值平方　⑤ 谱非负</text>`;return d;},
+
+strip:(p={})=>{let d=`<line x1="38" y1="256" x2="336" y2="256" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="38" y1="52" x2="38" y2="256" stroke="#9C9483" stroke-width="1.2"/>`;
+ let pts=[];for(let x=38;x<=332;x+=2){const u=(x-38)/12;pts.push(x.toFixed(1)+','+(250-1.05*(100*Math.exp(-u/8)+10*Math.cos(u)+50)).toFixed(1));}
+ d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<line x1="38" y1="${(250-1.05*50).toFixed(1)}" x2="332" y2="${(250-1.05*50).toFixed(1)}" stroke="#B4442F" stroke-width="1.2" stroke-dasharray="5 4"/>`;
+ d+=`<text x="44" y="${(250-1.05*50-8).toFixed(1)}" font-size="11" fill="#B4442F">极限 50 → 均值平方 50</text>`;
+ d+=`<path d="M96 62 Q130 44 172 62" fill="none" stroke="#B4442F" stroke-width="1.2"/>`;
+ d+=`<text x="134" y="40" text-anchor="middle" font-size="10.5" fill="#B4442F">这段是周期项，先划掉</text>`;
+ d+=`<text x="38" y="282" font-size="11.5" fill="#332F27">R(τ) ＝ 指数项 ＋ 周期项 ＋ 常数</text>`;
+ d+=`<text x="38" y="304" font-size="11" fill="#9A9384">不剔除周期项，极限根本不存在</text>`;return d;},
+
+corrtime:(p={})=>{let d=`<line x1="40" y1="240" x2="336" y2="240" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="40" y1="52" x2="40" y2="240" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<path d="M40 240 L40 72`;
+ const pts=[];for(let x=40;x<=330;x+=2){pts.push(x.toFixed(1)+','+(240-168*Math.exp(-0.016*(x-40))).toFixed(1));}
+ d+=` L330 240 Z" fill="${AC}" fill-opacity=".10" stroke="none"/>`;
+ d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<text x="46" y="66" font-size="11" fill="${AC}">r(0)＝1</text>`;
+ d+=`<text x="150" y="210" font-size="11.5" fill="#6E685B">这块面积就是相关时间 τ₀</text>`;
+ d+=`<text x="40" y="272" font-size="11.5" fill="#332F27">r 在 −1 到 1 之间，r(0)＝1</text>`;
+ d+=`<text x="40" y="296" font-size="11" fill="#9A9384">归一化以后，不同过程才能比“拖多久”</text>`;
+ d+=`<text x="330" y="258" text-anchor="end" font-size="10.5" fill="#6E685B">τ</text>`;return d;},
+
+wk:(p={})=>{let d=`<line x1="18" y1="196" x2="150" y2="196" stroke="#9C9483" stroke-width="1.1"/>
+ <line x1="18" y1="52" x2="18" y2="196" stroke="#9C9483" stroke-width="1.1"/>`;
+ let pts=[];for(let x=18;x<=146;x+=2){pts.push(x.toFixed(1)+','+(180-100*Math.exp(-0.030*(x-18))).toFixed(1));}
+ d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<text x="84" y="42" text-anchor="middle" font-size="11.5" fill="${AC}">自相关 R(τ)</text>`;
+ d+=`<text x="18" y="216" font-size="10.5" fill="#6E685B">时域</text>`;
+ d+=`<line x1="212" y1="196" x2="342" y2="196" stroke="#9C9483" stroke-width="1.1"/>
+ <line x1="212" y1="52" x2="212" y2="196" stroke="#9C9483" stroke-width="1.1"/>`;
+ let p2=[];for(let x=212;x<=340;x+=2){const u=(x-277)/32;p2.push(x.toFixed(1)+','+(188-100/(1+u*u)).toFixed(1));}
+ d+=`<polyline points="${p2.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<text x="277" y="42" text-anchor="middle" font-size="11.5" fill="${AC}">功率谱 G(ω)</text>`;
+ d+=`<text x="212" y="216" font-size="10.5" fill="#6E685B">频域</text>`;
+ d+=`<line x1="160" y1="120" x2="200" y2="120" stroke="${AC}" stroke-width="1.4" marker-start="url(#ar)" marker-end="url(#ar)"/>`;
+ d+=`<text x="180" y="108" text-anchor="middle" font-size="11" fill="${AC}">ℱ</text>`;
+ d+=`<text x="180" y="140" text-anchor="middle" font-size="10.5" fill="${AC}">1/2π</text>`;
+ d+=`<text x="18" y="252" font-size="12" fill="#332F27">维纳–辛钦：一对傅里叶变换</text>`;
+ d+=`<text x="18" y="278" font-size="11" fill="#9A9384">正变换没有系数，反变换才带 1/2π</text>`;return d;},
+
+pairs4:(p={})=>{let d='';
+ const cell=(x,y,t1,t2)=>{d+=`<rect x="${x}" y="${y}" width="152" height="112" rx="7" fill="#FBF8EF" stroke="#D9D2C1" stroke-width="1"/>`;
+  d+=`<line x1="${x+12}" y1="${y+86}" x2="${x+64}" y2="${y+86}" stroke="#9C9483" stroke-width="1"/>`;
+  d+=`<line x1="${x+88}" y1="${y+86}" x2="${x+140}" y2="${y+86}" stroke="#9C9483" stroke-width="1"/>`;
+  d+=`<line x1="${x+68}" y1="${y+56}" x2="${x+84}" y2="${y+56}" stroke="${AC}" stroke-width="1.2" marker-end="url(#ar)"/>`;
+  d+=`<text x="${x+38}" y="${y+104}" text-anchor="middle" font-size="9.5" fill="#6E685B">${t1}</text>`;
+  d+=`<text x="${x+114}" y="${y+104}" text-anchor="middle" font-size="9.5" fill="#6E685B">${t2}</text>`;};
+ cell(18,22,'δ(τ)','1');
+ d+=`<line x1="68" y1="100" x2="68" y2="52" stroke="${AC}" stroke-width="2.4"/><circle cx="68" cy="52" r="3" fill="${AC}"/>`;
+ d+=`<line x1="100" y1="72" x2="156" y2="72" stroke="${AC}" stroke-width="2.2"/>`;
+ cell(190,22,'1','2πδ(ω)');
+ d+=`<line x1="202" y1="72" x2="258" y2="72" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<line x1="276" y1="100" x2="276" y2="52" stroke="${AC}" stroke-width="2.4"/><circle cx="276" cy="52" r="3" fill="${AC}"/>`;
+ cell(18,160,'cosω₀τ','两条谱线');
+ let c=[];for(let x=30;x<=80;x+=2){c.push(x.toFixed(1)+','+(226-16*Math.cos((x-30)/9)).toFixed(1));}
+ d+=`<polyline points="${c.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.8"/>`;
+ d+=`<line x1="118" y1="246" x2="118" y2="214" stroke="${AC}" stroke-width="2.2"/><circle cx="118" cy="212" r="2.6" fill="${AC}"/>`;
+ d+=`<line x1="146" y1="246" x2="146" y2="214" stroke="${AC}" stroke-width="2.2"/><circle cx="146" cy="212" r="2.6" fill="${AC}"/>`;
+ cell(190,160,'指数衰减','洛伦兹谱');
+ let e=[];for(let x=202;x<=252;x+=2){e.push(x.toFixed(1)+','+(236-38*Math.exp(-(x-202)/16)).toFixed(1));}
+ d+=`<polyline points="${e.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.9"/>`;
+ let l=[];for(let x=278;x<=326;x+=2){const u=(x-302)/13;l.push(x.toFixed(1)+','+(238-46/(1+u*u)).toFixed(1));}
+ d+=`<polyline points="${l.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.9"/>`;
+ d+=`<text x="18" y="300" font-size="11" fill="#332F27">四个对：两条冲激、一条常数、一条余弦、一条指数</text>`;
  return d;},
-racf:(p={})=>{const marks=p.marks!==false,asym=p.asym!==false;
- let d=`<line x1="18" y1="248" x2="342" y2="248" stroke="#9C9483" stroke-width="1.4"/><line x1="180" y1="248" x2="180" y2="26" stroke="#9C9483" stroke-width="1.4"/>`;
- let pts=[];
- for(let i=0;i<=150;i++){const x=18+i*(324/150);const t=(x-180)/104;const env=Math.exp(-Math.abs(t)*0.42);
-  const y=248-138*env*Math.cos(t*4.4);pts.push(x.toFixed(1)+','+y.toFixed(1));}
- d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
- if(asym){const ay=p.asymY||216;d+=`<line x1="18" y1="${ay}" x2="342" y2="${ay}" stroke="#9C9483" stroke-width="1.1" stroke-dasharray="5 4"/>`;
-  d+=`<text x="340" y="${ay-8}" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.asymLabel||'m²')}</text>`;}
- if(marks){d+=`<circle cx="180" cy="106" r="4.4" fill="${AC}"/>`;
-  d+=`<text x="188" y="98" font-size="11" fill="#6E685B">${esc(p.markLabel||'R(0)')}</text>`;}
- d+=`<text x="334" y="270" text-anchor="end" font-size="11" fill="#6E685B">τ</text>`;return d;},
-psd:(p={})=>{let d='';
- d+=`<line x1="24" y1="126" x2="336" y2="126" stroke="#9C9483" stroke-width="1.2"/>`;
- d+=`<line x1="24" y1="126" x2="24" y2="30" stroke="#9C9483" stroke-width="1.2"/>`;
- if(p.shape){let pts=[];
-  for(let i=0;i<=60;i++){const x=26+i*(306/60);const y=126-78*Math.exp(-Math.pow((x-150)/62,2));pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
-  d+=`<line x1="30" y1="62" x2="330" y2="62" stroke="#9C9483" stroke-width="1.2" stroke-dasharray="5 4"/>`;
-  d+=`<text x="330" y="54" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.label||'白噪声：平的')}</text>`;}
- else{d+=`<line x1="30" y1="62" x2="330" y2="62" stroke="${AC}" stroke-width="2.6"/>`;
-  d+=`<text x="330" y="52" text-anchor="end" font-size="12" fill="#6E685B">${esc(p.label||'G(ω) = N₀/2')}</text>`;}
- d+=`<text x="330" y="144" text-anchor="end" font-size="11" fill="#9A9384">ω</text>`;
- d+=`<line x1="24" y1="272" x2="336" y2="272" stroke="#9C9483" stroke-width="1.2"/>`;
- d+=`<line x1="180" y1="272" x2="180" y2="170" stroke="#9C9483" stroke-width="1.2"/>`;
- if(p.shape){let pts=[];
-  for(let i=0;i<=60;i++){const x=40+i*(280/60);const t=(x-180)/52;const y=272-72*Math.exp(-Math.abs(t));pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
-  d+=`<text x="196" y="196" font-size="11" fill="#6E685B">${esc(p.rLabel||'R(τ) 拖尾')}</text>`;}
- else{d+=`<rect x="175" y="178" width="10" height="94" fill="${AC}"/>`;
-  d+=`<text x="194" y="204" font-size="12" fill="#6E685B">${esc(p.rLabel||'R(τ) = N₀/2·δ(τ)')}</text>`;}
- d+=`<text x="330" y="292" text-anchor="end" font-size="11" fill="#9A9384">τ</text>`;return d;},
-xcorr:(p={})=>{const x0=p.x0||250;
- let d=`<line x1="20" y1="252" x2="340" y2="252" stroke="#9C9483" stroke-width="1.4"/><line x1="20" y1="252" x2="20" y2="28" stroke="#9C9483" stroke-width="1.4"/>`;
- let pts=[];
- for(let i=0;i<=120;i++){const x=20+i*(318/120);
-  const y=246-54*Math.exp(-Math.pow((x-96)/46,2))-118*Math.exp(-Math.pow((x-x0)/9,2));
-  pts.push(x.toFixed(1)+','+y.toFixed(1));}
- d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
- d+=`<line x1="${x0}" y1="122" x2="${x0}" y2="252" stroke="${AC}" stroke-width="1.1" stroke-dasharray="5 4" opacity=".85"/>`;
- d+=`<text x="${x0+8}" y="112" font-size="12" fill="#6E685B">${esc(p.label||'延迟 τ₀')}</text>`;
- d+=`<text x="330" y="272" text-anchor="end" font-size="11" fill="#6E685B">τ</text>`;
- d+=`<text x="70" y="286" font-size="11" fill="#9A9384">${esc(p.left||'噪声底')}</text>`;return d;},
-dcwave:(p={})=>{let d=`<line x1="24" y1="258" x2="336" y2="258" stroke="#9C9483" stroke-width="1.4"/><line x1="24" y1="258" x2="24" y2="30" stroke="#9C9483" stroke-width="1.4"/>`;
- let pts=[];
- for(let i=0;i<=96;i++){const x=28+i*(300/96);
-  const n=0.46*Math.sin(i*1.7)+0.34*Math.sin(i*0.63+1.2)+0.2*Math.sin(i*3.1+0.4);
-  const y=150-54-n*46;pts.push(x.toFixed(1)+','+y.toFixed(1));}
- d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.8"/>`;
- d+=`<line x1="24" y1="150" x2="336" y2="150" stroke="${AC}" stroke-width="1.6" stroke-dasharray="7 5" opacity=".85"/>`;
- d+=`<text x="330" y="140" text-anchor="end" font-size="12" fill="#6E685B">${esc(p.meanLabel||'m · 直流')}</text>`;
- d+=`<line x1="300" y1="104" x2="300" y2="196" stroke="#9C9483" stroke-width="1.1"/>
- <path d="M296 104 h8 M296 196 h8" stroke="#9C9483" stroke-width="1.1"/>
- <text x="310" y="214" font-size="11" fill="#6E685B">${esc(p.devLabel||'起伏 · 交流')}</text>`;
+
+/* 第 2 章图示（续）：互相关、白噪声、例题 */
+specfac:(p={})=>{let d=`<rect x="40" y="44" width="140" height="256" fill="${AC}" fill-opacity=".07"/>`;
+ d+=`<line x1="40" y1="172" x2="326" y2="172" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="180" y1="44" x2="180" y2="300" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<text x="314" y="190" text-anchor="end" font-size="10.5" fill="#6E685B">实轴 σ</text>
+ <text x="188" y="56" font-size="10.5" fill="#6E685B">虚轴 jω</text>`;
+ d+=`<text x="48" y="62" font-size="10.5" fill="${AC}">左半平面</text>`;
+ for(const q of [[136,120],[136,224]]){d+=`<line x1="129" y1="${q[1]-7}" x2="143" y2="${q[1]+7}" stroke="${AC}" stroke-width="1.7"/><line x1="143" y1="${q[1]-7}" x2="129" y2="${q[1]+7}" stroke="${AC}" stroke-width="1.7"/>`;}
+ for(const q of [[224,120],[224,224]]){d+=`<line x1="217" y1="${q[1]-7}" x2="231" y2="${q[1]+7}" stroke="#9A9384" stroke-width="1.7"/><line x1="231" y1="${q[1]-7}" x2="217" y2="${q[1]+7}" stroke="#9A9384" stroke-width="1.7"/>`;}
+ d+=`<text x="136" y="252" text-anchor="middle" font-size="10.5" fill="${AC}">归 G 正</text>`;
+ d+=`<text x="224" y="252" text-anchor="middle" font-size="10.5" fill="#9A9384">归 G 负</text>`;
+ d+=`<text x="40" y="318" font-size="11" fill="#6E685B">序列谱另记：周期 2π、积分限 ±π</text>`;return d;},
+
+xcorr:(p={})=>{let d=`<line x1="30" y1="230" x2="336" y2="230" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="180" y1="52" x2="180" y2="230" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<text x="330" y="248" text-anchor="end" font-size="10.5" fill="#6E685B">τ</text>
+ <text x="186" y="60" font-size="10.5" fill="#6E685B">0</text>`;
+ let a=[];for(let x=30;x<=330;x+=2){const u=(x-224)/52;a.push(x.toFixed(1)+','+(196-108*Math.exp(-u*u)).toFixed(1));}
+ d+=`<polyline points="${a.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ let b=[];for(let x=30;x<=330;x+=2){const u=(x-136)/52;b.push(x.toFixed(1)+','+(196-108*Math.exp(-u*u)).toFixed(1));}
+ d+=`<polyline points="${b.join(' ')}" fill="none" stroke="#9A9384" stroke-width="1.8" stroke-dasharray="6 4"/>`;
+ d+=`<line x1="224" y1="88" x2="224" y2="230" stroke="${AC}" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>`;
+ d+=`<line x1="136" y1="88" x2="136" y2="230" stroke="#9A9384" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>`;
+ d+=`<text x="232" y="84" font-size="11" fill="${AC}">互相关</text>`;
+ d+=`<text x="128" y="84" text-anchor="end" font-size="11" fill="#6E685B">镜像</text>`;
+ d+=`<text x="30" y="272" font-size="12" fill="#332F27">互相关不偶：两条曲线互为镜像</text>`;
+ d+=`<text x="30" y="298" font-size="11" fill="#9A9384">峰值还受施瓦兹界压着，超不过自相关</text>`;return d;},
+
+xspec:(p={})=>{let d=`<line x1="30" y1="140" x2="336" y2="140" stroke="#9C9483" stroke-width="1.1"/>
+ <line x1="180" y1="34" x2="180" y2="140" stroke="#9C9483" stroke-width="1.1"/>`;
+ let a=[];for(let x=30;x<=330;x+=2){const u=(x-180)/42;a.push(x.toFixed(1)+','+(136-62/(1+u*u)).toFixed(1));}
+ d+=`<polyline points="${a.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.1"/>`;
+ d+=`<text x="32" y="54" font-size="11" fill="${AC}">自谱：非负、实、偶</text>`;
+ d+=`<line x1="30" y1="240" x2="336" y2="240" stroke="#9C9483" stroke-width="1.1"/>
+ <line x1="180" y1="170" x2="180" y2="306" stroke="#9C9483" stroke-width="1.1"/>`;
+ let r=[];for(let x=30;x<=330;x+=2){const u=(x-180)/40;r.push(x.toFixed(1)+','+(240-58*Math.exp(-u*u)).toFixed(1));}
+ d+=`<polyline points="${r.join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
+ let im=[];for(let x=30;x<=330;x+=2){const u=(x-180)/40;im.push(x.toFixed(1)+','+(240+44*u*Math.exp(-u*u)).toFixed(1));}
+ d+=`<polyline points="${im.join(' ')}" fill="none" stroke="#B4442F" stroke-width="1.7" stroke-dasharray="6 4"/>`;
+ d+=`<text x="32" y="182" font-size="10.5" fill="${AC}">实部：偶，可正可负</text>
+ <text x="32" y="198" font-size="10.5" fill="#B4442F">虚部：奇，穿过零</text>`;
+ d+=`<text x="30" y="318" font-size="11" fill="#6E685B">互谱可以取负，和自谱别混</text>`;return d;},
+
+ranging:(p={})=>{let d=`<rect x="36" y="46" width="66" height="30" rx="4" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.2"/>
+ <text x="69" y="65" text-anchor="middle" font-size="10.5" fill="${AC}">时延 t₀</text>`;
+ d+=`<rect x="120" y="46" width="42" height="30" rx="4" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.2"/>
+ <text x="141" y="65" text-anchor="middle" font-size="10.5" fill="${AC}">×α</text>`;
+ d+=`<circle cx="196" cy="61" r="11" fill="#FBF8EF" stroke="${AC}" stroke-width="1.3"/><text x="196" y="66" text-anchor="middle" font-size="13" fill="${AC}">+</text>`;
+ d+=`<rect x="238" y="46" width="46" height="30" rx="4" fill="${AC}" fill-opacity=".08" stroke="${AC}" stroke-width="1.2"/>
+ <text x="261" y="65" text-anchor="middle" font-size="10.5" fill="${AC}">Y(t)</text>`;
+ d+=`<line x1="12" y1="61" x2="34" y2="61" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/><text x="6" y="55" font-size="10" fill="#6E685B">X(t)</text>`;
+ d+=`<line x1="102" y1="61" x2="118" y2="61" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<line x1="162" y1="61" x2="184" y2="61" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<line x1="207" y1="61" x2="236" y2="61" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/>`;
+ d+=`<line x1="196" y1="16" x2="196" y2="48" stroke="#9C9483" stroke-width="1.3" marker-end="url(#ar2)"/><text x="200" y="24" font-size="10" fill="#6E685B">N(t)</text>`;
+ d+=`<line x1="34" y1="254" x2="330" y2="254" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="34" y1="120" x2="34" y2="254" stroke="#9C9483" stroke-width="1.2"/>`;
+ let c=[];for(let x=34;x<=326;x+=2){const u=(x-262)/40;c.push(x.toFixed(1)+','+(222-72*Math.exp(-u*u)).toFixed(1));}
+ d+=`<polyline points="${c.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ d+=`<line x1="262" y1="150" x2="262" y2="254" stroke="${AC}" stroke-width="1.1" stroke-dasharray="4 4"/>`;
+ d+=`<text x="262" y="272" text-anchor="middle" font-size="11" fill="${AC}">峰在 τ＝t₀</text>`;
+ d+=`<text x="40" y="140" font-size="10.5" fill="#6E685B">互相关：峰移 t₀</text>`;
+ d+=`<text x="34" y="300" font-size="11.5" fill="#332F27">噪声被相关压掉，峰的位置就是时延</text>`;return d;},
+
+white:(p={})=>{let d=`<line x1="34" y1="128" x2="332" y2="128" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="34" y1="48" x2="34" y2="128" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="34" y1="78" x2="330" y2="78" stroke="${AC}" stroke-width="2.6"/>`;
+ d+=`<text x="40" y="68" font-size="11" fill="${AC}">功率谱 N₀/2：全频带一样高</text>`;
+ d+=`<text x="34" y="154" font-size="11" fill="#6E685B">谱平坦 → 白</text>`;
+ d+=`<line x1="34" y1="268" x2="332" y2="268" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="180" y1="182" x2="180" y2="268" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="180" y1="268" x2="180" y2="204" stroke="${AC}" stroke-width="2.6"/><circle cx="180" cy="202" r="4" fill="${AC}"/>`;
+ d+=`<text x="190" y="210" font-size="11" fill="${AC}">自相关 ＝ (N₀/2)δ(τ)</text>`;
+ d+=`<text x="34" y="294" font-size="11" fill="#6E685B">只有零时差才相关，其余时刻全不相关</text>`;
+ d+=`<text x="34" y="316" font-size="10.5" fill="#9A9384">注意：白讲的是谱，不是幅度分布</text>`;return d;},
+
+color:(p={})=>{let d=`<line x1="34" y1="140" x2="332" y2="140" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="34" y1="46" x2="34" y2="140" stroke="#9C9483" stroke-width="1.2"/>`;
+ let a=[];for(let x=34;x<=330;x+=2){const u=(x-150)/54;a.push(x.toFixed(1)+','+(134-66/(1+u*u)).toFixed(1));}
+ d+=`<polyline points="${a.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.4"/>`;
+ d+=`<line x1="34" y1="86" x2="330" y2="86" stroke="#9A9384" stroke-width="1.2" stroke-dasharray="5 4"/>`;
+ d+=`<text x="40" y="80" font-size="10" fill="#9A9384">白噪声：平的</text>`;
+ d+=`<text x="40" y="60" font-size="10.5" fill="${AC}">色噪声：有峰有谷</text>`;
+ d+=`<line x1="34" y1="268" x2="332" y2="268" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="34" y1="176" x2="34" y2="268" stroke="#9C9483" stroke-width="1.2"/>`;
+ let c=[];for(let x=34;x<=328;x+=2){const u=x-34;c.push(x.toFixed(1)+','+(238-54*Math.exp(-0.012*u)*Math.cos(0.06*u)).toFixed(1));}
+ d+=`<polyline points="${c.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
+ d+=`<line x1="34" y1="238" x2="328" y2="238" stroke="#9A9384" stroke-width="1" stroke-dasharray="4 4"/>`;
+ d+=`<text x="34" y="294" font-size="11.5" fill="#332F27">谱变窄，相关就拖得更长</text>`;
+ d+=`<text x="34" y="316" font-size="10.5" fill="#9A9384">白噪声过线性系统，出来就是色噪声</text>`;return d;},
+
+normal:(p={})=>{let d=`<rect x="26" y="34" width="112" height="44" rx="7" fill="${AC}" fill-opacity=".07" stroke="${AC}" stroke-width="1.2"/>
+ <text x="82" y="61" text-anchor="middle" font-size="12.5" fill="#332F27">广义平稳</text>`;
+ d+=`<rect x="222" y="34" width="112" height="44" rx="7" fill="${AC}" fill-opacity=".07" stroke="${AC}" stroke-width="1.2"/>
+ <text x="278" y="61" text-anchor="middle" font-size="12.5" fill="#332F27">严格平稳</text>`;
+ d+=`<line x1="142" y1="50" x2="218" y2="50" stroke="${AC}" stroke-width="1.4" marker-end="url(#ar)"/>`;
+ d+=`<line x1="218" y1="64" x2="142" y2="64" stroke="${AC}" stroke-width="1.4" marker-end="url(#ar)"/>`;
+ d+=`<text x="180" y="42" text-anchor="middle" font-size="10" fill="${AC}">正态：等价</text>`;
+ d+=`<rect x="26" y="120" width="112" height="44" rx="7" fill="${AC}" fill-opacity=".07" stroke="${AC}" stroke-width="1.2"/>
+ <text x="82" y="147" text-anchor="middle" font-size="12.5" fill="#332F27">不相关</text>`;
+ d+=`<rect x="222" y="120" width="112" height="44" rx="7" fill="${AC}" fill-opacity=".07" stroke="${AC}" stroke-width="1.2"/>
+ <text x="278" y="147" text-anchor="middle" font-size="12.5" fill="#332F27">独立</text>`;
+ d+=`<line x1="142" y1="136" x2="218" y2="136" stroke="${AC}" stroke-width="1.4" marker-end="url(#ar)"/>`;
+ d+=`<line x1="218" y1="150" x2="142" y2="150" stroke="${AC}" stroke-width="1.4" marker-end="url(#ar)"/>`;
+ d+=`<text x="180" y="128" text-anchor="middle" font-size="10" fill="${AC}">仅正态</text>`;
+ d+=`<text x="180" y="186" text-anchor="middle" font-size="10.5" fill="#6E685B">两条都只在正态成立</text>`;
+ d+=`<rect x="26" y="204" width="308" height="70" rx="8" fill="${AC}" fill-opacity=".05" stroke="${AC}" stroke-width="1"/>`;
+ d+=`<text x="40" y="228" font-size="12" fill="#332F27">叠加确定信号：s(t)＋N</text>`;
+ d+=`<text x="40" y="250" font-size="11.5" fill="#6E685B">仍是正态过程，但均值随 s(t) 变</text>`;
+ d+=`<text x="40" y="268" font-size="11.5" fill="#B4442F">平稳性被破坏</text>`;
  return d;},
-shiftinv:(p={})=>{let d='';
- const wv=(dx,dash,op)=>{let pts=[];
-  for(let i=0;i<=40;i++){const x=26+i*(300/40)+dx;const y=86-34*Math.sin((i/40)*2.4*Math.PI);pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  return `<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.8" ${dash?'stroke-dasharray="6 5"':''} opacity="${op}"/>`;};
- const bell=(cx,dash)=>{let pts=[];
-  for(let i=0;i<=40;i++){const x=26+i*(300/40);const y=272-52*Math.exp(-Math.pow((x-cx)/34,2));pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  return `<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="1.8" ${dash?'stroke-dasharray="6 5" opacity=".85"':''}/>`;};
- d+=`<line x1="24" y1="132" x2="336" y2="132" stroke="#9C9483" stroke-width="1.2"/><line x1="24" y1="132" x2="24" y2="26" stroke="#9C9483" stroke-width="1.2"/>`;
- d+=wv(0,false,1)+wv(44,true,.5);
- d+=`<path d="M150 34 h44" stroke="#9C9483" stroke-width="1.1" marker-end="url(#ar2)"/><text x="152" y="26" font-size="11" fill="#6E685B">${esc(p.dtLabel||'平移 Δt')}</text>`;
- d+=`<line x1="24" y1="272" x2="336" y2="272" stroke="#9C9483" stroke-width="1.2"/>`;
- d+=bell(152,true)+bell(150,false);
- d+=`<text x="330" y="292" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.label||'平移后密度完全重合')}</text>`;
- return d;},
-flatlines:(p={})=>{let d=`<line x1="24" y1="258" x2="336" y2="258" stroke="#9C9483" stroke-width="1.4"/><line x1="24" y1="258" x2="24" y2="30" stroke="#9C9483" stroke-width="1.4"/>`;
- const ys=[86,126,150,196,232];
- ys.forEach((y,k)=>{d+=`<line x1="30" y1="${y}" x2="250" y2="${y}" stroke="${AC}" stroke-width="2" opacity="${k===2?1:.55}"/>`;
-  d+=`<circle cx="250" cy="${y}" r="3.6" fill="${AC}" opacity="${k===2?1:.55}"/>`;});
- d+=`<line x1="24" y1="${p.meanY||150}" x2="336" y2="${p.meanY||150}" stroke="#9C9483" stroke-width="1.2" stroke-dasharray="6 5"/>`;
- d+=`<text x="330" y="${(p.meanY||150)-10}" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.meanLabel||'集平均 m')}</text>`;
- d+=`<text x="332" y="82" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.label||'每条样本 = 一条水平线')}</text>`;
- return d;},
-uscat:(p={})=>{let d=`<line x1="30" y1="252" x2="330" y2="252" stroke="#9C9483" stroke-width="1.4"/><line x1="180" y1="252" x2="180" y2="30" stroke="#9C9483" stroke-width="1.4"/>`;
- for(let i=0;i<=16;i++){const x=-1+2*i/16;const y=x*x;
-  const px=180+x*128, py=232-y*150;
-  const jx=(Math.sin(i*2.7)*5), jy=(Math.cos(i*1.9)*5);
-  d+=`<circle cx="${(px+jx).toFixed(1)}" cy="${(py+jy).toFixed(1)}" r="4" fill="${AC}" opacity=".7"/>`;}
- d+=`<line x1="30" y1="232" x2="330" y2="232" stroke="#9C9483" stroke-width="1.1" stroke-dasharray="5 4"/>`;
- d+=`<text x="326" y="224" text-anchor="end" font-size="11" fill="#6E685B">${esc(p.label||'协方差 = 0')}</text>`;
- d+=`<text x="196" y="270" font-size="11" fill="#6E685B">${esc(p.note||'但明显不独立')}</text>`;
- return d;},
-gcurves:(p={})=>{let d='';
- const box=(x0,kind,lab)=>{let s=`<line x1="${x0}" y1="238" x2="${x0+104}" y2="238" stroke="#9C9483" stroke-width="1.2"/><line x1="${x0}" y1="238" x2="${x0}" y2="118" stroke="#9C9483" stroke-width="1.2"/>`;
-  let pts=[];
-  if(kind==='sq'){for(let i=0;i<=32;i++){const x=-1+2*i/32;const y=x*x;pts.push((x0+52+x*46).toFixed(1)+','+(178-y*56).toFixed(1));}}
-  if(kind==='fw'){for(let i=0;i<=32;i++){const x=-1+2*i/32;const y=Math.abs(x);pts.push((x0+52+x*46).toFixed(1)+','+(178-y*56).toFixed(1));}}
-  if(kind==='hw'){for(let i=0;i<=32;i++){const x=-1+2*i/32;const y=Math.max(x,0);pts.push((x0+52+x*46).toFixed(1)+','+(178-y*56).toFixed(1));}}
-  s+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
-  s+=`<text x="${x0+52}" y="262" text-anchor="middle" font-size="12" fill="#6E685B">${esc(lab)}</text>`;
-  return s;};
- d+=box(18,'平方律','sq')+box(130,'全波','fw')+box(242,'半波','hw');
- return d;},
-halfwave:(p={})=>{let d=`<line x1="24" y1="262" x2="336" y2="262" stroke="#9C9483" stroke-width="1.4"/><line x1="24" y1="262" x2="24" y2="26" stroke="#9C9483" stroke-width="1.4"/>`;
- if(p.mode==='chi2'){let pts=[];
-  for(let i=1;i<=40;i++){const x=2+i*(310/40);const y=256-176*Math.exp(-x/70)/(1+x/16);pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2.2"/>`;
-  d+=`<text x="220" y="120" font-size="12" fill="#6E685B">${esc(p.label||'y=0 处发散')}</text>`;}
- else{d+=`<rect x="58" y="96" width="9" height="166" fill="${AC}"/>`;
-  d+=`<text x="72" y="120" font-size="12" fill="#6E685B">½ 概率</text>`;
-  let pts=[];
-  for(let i=0;i<=36;i++){const x=64+i*(268/36);const y=262-118*Math.exp(-Math.pow((x-190)/78,2));pts.push(x.toFixed(1)+','+y.toFixed(1));}
-  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${AC}" stroke-width="2"/>`;
-  d+=`<text x="290" y="150" text-anchor="end" font-size="12" fill="#6E685B">${esc(p.label||'右半边正态')}</text>`;}
- d+=`<text x="330" y="284" text-anchor="end" font-size="11" fill="#9A9384">${esc(p.axis||'w')}</text>`;return d;},
+
+vcos:(p={})=>{let d=`<line x1="30" y1="210" x2="336" y2="210" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="30" y1="44" x2="30" y2="210" stroke="#9C9483" stroke-width="1.2"/>`;
+ for(const q of [[0.2,'#9A9384'],[0.8,AC]]){const A=58*q[0]+14;const pts=[];for(let x=30;x<=330;x+=3){pts.push(x.toFixed(1)+','+(118-A*Math.cos((x-30)/44)).toFixed(1));}
+  d+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${q[1]}" stroke-width="${q[0]>0.5?2.3:1.6}"/>`;}
+ d+=`<line x1="108" y1="60" x2="108" y2="210" stroke="${AC}" stroke-width="1.1" stroke-dasharray="4 4" opacity=".8"/>`;
+ d+=`<text x="112" y="74" font-size="10.5" fill="${AC}">t₁：两个值</text>`;
+ d+=`<text x="30" y="240" font-size="11.5" fill="#332F27">固定 t，X＝c_t·V：V 均匀，X 就均匀</text>`;
+ d+=`<text x="30" y="266" font-size="11" fill="#9A9384">一条样本一个 V，整族样本把区间铺满</text>`;
+ d+=`<text x="30" y="292" font-size="11" fill="#6E685B">V＝0.2 与 V＝0.8 两条样本</text>`;return d;},
+
+vpdf4:(p={})=>{let d=`<line x1="14" y1="250" x2="348" y2="250" stroke="#9C9483" stroke-width="1.2"/>`;
+ const pan=[[56,34,62,1,'t＝0'],[140,24,88,2,'π/4ω₀'],[240,24,88,3,'3π/4ω₀'],[320,34,62,4,'π/ω₀']];
+ for(const q of pan){const [zx,w,h,id,lab]=q;
+  const x1=id===3?zx-w:zx;const x2=id===3?zx:zx+w;
+  d+=`<rect x="${x1}" y="${250-h}" width="${w}" height="${h}" fill="${AC}" fill-opacity=".18" stroke="${AC}" stroke-width="1.5"/>`;
+  d+=`<line x1="${zx}" y1="250" x2="${zx}" y2="${250-h-8}" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+  d+=`<text x="${zx}" y="270" text-anchor="middle" font-size="10" fill="#6E685B">${lab}</text>`;}
+ d+=`<text x="80" y="172" text-anchor="middle" font-size="10" fill="${AC}">高 1</text>`;
+ d+=`<text x="150" y="146" text-anchor="middle" font-size="10" fill="${AC}">高 √2</text>`;
+ d+=`<text x="228" y="146" text-anchor="middle" font-size="10" fill="${AC}">高 √2</text>`;
+ d+=`<text x="302" y="172" text-anchor="middle" font-size="10" fill="${AC}">高 1</text>`;
+ d+=`<text x="14" y="296" font-size="11.5" fill="#332F27">宽度在变，高度跟着变，每块面积都等于 1</text>`;
+ d+=`<text x="14" y="318" font-size="10.5" fill="#9A9384">c_t 越接近零，密度越高、越窄；c_t＝0 就成冲激</text>`;return d;},
+
+coin1:(p={})=>{let d=`<line x1="18" y1="226" x2="168" y2="226" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="18" y1="60" x2="18" y2="226" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="188" y1="226" x2="342" y2="226" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="188" y1="60" x2="188" y2="226" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<path d="M18 226 H70 V146 H110 V66 H166 V66" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ d+=`<path d="M188 226 H234 V146 H300 V66 H340 V66" fill="none" stroke="${AC}" stroke-width="2.3"/>`;
+ d+=`<line x1="70" y1="146" x2="70" y2="226" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<line x1="110" y1="66" x2="110" y2="226" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<line x1="234" y1="146" x2="234" y2="226" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<line x1="300" y1="66" x2="300" y2="226" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<text x="12" y="150" text-anchor="end" font-size="10" fill="#6E685B">½</text>
+ <text x="12" y="70" text-anchor="end" font-size="10" fill="#6E685B">1</text>
+ <text x="182" y="150" text-anchor="end" font-size="10" fill="#6E685B">½</text>
+ <text x="182" y="70" text-anchor="end" font-size="10" fill="#6E685B">1</text>`;
+ d+=`<text x="70" y="242" text-anchor="middle" font-size="10" fill="#6E685B">0</text><text x="110" y="242" text-anchor="middle" font-size="10" fill="#6E685B">1</text>`;
+ d+=`<text x="234" y="242" text-anchor="middle" font-size="10" fill="#6E685B">−1</text><text x="300" y="242" text-anchor="middle" font-size="10" fill="#6E685B">2</text>`;
+ d+=`<text x="93" y="46" text-anchor="middle" font-size="11" fill="${AC}">t＝1/2</text>
+ <text x="265" y="46" text-anchor="middle" font-size="11" fill="${AC}">t＝1</text>`;
+ d+=`<text x="18" y="276" font-size="11.5" fill="#332F27">离散取值 → 分布函数是台阶</text>`;
+ d+=`<text x="18" y="298" font-size="11" fill="#9A9384">每个台阶的高度，就是那个取值的概率</text>`;return d;},
+
+coin2:(p={})=>{let d=`<line x1="40" y1="240" x2="330" y2="240" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="40" y1="40" x2="40" y2="240" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="160" y1="214" x2="160" y2="240" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<line x1="280" y1="86" x2="280" y2="240" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<line x1="40" y1="214" x2="160" y2="214" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<line x1="40" y1="86" x2="280" y2="86" stroke="#9C9483" stroke-width="1" stroke-dasharray="3 3"/>`;
+ d+=`<circle cx="160" cy="214" r="6" fill="${AC}"/><text x="170" y="206" font-size="11" fill="${AC}">(0, −1)，½</text>`;
+ d+=`<circle cx="280" cy="86" r="6" fill="${AC}"/><text x="292" y="80" font-size="11" fill="${AC}">(1, 2)，½</text>`;
+ d+=`<text x="160" y="258" text-anchor="middle" font-size="10.5" fill="#6E685B">0</text>
+ <text x="280" y="258" text-anchor="middle" font-size="10.5" fill="#6E685B">1</text>
+ <text x="30" y="218" text-anchor="end" font-size="10.5" fill="#6E685B">−1</text>
+ <text x="30" y="90" text-anchor="end" font-size="10.5" fill="#6E685B">2</text>`;
+ d+=`<text x="332" y="256" text-anchor="end" font-size="10.5" fill="#6E685B">x₁</text>
+ <text x="48" y="42" font-size="10.5" fill="#6E685B">x₂</text>`;
+ d+=`<text x="40" y="286" font-size="11.5" fill="#332F27">联合分布只在两个点上撒概率</text>`;
+ d+=`<text x="40" y="308" font-size="11" fill="#9A9384">两个边缘一乘，会把概率摊到四个点，错了</text>`;return d;},
+
+coin3:(p={})=>{let d=`<rect x="40" y="70" width="280" height="180" fill="none" stroke="#D9D2C1" stroke-width="1"/>`;
+ d+=`<line x1="40" y1="240" x2="330" y2="240" stroke="#9C9483" stroke-width="1.2"/>
+ <line x1="40" y1="50" x2="40" y2="240" stroke="#9C9483" stroke-width="1.2"/>`;
+ d+=`<line x1="150" y1="70" x2="150" y2="240" stroke="${AC}" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>
+ <line x1="250" y1="70" x2="250" y2="240" stroke="${AC}" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>`;
+ d+=`<line x1="40" y1="200" x2="330" y2="200" stroke="${AC}" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>
+ <line x1="40" y1="90" x2="330" y2="90" stroke="${AC}" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>`;
+ d+=`<text x="95" y="160" text-anchor="middle" font-size="14" fill="#9A9384">0</text>`;
+ d+=`<text x="200" y="160" text-anchor="middle" font-size="14" fill="${AC}">½</text>`;
+ d+=`<text x="290" y="160" text-anchor="middle" font-size="14" fill="${AC}">½</text>`;
+ d+=`<text x="290" y="120" text-anchor="middle" font-size="14" fill="${AC}">1</text>`;
+ d+=`<text x="95" y="120" text-anchor="middle" font-size="11" fill="#9A9384">x₁&lt;0</text>`;
+ d+=`<text x="150" y="258" text-anchor="middle" font-size="10.5" fill="#6E685B">0</text>
+ <text x="250" y="258" text-anchor="middle" font-size="10.5" fill="#6E685B">1</text>
+ <text x="30" y="204" text-anchor="end" font-size="10.5" fill="#6E685B">−1</text>
+ <text x="30" y="94" text-anchor="end" font-size="10.5" fill="#6E685B">2</text>`;
+ d+=`<text x="334" y="256" text-anchor="end" font-size="10.5" fill="#6E685B">x₁</text>
+ <text x="48" y="58" font-size="10.5" fill="#6E685B">x₂</text>`;
+ d+=`<text x="40" y="288" font-size="11.5" fill="#332F27">二维分布函数是分块取值的阶梯</text>`;
+ d+=`<text x="40" y="310" font-size="11" fill="#9A9384">分块线就是两个随机变量的取值点</text>`;return d;},
+/* ==== 第 2 章图示结束 ==== */
 custom:(p={})=>p.svg||''
 };
 function svgWrap(inner){return `<svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg"><defs>
@@ -456,14 +1611,14 @@ function applyP(el,p){
 }
 function doLayout(){
   const flow=document.getElementById('flow');
+  const avail=document.body.classList.contains('example')?540:(document.body.classList.contains('havestem')?366:448);
   let total=0;const items=[...flow.children];
   items.forEach(it=>total+=it.offsetHeight+parseFloat(getComputedStyle(it).marginBottom||0));
-  if(total>440){const k=Math.max(.82,440/total);
+  if(total>avail){const k=Math.max(.80,avail/total);
     items.forEach(it=>{it.style.fontSize=(parseFloat(getComputedStyle(it).fontSize)*k)+'px';
       it.style.marginBottom=(parseFloat(getComputedStyle(it).marginBottom)*k)+'px'});
     total=0;items.forEach(it=>total+=it.offsetHeight+parseFloat(getComputedStyle(it).marginBottom||0));
   }
-  const avail=448;
   const probTail=flow.querySelector('.beat.problem.plast');
   if(probTail){
     const extra=Math.min(30,Math.max(0,avail-total));
@@ -483,42 +1638,82 @@ window.setScene=async function(scene){
   SCENE=scene;BEATS=scene.beats||[];AC=scene.accent||'#2F5D8A';TINT=scene.tint||'#E8EFF6';
   document.documentElement.style.setProperty('--accent',AC);
   document.documentElement.style.setProperty('--tint',TINT);
-  document.body.className=scene.layout==='pause'?'pause':'';
+  const isEx=scene.layout==='example';
+  document.body.className=isEx?'example':(scene.layout==='pause'?'pause':'');
   document.getElementById('modpill').textContent=scene.moduleLabel||'';
   document.getElementById('pageid').textContent=scene.page||'';
   document.getElementById('ref').textContent='材料 '+ (scene.ref||'') +' · '+((META.course)||'');
   const flow=document.getElementById('flow');flow.innerHTML='';
   const dg=document.getElementById('diagram');dg.innerHTML='';
-  const asEl=document.getElementById('aside');asEl.dataset.filled='';
-  asEl.querySelector('.body').innerHTML='';document.body.classList.remove('asideon');
-  asEl.querySelector('.t').textContent='备忘';
-  document.body.classList.toggle('aslayout', (scene.beats||[]).some(b=>b.kind==='aside'));
   const tt=document.getElementById('titleText');tt.innerHTML='';tt.style.clipPath='inset(0 100% 0 0)';
   const ul0=document.querySelector('#title .ul');if(ul0)ul0.style.opacity=0;
   const isPause=scene.layout==='pause';
+  document.getElementById('exno').textContent=isEx?(scene.exNo||''):'';
+  document.getElementById('ext').textContent=isEx?(scene.exTitle||''):'';
+  const exStem=document.getElementById('exStem');
+  exStem.innerHTML=isEx?String(scene.stem||'').split('\n').map(l=>`<div>${esc(l)}</div>`).join(''):'';
+  document.getElementById('exUsed').innerHTML=isEx?(scene.used||[]).map(u=>`<div class="ui">${esc(u)}</div>`).join(''):'';
+  exStem.style.fontSize='15.8px';
   if(isPause){
     document.getElementById('pauseMain').textContent=
       scene.pauseText||META.pause_text||'请暂停，自己先算一遍';
     document.getElementById('pauseSub').textContent=
-      scene.pauseSub || ('按暂停自己算 · '+Math.round(scene.duration||3)+' 秒后继续');
+      '按暂停自己算 · '+Math.round(scene.duration||3)+' 秒后继续';
   }
   tt.innerHTML=esc(scene.title||'');
+  const gl=isPause?[]:(scene.gloss||[]);
+  const gb=document.getElementById('glossBody');
+  gb.innerHTML=gl.map(g=>`<div class="grow"><span class="gk">\\(${g.sym}\\)</span>`
+    +`<span class="gv">${esc(g.note||'')}</span></div>`).join('');
+  let gTw=0;
+  if(gl.length){const rg=document.createRange();rg.selectNodeContents(tt);
+    gTw=rg.getBoundingClientRect().width||0}
+  const gConflict=gl.length>0&&(gTw+64>772);
+  document.body.classList.toggle('hasgloss',gl.length>0&&!gConflict&&!isEx);
+  const ab=BEATS.find(b=>b.kind==='aside');
+  let aHtml='',aNote='';
+  if(ab){const s0=String(ab.html),c0=s0.indexOf('｜');
+    aHtml=c0>0?s0.slice(0,c0):s0; aNote=c0>0?s0.slice(c0+1):'';
+    document.getElementById('asideF').innerHTML=esc(aHtml);
+    document.getElementById('asideN').innerHTML=esc(aNote);
+    document.getElementById('asideN').style.display=aNote?'block':'none';
+  }
+  document.body.classList.toggle('hasaside',!!ab&&!isEx);
+  if(!ab){document.getElementById('asideF').innerHTML='';document.getElementById('asideN').innerHTML=''}
   const hasDg=!!(scene.diagram&&DIAG[scene.diagram]);
-  document.body.classList.toggle('wide',!hasDg);
+  document.body.classList.toggle('wide',!hasDg&&!isEx);
+  document.body.classList.toggle('havestem',!!scene.stemBar);
+  document.getElementById('stemText').innerHTML=scene.stemBar?esc(scene.stemBar):'';
   dg.style.display=hasDg?'block':'none';
   if(hasDg){dg.innerHTML=svgWrap(DIAG[scene.diagram](scene.diagramParams||{}))}
   BEATS.forEach((b,i)=>{
     if(b.kind==='diagram'||b.kind==='title'||b.kind==='aside')return;
     const el=document.createElement('div');
     el.className='beat '+b.kind;el.dataset.i=i;
+    if(b.kind==='fig'){
+      el.dataset.math='0';
+      el.innerHTML=b.html;
+      flow.appendChild(el);
+      return;
+    }
     if(b.kind==='chip'){
       el.dataset.math='1';
       el.innerHTML=`<span class="wipe">${esc(b.html)}</span>`;
+    }else if(b.kind==='def'||b.kind==='kp'){
+      const s0=String(b.html),cut=s0.indexOf('｜');
+      const tag=cut>0?s0.slice(0,cut):(b.kind==='kp'?'知识点':'定义'),body=cut>0?s0.slice(cut+1):s0;
+      el.dataset.math=isMath(body)?'1':'0';
+      const tg=document.createElement('span');tg.className='tag';tg.textContent=tag;
+      const wrap=document.createElement('div');wrap.className='wipe';
+      const inner=document.createElement('span');inner.className='txt';inner.innerHTML=esc(body);
+      wrap.appendChild(inner);el.appendChild(tg);el.appendChild(wrap);
     }else{
-      el.dataset.math=isMath(b.html)?'1':'0';
+      let html=b.html;
+      if(b.kind==='sym'){const i0=String(html).indexOf('｜');if(i0>0)html=String(html).slice(i0+1)}
+      el.dataset.math=isMath(html)?'1':'0';
       if(b.kind==='step'){const n=document.createElement('span');n.className='num';n.textContent=b.n||'';el.appendChild(n)}
       const wrap=document.createElement('div');wrap.className='wipe';
-      const inner=document.createElement('span');inner.className='txt';inner.innerHTML=esc(b.html);
+      const inner=document.createElement('span');inner.className='txt';inner.innerHTML=esc(html);
       wrap.appendChild(inner);el.appendChild(wrap);
       if(b.kind==='main'&&!isMath(b.html)&&b.html.length>10)el.classList.add('small');
     }
@@ -527,7 +1722,13 @@ window.setScene=async function(scene){
   const chips=[...flow.querySelectorAll('.beat.chip')];
   if(chips.length){const row=document.createElement('div');row.className='chips';
     flow.insertBefore(row,chips[0]);chips.forEach(c=>row.appendChild(c))}
-  await MathJax.typesetPromise([tt,flow]);
+  await MathJax.typesetPromise([tt,flow,document.getElementById('stemText'),document.getElementById('gloss'),document.getElementById('aside'),exStem,document.getElementById('exUsed')]);
+  if(isEx){
+    const avail=648-15-13-document.querySelector('.exh').offsetHeight
+      -document.querySelector('.exused').offsetHeight-30;
+    let fs=17;exStem.style.fontSize=fs+'px';
+    while(exStem.scrollHeight>avail&&fs>11.2){fs-=.4;exStem.style.fontSize=fs.toFixed(1)+'px'}
+  }
   flow.querySelectorAll('.beat').forEach(el=>{
     if(el.dataset.math==='0'){const t=el.querySelector('.txt');if(t)splitChars(t)}
   });
@@ -546,11 +1747,6 @@ window.setScene=async function(scene){
     document.getElementById('pauseMask').style.opacity=0;
     document.getElementById('pauseText').style.opacity=0;
   }
-  // 内容少时向下沉一点、在标题与页脚之间居中，避免下半屏大片空白；
-  // 内容多（超过可用高度）就维持顶部对齐，不硬挤。
-  {const availH=392, baseTop=190;
-   const hh=flow.scrollHeight||0;
-   flow.style.top=(baseTop+Math.max(0,Math.min(96,(availH-hh)/2)))+'px';}
   window.SCENE_READY=true;
 };
 
@@ -563,6 +1759,15 @@ window.seek=function(t){
     pt.style.opacity=p;pt.style.transform=`translate(-50%,${(1-p)*10}px)`;
     return 'p'+Math.round(p*24);
   }
+  if(SCENE.layout==='example'){
+    BEATS.forEach((b,i)=>{
+      const el=document.getElementById('flow').querySelector(`.beat[data-i="${i}"]`);
+      if(!el)return;
+      const p=Math.min(1,Math.max(0,(t-b.start)/b.rise));
+      applyP(el,p);
+    });
+    return 'ex';
+  }
   const first=BEATS.find(b=>b.kind==='title')||BEATS[0];
   const tp=first?Math.min(1,Math.max(0,(t-first.start)/first.rise)):1;
   const tt=document.getElementById('titleText');
@@ -571,21 +1776,6 @@ window.seek=function(t){
   const ul=document.querySelector('#title .ul');if(ul)ul.style.opacity=Math.min(1,tp*2.2);
   const sig=[Math.round(tp*30)];let active=0;
   BEATS.forEach((b,i)=>{
-    if(b.kind==='aside'){
-      const box=document.getElementById('aside');
-      const p=Math.min(1,Math.max(0,(t-b.start)/b.rise));
-      if(p>0&&box.dataset.filled!=='1'){
-        const raw=b.html||'';
-        const hd=raw.match(/<!--hd:(.+?)-->/);
-        if(hd)box.querySelector('.t').textContent=hd[1];
-        box.querySelector('.body').innerHTML=raw.replace(/<!--hd:.+?-->/,'');
-        box.dataset.filled='1';
-        if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([box]);
-      }
-      document.body.classList.toggle('asideon',p>0);
-      sig.push(Math.round(p*30));if(p>0&&p<1)active++;
-      return;
-    }
     if(b.kind==='diagram'){
       const el=document.getElementById('diagram');
       const p=Math.min(1,Math.max(0,(t-b.start)/b.rise));
@@ -601,6 +1791,15 @@ window.seek=function(t){
     if(b.kind==='chip')el.classList.toggle('on',p>=1);
     applyP(el,p);sig.push(Math.round(p*36));if(p>0&&p<1)active++;
   });
+  const ab=BEATS.find(b=>b.kind==='aside');
+  if(ab){
+    const ae=document.getElementById('aside');
+    const pa=Math.min(1,Math.max(0,(t-ab.start)/Math.max(.4,ab.rise)));
+    ae.style.visibility=pa>0?'visible':'hidden';
+    ae.style.opacity=pa>=1?1:.1+.9*pa;
+    ae.style.transform=`translateY(${(1-pa)*6}px)`;
+    sig.push(Math.round(pa*30));if(pa>0&&pa<1)active++;
+  }
   if(SCENE.diagram2){
     const p2=Math.min(1,Math.max(0,(t-SCENE.diagram2)/0.7));
     document.querySelectorAll('#diagram .jval').forEach(g=>{g.setAttribute('opacity',p2);g.style.transition='none'});

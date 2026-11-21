@@ -36,7 +36,8 @@ def main():
         for _, d in ev:
             cur += d
             mx = max(mx, cur)
-        gaps = [beats[i + 1]["start"] - beats[i]["start"] for i in range(len(beats) - 1)]
+        seq = [b for b in beats if b["kind"] != "diagram"]
+        gaps = [seq[i + 1]["start"] - seq[i]["start"] for i in range(len(seq) - 1)]
         mingap = min(gaps) if gaps else 99
         if mx > 2:
             problems.append(f"{s['id']} 同屏生长 {mx} 个")
@@ -68,9 +69,10 @@ def tl_tail(root, scene):
         tim = {x["id"]: x for x in load_json(os.path.join(root, "timings.json"))}[scene["id"]]
     except Exception:
         return 0
-    if not scene["beats"]:
+    seq = [b for b in scene["beats"] if b["kind"] != "diagram"]
+    if not seq:
         return 0
-    return tim["dur"] - (scene["beats"][-1]["start"] + scene["beats"][-1]["rise"])
+    return tim["dur"] - max(b["start"] + b["rise"] for b in seq)
 
 
 if __name__ == "__main__":

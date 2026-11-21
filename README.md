@@ -1,10 +1,10 @@
 # teaching-card-video
 
-把一组**教学卡片**（标题 + 屏幕文字 + 旁白 + 画面动作）自动做成一支 16:9 的中文讲解视频：草稿纸质感、没有笔，每个元素等旁白讲到它时才从左往右写出，公式全部走 LaTeX，例题前面自动插 3 秒“保留原题”的思考暂停。
+把一组**教学卡片**（标题 + 屏幕文字 + 旁白 + 画面动作）自动做成一支 16:9 的中文讲解视频：草稿纸质感、没有笔，每个元素等旁白讲到它时才从左往右写出，公式全部走 LaTeX；例题单独成段，题面在左栏常驻，右侧按旁白逐步推导。
 
 这是给 AI Agent 用的 **skill**（技能包）：放进 skills 目录后，Agent 读 `SKILL.md` 就能按固定工作流建项目、配音、排时间轴、渲帧、出片。
 
-> 实测成品：《随机信号分析》第 1 章，19 张卡 + 4 张暂停卡，12 分 25 秒，1280×720 / 24 fps，295 条烧录字幕，响度 −16.1 LUFS。
+> 实测成品：《随机信号分析》第 2 章，30 张卡（24 知识 + 6 例题），17 分 13 秒，1280×720 / 24 fps，448 条外挂字幕，响度 −16.1 LUFS；第 3、4 章同流程出片。
 
 ## 它解决什么问题
 
@@ -14,20 +14,22 @@
 - 每个画面元素的触发词必须在旁白原文里**逐字命中**，命中时刻就是它的入场时刻；
 - 于是改一句旁白，整段动画自动重新对齐，不用手动拖时间线。
 
-## 六条硬规矩
+## 硬规矩（完整十二条见 `SKILL.md`）
 
 1. **无笔草稿纸** — 纸纹网格 + 衬线墨字，全片不出现笔、手、光标。
 2. **讲到才出现** — 元素由词级时间戳触发，中文逐字、公式左→右软遮罩，没讲到的地方保持空白。
 3. **同屏最多 2 个元素在生长**，相邻起始间隔 ≥ 12 帧（0.5 s）。
 4. **公式必须是 LaTeX**（`\( \)` / `$$ $$`），MathJax 本地渲染，不降级成文本或图片。
-5. **例题节奏** — 题干卡只放原题，讲完插 3 秒暂停卡（原题压淡保留，底部提示“请暂停，自己先算一遍”），再进解析卡。
+5. **例题即正片** — 例题不用 3 秒暂停卡占位。每道题 1–3 张卡，`layout: "example"`：左栏整块题面常驻（含设问），题面下「本页用到」列 2–3 条知识点，右栏按旁白逐步推导。
 6. **字幕跟读** — 单行、随旁白出现；公式与英文单词不拆行，不出现三个字以下的孤条。
 
 ## 安装
 
 ```bash
-git clone https://github.com/yikai666/teaching-card-video.git ~/.codebuddy/skills/teaching-card-video
+git clone https://github.com/yikai666/teaching-card-video.git ~/.codebuddy/skills/notebook-video
 ```
+
+目录名用 `notebook-video`，与 `SKILL.md` 的 `name` 字段保持一致（仓库名是 `teaching-card-video`，不影响安装）。
 
 其他 Agent 宿主把仓库放到它自己的 skills 目录即可；脚本不依赖特定 IDE，解压到任意目录也能直接跑。
 
@@ -42,6 +44,8 @@ python -m playwright install chromium
 export DASHSCOPE_API_KEY=sk-xxx
 # echo 'DASHSCOPE_API_KEY=sk-xxx' >> ~/.dashscope/config
 ```
+
+没有百炼 Key 也能跑：`pip install edge-tts` 后把第 3 步换成 `python scripts/gen_audio_edge.py .`（微软 edge-tts，免费，同样给词级时间戳，`timings.json` 结构一致，后面步骤不用改）。
 
 `ffmpeg` 需要带 libx264；系统没有时脚本会自动切到 `imageio-ffmpeg` 自带的二进制。
 
@@ -77,7 +81,7 @@ python ../../scripts/encode.py .
 | 7 字幕 | `make_srt.py <dir>` | `out/<name>.srt` | 单条 ≤ 22 视觉宽 |
 | 8 音轨 | `build_audio.py <dir>` | `master.wav` | — |
 | 9 渲帧 | `render_frames.py <dir> -j 4` | `frames/*.jpg` | 帧数 = 时长 × fps |
-| 10 出片 | `encode.py <dir>` | `out/<name>.mp4` | 字幕已烧入 |
+| 10 出片 | `encode.py <dir>` | `out/<name>.mp4` | 字幕默认烧入（`--srt off` 出无字幕版） |
 | 11 清单 | `make_shotlist.py <dir>` | `out/shotlist.csv` | — |
 
 第 6 步是硬闸门：没确认静帧不要直接渲 MP4（用户明确说“直接出片”才跳过）。
@@ -89,7 +93,8 @@ python ../../scripts/encode.py .
 ├── SKILL.md                  # 方法论：硬规矩、工作流、版式、字幕规则、排障
 ├── scripts/                  # 11 个脚本，纯命令行，互不依赖 IDE
 │   ├── init_project.py       # 建项目骨架 / 升级 stage.html
-│   ├── gen_audio.py          # 千问配音 + 字级时间戳
+│   ├── gen_audio.py          # 千问配音 + 字级时间戳（主引擎）
+│   ├── gen_audio_edge.py     # edge-tts 备选引擎（无需 Key）
 │   ├── build_timeline.py     # 卡片 → 场景时间轴（触发词 → 绝对秒）
 │   ├── check_timeline.py     # 体检：同屏 ≤2、间隔 ≥12 帧、触发词命中
 │   ├── render_stills.py      # 静帧接触表（确认画面用）
@@ -100,11 +105,11 @@ python ../../scripts/encode.py .
 │   ├── make_shotlist.py      # 场景/起止/页码清单
 │   └── nv_common.py          # 共享工具
 ├── assets/
-│   ├── stage.html            # 渲染舞台：版式、图示注册表、seek() 时间语义
+│   ├── stage.html            # 渲染舞台：版式（含 example 例题版）、106 个图示、seek() 时间语义
 │   └── tex-svg.js            # MathJax 离线包（不联网也能渲公式）
 ├── references/
 │   ├── card-schema.md        # project.json / cards.json 字段字典
-│   ├── diagrams.md           # 18 个内置图示及参数
+│   ├── diagrams.md           # 106 个图示及参数（按专题分章）
 │   └── troubleshooting.md    # 按现象查的排障表
 └── examples/demo/            # 3 卡可跑示例（含音频与时间戳）
 ```
@@ -128,7 +133,7 @@ python ../../scripts/encode.py .
 }
 ```
 
-`beats` 的第三项是**触发词**，必须能在该卡 `tts` 里原样找到——这是全片“讲到才出现”的唯一机制。`layout` 可选 `concept` / `list` / `steps` / `chips` / `stem`；图示有 `map` `cdf` `density` `moments` `corr` `indep` `parabola` `joint` `branch` `deadzone` `char` `gauss2d` `block` `expo` `slice` `recip` `gap` `custom`。
+`beats` 的第三项是**触发词**，必须能在该卡 `tts` 里原样找到——这是全片“讲到才出现”的唯一机制。`layout` 可选 `concept` / `list` / `steps` / `chips` / `stem` / `example`；图示有 `map` `cdf` `density` `moments` `corr` `indep` `parabola` `joint` `branch` `deadzone` `char` `gauss2d` `block` `expo` `slice` `recip` `gap` `custom`。
 
 ## 常见坑（摘）
 

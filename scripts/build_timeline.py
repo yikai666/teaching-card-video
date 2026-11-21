@@ -34,6 +34,35 @@ def build(root):
 
     missing_all = []
 
+    # 公式/符号速查表：按页面正文里首次出现的位置，每页挑 1–2 条挂到右上角小卡
+    gloss_path = os.path.join(root, "glossary.json")
+    GLOSS = []
+    if os.path.exists(gloss_path):
+        try:
+            GLOSS = (load_json(gloss_path) or {}).get("items", [])
+        except Exception as e:
+            print(f"[nv] glossary.json 读取失败，速查卡关闭：{e}")
+    seen_gloss = set()
+
+    def pick_gloss(card, beats):
+        if not GLOSS or card.get("gloss") is False:
+            return []
+        text = "\n".join([card.get("title", ""), card.get("stem_bar", "")]
+                         + [b.get("html") or "" for b in beats])
+        hits = []
+        for i, g in enumerate(GLOSS):
+            pos = text.find(g.get("k", ""))
+            if pos >= 0 and g.get("sym"):
+                hits.append((pos, i, g))
+        if not hits:
+            return []
+        hits.sort(key=lambda x: (x[0], x[1]))
+        new = [g for _, _, g in hits if g["k"] not in seen_gloss]
+        old = [g for _, _, g in hits if g["k"] in seen_gloss]
+        out = (new[:2] if new else old[:1])
+        seen_gloss.update(g["k"] for g in out)
+        return [{"sym": g["sym"], "note": g.get("note", "")} for g in out]
+
     def t_at(cid, phrase):
         text = next(c["tts"] for c in cards if c["id"] == cid)
         if not phrase or phrase.startswith("__"):
@@ -62,12 +91,11 @@ def build(root):
             else:
                 beats_in.append((b[0], b[1] if len(b) > 1 else None, b[2] if len(b) > 2 else None))
 
-        if not any(k == "title" for k, _, _ in beats_in):
+        if not any(k == "title" for k, _, _ in beats_in) and card.get("layout") != "example":
             beats_in.insert(0, ("title", None, "__start__"))
         auto_diagram = False
         if card.get("diagram") and not any(k == "diagram" for k, _, _ in beats_in):
-            at = next((i for i, (k, _, _) in enumerate(beats_in) if k == "title"), -1) + 1
-            beats_in.insert(at, ("diagram", None, "__diagram__"))
+            beats_in.append(("diagram", None, "__diagram__"))
             auto_diagram = True
         auto_t = None
         for k, _, tr in beats_in:
@@ -77,21 +105,12 @@ def build(root):
 
         beats, missing = [], []
         prev, prev_rise, step_no = -gap, 0, 0
-        # 展示类内容（知识点/例题/图示/题目框）要在旁白念到之前就上屏：
-        # 展示类提前 2.5s，正文类提前 1.0s；题干卡（layout=stem）的题目框和
-        # 知识点块一律压进开头 2.2s 内——用户要求题目在念题前就挂在那儿。
-        stem = card.get("layout") == "stem"
-        DISPLAY = ("kp", "aside", "diagram", "problem")
 
         for kind, content, trig in beats_in:
             if trig == "__diagram__" and auto_t is not None:
                 t = auto_t + 0.55
             else:
                 t, _ = t_at(cid, trig)
-            if t is not None:
-                t = max(0.05, t - (2.5 if kind in DISPLAY else 1.0))
-                if stem and kind in DISPLAY:
-                    t = min(t, 2.2)
             if t is None:
                 if kind == "diagram":
                     t = prev + 0.7
@@ -101,7 +120,15 @@ def build(root):
             rise = float(RISE.get(kind, 0.8))
             if kind in ("note", "step"):
                 rise = min(1.8, max(0.8, plain_len(content) / 13.0))
-            start = max(prev + max(gap, prev_rise * 0.55), t)
+            if auto_diagram and kind == "diagram":
+                # 图示独立于文字流：紧跟在第二拍（知识点/定义）之后成形，先给画面再讲细节
+                ref = beats[1] if len(beats) >= 2 else beats[0]
+                start = max(0.4, ref["start"] + ref["rise"] + gap)
+            else:
+                start = max(prev + gap, t)
+                if beats and beats[-1]["kind"] == "title":
+                    # 标题先写完，再上第一块内容
+                    start = max(start, prev + prev_rise + gap * 0.6)
             start = min(start, max(0.4, tim["dur"] - 0.6))
             if kind == "title":
                 content = card["title"]
@@ -112,7 +139,20 @@ def build(root):
             beats.append({"kind": kind, "html": content, "start": round(start, 3),
                           "rise": round(rise, 3), "trigger": trig,
                           **({"n": str(step_no)} if kind == "step" else {})})
+            if auto_diagram and kind == "diagram":
+                continue          # 图示跟随主讲公式，不参与文字节拍的顺延链
             prev, prev_rise = start, rise
+
+        # 逐字展开时长自适应：保证同屏最多两样在生长，且不推迟出现时刻
+        seq = [b for b in beats if b["kind"] != "diagram"]
+        for i, b in enumerate(seq):
+            lim = tim["dur"] - 0.2
+            if i + 1 < len(seq):
+                lim = min(lim, seq[i + 1]["start"] - gap * 0.6)
+            if i + 2 < len(seq):
+                lim = min(lim, seq[i + 2]["start"] - gap)
+            avail = lim - b["start"]
+            b["rise"] = round(max(0.35, min(b["rise"], avail)), 3)
 
         dur = max(tim["dur"] + tail,
                   beats[-1]["start"] + beats[-1]["rise"] + 1.0 if beats else 3.0, 3.0)
@@ -130,6 +170,10 @@ def build(root):
             "moduleLabel": label, "accent": mod.get("accent", "#2F5D8A"), "tint": mod.get("tint", "#E8EFF6"),
             "page": f"{page} / {len(cards)}", "ref": card.get("ref", ""),
             "diagram": card.get("diagram"), "diagramParams": card.get("diagramParams") or {},
+            "stemBar": card.get("stem_bar") or "",
+            "stem": card.get("stem") or "", "exNo": card.get("ex_no") or "",
+            "exTitle": card.get("ex_title") or "", "used": card.get("used") or [],
+            "gloss": pick_gloss(card, beats),
             "diagram2": d2, "audio": f"audio/{cid}.mp3",
             "duration": round(dur, 3), "beats": beats, "missing": missing,
             "autoDiagram": auto_diagram,
@@ -148,22 +192,25 @@ def build(root):
         clock += sc["duration"]
         scenes.append(sc)
         missing_all += [(card["id"], m) for m in sc["missing"]]
-        if card.get("pause_after"):
-            # 暂停卡继承本卡画面：题目留在屏幕上（压淡），只叠遮罩与底部提示条
-            hold = dict(sc)
-            hold.update({"id": f"PAUSE{page}", "layout": "pause",
-                         "duration": float(card.get("pause_duration") or pause_dur),
-                         "title": sc["title"],
-                         # 提示条文案按卡定制（例题卡各说各的），没写就退回 project.json
-                         "pauseText": card.get("pause_text") or meta.get("pause_text", "请暂停，自己先算一遍"),
-                         "pauseSub": card.get("pause_sub") or "",
-                         "audio": None, "start": round(clock, 3), "pauseFrom": sc["id"]})
-            scenes.append(hold)
-            clock += pause_dur
+        pa = card.get("pause_after") or 0
+        if pa:
+            # pause_after 为整数 n 时连续生成 n 张暂停卡（一个模块多道例题）
+            n = pa if isinstance(pa, int) else 1
+            for k in range(n):
+                # 暂停卡继承本卡画面：题目留在屏幕上（压淡），只叠遮罩与底部提示条
+                hold = dict(sc)
+                hold.update({"id": f"PAUSE{page}" if n == 1 else f"PAUSE{page}_{k+1}",
+                             "layout": "pause", "duration": pause_dur,
+                             "title": sc["title"],
+                             "pauseText": meta.get("pause_text", "请暂停，自己先算一遍"),
+                             "audio": None, "start": round(clock, 3),
+                             "pauseFrom": sc["id"]})
+                scenes.append(hold)
+                clock += pause_dur
     clock += end_pad
 
     timeline = {"fps": fps, "width": int(meta.get("width", 1280)), "height": int(meta.get("height", 720)),
-                "name": meta.get("name", "teaching-card-video"), "meta": meta,
+                "name": meta.get("name", "notebook-video"), "meta": meta,
                 "duration": round(clock, 3), "scenes": scenes, "missing": missing_all}
     save_json(os.path.join(root, "timeline.json"), timeline)
     return timeline

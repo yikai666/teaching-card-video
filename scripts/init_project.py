@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""新建一个 teaching-card-video 项目（复制舞台模板、写入最小 project.json / cards.json）
+"""新建一个 notebook-video 项目（复制舞台模板、写入最小 project.json / cards.json）
 
 用法: python init_project.py <目标目录> --name "第2章_xxx"
 """
@@ -35,8 +35,7 @@ def main():
         "course": "课程名",
         "chapter": "第 X 章 章节名",
         "fps": 24, "width": 1280, "height": 720,
-        "tts_model": "qwen-audio-3.1-tts-flash",
-        "voice": "xieshurou_v3.1", "rate": 1.10,
+        "voice": "zh-CN-XiaoxiaoNeural", "rate": "+12%",
         "lead": 0.4, "tail": 0.9, "gap": 0.55, "pause_duration": 3.0,
         "pause_text": "请暂停，自己先算一遍",
         "modules": {
@@ -54,7 +53,15 @@ def main():
         "beats": [["title", None, "先给结论"], ["main", None, "它是一个函数"],
                   ["note", "每个结果 \\(e\\) 对应一个实数 \\(X(e)\\)", "代进去"]]
     }]}
-    for fn, data in [("project.json", project), ("cards.json", cards)]:
+    glossary = {
+        "_note": "公式/符号速查表：k 是在卡片 LaTeX 源码里定位用的匹配串，sym 是屏幕显示写法，note 是一句话解释。"
+                 "build_timeline.py 每页自动挑 1–2 条挂到右上角小卡；某张卡不想显示就写 \"gloss\": false。",
+        "items": [
+            {"k": "E(X)", "sym": "E(X)", "note": "数学期望：加权平均，重心"},
+            {"k": "f_X(x)", "sym": "f_X(x)", "note": "概率密度：F 的导数，不是概率"}
+        ]
+    }
+    for fn, data in [("project.json", project), ("cards.json", cards), ("glossary.json", glossary)]:
         p = os.path.join(dest, fn)
         if not os.path.exists(p):
             with open(p, "w", encoding="utf-8") as f:

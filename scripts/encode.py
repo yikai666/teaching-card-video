@@ -15,16 +15,10 @@ from nv_common import load_json, project_root, ffmpeg_exe, probe_duration
 
 FONT = "Noto Serif CJK SC"
 INK = "&H0020262B"      # #2B2620 墨色（ASS 是 &HAABBGGRR）
-PAPER = "&H00D2E6EF"    # #EFE6D2 纸色
+PAPER = "&H00E0EDF3"    # #F3EDE0 纸色
 
 
 def pick_font():
-    # 字幕字体必须确定有汉字字形，否则 libass 会画成方块
-    windir = os.environ.get("WINDIR") or "C:/Windows"
-    for name, fn in (("Microsoft YaHei", "msyh.ttc"), ("SimHei", "simhei.ttf"),
-                     ("SimSun", "simsun.ttc")):
-        if os.path.exists(os.path.join(windir, "Fonts", fn)):
-            return name
     try:
         out = subprocess.run(["fc-list", ":", "family"], capture_output=True, text=True).stdout
     except FileNotFoundError:
@@ -87,8 +81,7 @@ def main():
         style = (f"FontName={pick_font()},FontSize={size},PrimaryColour={INK},"
                  f"OutlineColour={PAPER},BorderStyle=1,Outline=1.2,Shadow=0,"
                  f"MarginV={margin},Alignment=2")
-        opts = f"filename=_subs.srt:original_size={w}x{h}"
-        vf.append(f"subtitles={opts}:force_style='{style}'")
+        vf.append(f"subtitles=filename=_subs.srt:original_size={w}x{h}:force_style='{style}'")
         print(f"[nv] 字幕 {os.path.basename(srt)}  {size}px  margin={margin}")
 
     cmd = [exe, "-y", "-v", "error", "-stats",

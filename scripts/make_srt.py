@@ -4,7 +4,7 @@
 用法: python make_srt.py [项目目录] [--max-len 14] [--min-dur 0.9] [--hold 0.35]
 产出: out/<name>.srt
 
-时间来源是配音服务返回的字级时间戳：每个字的起始时刻按词内线性插值，
+时间来源是 edge-tts 的词级时间戳：每个字的起始时刻按词内线性插值，
 所以断句边界落在 SentenceSplit 的任意字符上都能拿到近似精确的时间。
 """
 import bisect
@@ -18,6 +18,27 @@ WEAK = "，,：:"
 TAIL_STRIP = "。，,、；;：: "
 # 这些字符连成一片时视为一个不可拆的原子（公式、英文、数字）
 SYMBOLS = "−≤≥≠≈×÷±∞∑∫√→←↔∈∀∃·—…"
+
+
+SYMBOL_FIX = [("omega0", "ω₀"), ("omega1", "ω₁"), ("omega2", "ω₂"), ("omega", "ω"), ("alpha", "α"), ("beta", "β"),
+              ("sigma", "σ"), ("lambda", "λ"), ("delta", "δ"), ("theta", "θ"),
+              ("tau", "τ"), ("rho", "ρ"), ("mu", "μ"), ("pi", "π")]
+
+
+def display_fix(t):
+    """TTS 里的英文读音，字幕显示成符号；只影响显示，不影响时间轴。"""
+    t = t.replace("omega 零", "ω₀").replace("omega 一", "ω₁").replace("omega 二", "ω₂")
+    t = t.replace("ω0", "ω₀").replace("ω1", "ω₁").replace("ω2", "ω₂")
+    t = t.replace("σX 平方", "σ_X²").replace("σX", "σ_X")
+    for a, b in SYMBOL_FIX:
+        t = t.replace(a, b)
+    for _a, _b in [("RX 零", "R_X(0)"), ("RX τ", "R_X(τ)"), ("RX m", "R_X(m)"),
+                   ("RX 平方", "R_X²"), ("RX", "R_X"), ("RY", "R_Y"), ("RZ", "R_Z")]:
+        t = t.replace(_a, _b)
+    t = (t.replace("二 ω c", "2ωc").replace("ω c", "ωc")
+           .replace("二 ω 零", "2ω₀").replace("ω 零", "ω₀"))
+    return (t.replace("N0", "N₀").replace("t0", "t₀")
+             .replace("ω1", "ω₁").replace("ω2", "ω₂"))
 
 
 def char_times(text, words):
@@ -214,7 +235,7 @@ def build_cues(root, max_len, min_dur, hold):
             if e <= s:
                 e = s + 0.5
             s, e = max(0.0, s), min(e, float(sc.get("duration", tim["dur"])))
-            txt = text[a:b].rstrip(TAIL_STRIP)
+            txt = display_fix(text[a:b].rstrip(TAIL_STRIP))
             if not txt:
                 continue
             local.append([base + s, base + e, txt])

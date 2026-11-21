@@ -12,7 +12,7 @@ from multiprocessing import Pool
 
 from playwright.async_api import async_playwright
 
-from nv_common import load_json, project_root, ensure_dir, file_uri
+from nv_common import load_json, project_root, ensure_dir
 
 FPS = 24
 W, H = 1280, 720
@@ -38,31 +38,28 @@ def plan(k):
     return buckets
 
 
-def worker(payload):
-    """每个进程都要收到全部上下文：Windows 用 spawn 启动子进程，模块级全局不会继承。"""
-    wid, jobs, resume, cfg = payload
-    base, tl, scenes = cfg["base"], cfg["tl"], cfg["scenes"]
-    fps, w, h = cfg["fps"], cfg["w"], cfg["h"]
+def worker(args):
+    wid, jobs, resume = args
 
     async def run():
         async with async_playwright() as p:
             br = await p.chromium.launch(args=["--force-color-profile=srgb", "--disable-lcd-text"])
-            pg = await br.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
-            await pg.goto(file_uri(os.path.join(base, "stage.html")))
+            pg = await br.new_page(viewport={"width": W, "height": H}, device_scale_factor=1)
+            await pg.goto("file://" + os.path.join(BASE, "stage.html"))
             await pg.wait_for_function("window.READY===true", timeout=60000)
-            await pg.evaluate("(m)=>window.setMeta(m)", tl["meta"])
+            await pg.evaluate("(m)=>window.setMeta(m)", TL["meta"])
             t0, done = time.time(), 0
             for idx, a, b in jobs:
-                s = scenes[idx]
+                s = SC[idx]
                 await pg.evaluate("(s)=>window.setScene(s)", s)
                 await pg.wait_for_function("window.SCENE_READY===true", timeout=30000)
                 await pg.evaluate("window.SCENE_READY=false")
                 for k in range(a, b):
-                    path = os.path.join(base, "frames", f"{k:06d}.jpg")
+                    path = os.path.join(BASE, "frames", f"{k:06d}.jpg")
                     if resume and os.path.exists(path) and os.path.getsize(path) > 2000:
                         done += 1
                         continue
-                    t = max(0.0, k / fps - s["start"])
+                    t = max(0.0, k / FPS - s["start"])
                     await pg.evaluate("(t)=>window.seek(t)", t)
                     await pg.screenshot(path=path, type="jpeg", quality=93)
                     done += 1
@@ -100,9 +97,8 @@ def main():
         print(f"worker {i}: {sum(x[2]-x[1] for x in b)} frames  "
               f"{[SC[x[0]]['id'] for x in b]}", flush=True)
     t0 = time.time()
-    cfg = {"base": BASE, "tl": TL, "scenes": SC, "fps": FPS, "w": W, "h": H}
     with Pool(k) as pool:
-        pool.map(worker, [(i, b, resume, cfg) for i, b in enumerate(buckets)])
+        pool.map(worker, [(i, b, resume) for i, b in enumerate(buckets)])
     print(f"[nv] ALL DONE {time.time()-t0:.0f}s, target {N} frames")
 
 

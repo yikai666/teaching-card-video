@@ -12,31 +12,13 @@ import sys
 from PIL import Image, ImageDraw, ImageFont
 from playwright.async_api import async_playwright
 
-from nv_common import (load_json, project_root, ensure_dir, clean_math, fmt_ts,
-                       file_uri)
+from nv_common import load_json, project_root, ensure_dir, clean_math, fmt_ts
 
 BASE = None
 
 
 def cjk_font(size, bold=False):
-    # 1) 先找系统里确定有汉字字形的字体（Windows / macOS）
-    #    注意别一上来就用 fc-match：Windows 上它可能是 MiKTeX/其它工具带的，
-    #    没配 CJK 时会老老实实返回 verdana 这种纯拉丁字体，中文全变方块。
-    windir = os.environ.get("WINDIR") or "C:/Windows"
-    names = (("msyhbd.ttc", "msyh.ttc", "simhei.ttf") if bold
-             else ("msyh.ttc", "simhei.ttf", "simsun.ttc"))
-    direct = [os.path.join(windir, "Fonts", n) for n in names]
-    direct += ["/System/Library/Fonts/PingFang.ttc"]
-    for p in direct:
-        if p and os.path.exists(p):
-            try:
-                return ImageFont.truetype(p, size)
-            except Exception:
-                pass
-
-    # 2) 再走 fontconfig（Linux 常规路径）
-    for name in ("Noto Sans CJK SC:style=Bold" if bold else "Noto Sans CJK SC",
-                 "Noto Sans SC", "Source Han Sans SC", "DejaVu Sans"):
+    for name in ("Noto Sans CJK SC:style=Bold" if bold else "Noto Sans CJK SC", "Noto Sans SC", "DejaVu Sans"):
         try:
             p = subprocess.check_output(["fc-match", "-f", "%{file}", name]).decode()
             if p and os.path.exists(p):
@@ -61,7 +43,7 @@ async def shoot(root):
     async with async_playwright() as p:
         br = await p.chromium.launch(args=["--force-color-profile=srgb", "--disable-lcd-text"])
         pg = await br.new_page(viewport={"width": tl["width"], "height": tl["height"]}, device_scale_factor=1)
-        await pg.goto(file_uri(os.path.join(root, "stage.html")))
+        await pg.goto("file://" + os.path.join(root, "stage.html"))
         await pg.wait_for_function("window.READY===true", timeout=60000)
         await pg.evaluate("(m)=>window.setMeta(m)", tl["meta"])
         for s in tl["scenes"]:
